@@ -1,0 +1,151 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  userId        String  @id @default(uuid())
+  userName      String  @db.VarChar(150)
+  userEmail     String  @unique @db.VarChar(150)
+  userCity      String? @db.VarChar(50)
+  userPassword  String
+  userPortfolio String? @db.VarChar(255)
+  userGitHub    String? @db.VarChar(255)
+  userLinkedIn  String? @db.VarChar(255)
+  userResume    String? @db.VarChar(400)
+
+  userCreatedAt DateTime @default(now())
+
+  userWorkExperiences WorkExperience[]
+  userSkills          Skill[]
+  userProjects        Project[]
+  userCurriculums     Curriculum[]
+
+  @@map("users")
+}
+
+model Skill {
+  skillId           String  @id @default(uuid())
+  skillsTitle       String  @db.VarChar(100)
+  skillsDescription String? @db.VarChar(250)
+  skillsType        String  @db.VarChar(100)
+
+  skillUserId String
+  skillUser   User   @relation(fields: [skillUserId], references: [userId])
+
+  skillsOnWorkExperiences SkillsOnWorkExperiences[]
+  skillsOnProjects        SkillsOnProjects[]
+  SkillsOnCurriculum      SkillsOnCurriculum[]
+
+  @@map("skills")
+}
+
+model WorkExperience {
+  workExperienceId          String    @id @default(uuid())
+  workExperiencePosition    String    @db.VarChar(50)
+  workExperienceDescription String?   @db.VarChar(400)
+  workExperienceCompany     String    @db.VarChar(50)
+  workExperienceFinished    Boolean   @default(false)
+  workExperienceStartDate   DateTime
+  workExperienceEndDate     DateTime?
+
+  workExperienceCreatedAt DateTime @default(now())
+
+  workExperienceUserId       String
+  user                       User                         @relation(fields: [workExperienceUserId], references: [userId])
+  skillsOnWorkExperiences    SkillsOnWorkExperiences[]
+  WorkExperienceOnCurriculum WorkExperienceOnCurriculum[]
+
+  @@map("work_experiences")
+}
+
+model SkillsOnWorkExperiences {
+  skillId String
+  skill   Skill  @relation(fields: [skillId], references: [skillId])
+
+  workExperienceId String
+  workExperience   WorkExperience @relation(fields: [workExperienceId], references: [workExperienceId])
+
+  @@id([skillId, workExperienceId])
+  @@map("skills_on_work_experiences")
+}
+
+model Project {
+  projectId          String    @id @default(uuid())
+  projectTitle       String    @db.VarChar(100)
+  projectDescription String?   @db.VarChar(400)
+  projectRepository  String?   @db.VarChar(255)
+  projectDeploy      String?   @db.VarChar(255)
+  projectFinished    Boolean   @default(false)
+  projectStartDate   DateTime
+  projectEndDate     DateTime?
+
+  projectCreatedAt DateTime @default(now())
+
+  projectUserId        String
+  user                 User                   @relation(fields: [projectUserId], references: [userId])
+  skillsOnProjects     SkillsOnProjects[]
+  ProjectsOnCurriculum ProjectsOnCurriculum[]
+
+  @@map("projects")
+}
+
+model SkillsOnProjects {
+  skillId String
+  skill   Skill  @relation(fields: [skillId], references: [skillId])
+
+  projectId String
+  project   Project @relation(fields: [projectId], references: [projectId])
+
+  @@id([skillId, projectId])
+  @@map("skills_on_projects")
+}
+
+model Curriculum {
+  curriculumId String @id @default(uuid())
+
+  userId                     String
+  user                       User                         @relation(fields: [userId], references: [userId])
+  SkillsOnCurriculum         SkillsOnCurriculum[]
+  WorkExperienceOnCurriculum WorkExperienceOnCurriculum[]
+  ProjectsOnCurriculum       ProjectsOnCurriculum[]
+
+  @@map("curriculums")
+}
+
+model SkillsOnCurriculum {
+  skillId String
+  skill   Skill  @relation(fields: [skillId], references: [skillId])
+
+  curriculumId String
+  curriculum   Curriculum @relation(fields: [curriculumId], references: [curriculumId])
+
+  @@id([skillId, curriculumId])
+  @@map("skills_on_curriculum")
+}
+
+model WorkExperienceOnCurriculum {
+  workExperienceId String
+  workExperience   WorkExperience @relation(fields: [workExperienceId], references: [workExperienceId])
+
+  curriculumId String
+  curriculum   Curriculum @relation(fields: [curriculumId], references: [curriculumId])
+
+  @@id([workExperienceId, curriculumId])
+  @@map("work_experiences_on_curriculum")
+}
+
+model ProjectsOnCurriculum {
+  projectId String
+  project   Project @relation(fields: [projectId], references: [projectId])
+
+  curriculumId String
+  curriculum   Curriculum @relation(fields: [curriculumId], references: [curriculumId])
+
+  @@id([projectId, curriculumId])
+  @@map("projects_on_curriculum")
+}
