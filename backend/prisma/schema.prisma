@@ -34,8 +34,10 @@ model Skill {
   skillsDescription String? @db.VarChar(250)
   skillsType        String  @db.VarChar(100)
 
+  skillCreatedAt DateTime @default(now())
+
   skillUserId String
-  skillUser   User   @relation(fields: [skillUserId], references: [userId])
+  skillUser   User   @relation(fields: [skillUserId], references: [userId], onDelete: Cascade, onUpdate: Cascade)
 
   skillsOnWorkExperiences SkillsOnWorkExperiences[]
   skillsOnProjects        SkillsOnProjects[]
@@ -56,7 +58,7 @@ model WorkExperience {
   workExperienceCreatedAt DateTime @default(now())
 
   workExperienceUserId       String
-  user                       User                         @relation(fields: [workExperienceUserId], references: [userId])
+  user                       User                         @relation(fields: [workExperienceUserId], references: [userId], onDelete: Cascade, onUpdate: Cascade)
   skillsOnWorkExperiences    SkillsOnWorkExperiences[]
   WorkExperienceOnCurriculum WorkExperienceOnCurriculum[]
 
@@ -65,10 +67,10 @@ model WorkExperience {
 
 model SkillsOnWorkExperiences {
   skillId String
-  skill   Skill  @relation(fields: [skillId], references: [skillId])
+  skill   Skill  @relation(fields: [skillId], references: [skillId], onDelete: Cascade, onUpdate: Cascade)
 
   workExperienceId String
-  workExperience   WorkExperience @relation(fields: [workExperienceId], references: [workExperienceId])
+  workExperience   WorkExperience @relation(fields: [workExperienceId], references: [workExperienceId], onDelete: Cascade, onUpdate: Cascade)
 
   @@id([skillId, workExperienceId])
   @@map("skills_on_work_experiences")
@@ -87,7 +89,7 @@ model Project {
   projectCreatedAt DateTime @default(now())
 
   projectUserId        String
-  user                 User                   @relation(fields: [projectUserId], references: [userId])
+  user                 User                   @relation(fields: [projectUserId], references: [userId], onDelete: Cascade, onUpdate: Cascade)
   skillsOnProjects     SkillsOnProjects[]
   ProjectsOnCurriculum ProjectsOnCurriculum[]
 
@@ -96,20 +98,21 @@ model Project {
 
 model SkillsOnProjects {
   skillId String
-  skill   Skill  @relation(fields: [skillId], references: [skillId])
+  skill   Skill  @relation(fields: [skillId], references: [skillId], onDelete: Cascade, onUpdate: Cascade)
 
   projectId String
-  project   Project @relation(fields: [projectId], references: [projectId])
+  project   Project @relation(fields: [projectId], references: [projectId], onDelete: Cascade, onUpdate: Cascade)
 
   @@id([skillId, projectId])
   @@map("skills_on_projects")
 }
 
 model Curriculum {
-  curriculumId String @id @default(uuid())
+  curriculumId        String   @id @default(uuid())
+  curriculumCreatedAt DateTime @default(now())
 
   userId                     String
-  user                       User                         @relation(fields: [userId], references: [userId])
+  user                       User                         @relation(fields: [userId], references: [userId], onDelete: Cascade, onUpdate: Cascade)
   SkillsOnCurriculum         SkillsOnCurriculum[]
   WorkExperienceOnCurriculum WorkExperienceOnCurriculum[]
   ProjectsOnCurriculum       ProjectsOnCurriculum[]
@@ -119,10 +122,10 @@ model Curriculum {
 
 model SkillsOnCurriculum {
   skillId String
-  skill   Skill  @relation(fields: [skillId], references: [skillId])
+  skill   Skill  @relation(fields: [skillId], references: [skillId], onDelete: Cascade, onUpdate: Cascade)
 
   curriculumId String
-  curriculum   Curriculum @relation(fields: [curriculumId], references: [curriculumId])
+  curriculum   Curriculum @relation(fields: [curriculumId], references: [curriculumId], onDelete: Cascade, onUpdate: Cascade)
 
   @@id([skillId, curriculumId])
   @@map("skills_on_curriculum")
@@ -130,10 +133,10 @@ model SkillsOnCurriculum {
 
 model WorkExperienceOnCurriculum {
   workExperienceId String
-  workExperience   WorkExperience @relation(fields: [workExperienceId], references: [workExperienceId])
+  workExperience   WorkExperience @relation(fields: [workExperienceId], references: [workExperienceId], onDelete: Cascade, onUpdate: Cascade)
 
   curriculumId String
-  curriculum   Curriculum @relation(fields: [curriculumId], references: [curriculumId])
+  curriculum   Curriculum @relation(fields: [curriculumId], references: [curriculumId], onDelete: Cascade, onUpdate: Cascade)
 
   @@id([workExperienceId, curriculumId])
   @@map("work_experiences_on_curriculum")
@@ -141,10 +144,10 @@ model WorkExperienceOnCurriculum {
 
 model ProjectsOnCurriculum {
   projectId String
-  project   Project @relation(fields: [projectId], references: [projectId])
+  project   Project @relation(fields: [projectId], references: [projectId], onDelete: Cascade, onUpdate: Cascade)
 
   curriculumId String
-  curriculum   Curriculum @relation(fields: [curriculumId], references: [curriculumId])
+  curriculum   Curriculum @relation(fields: [curriculumId], references: [curriculumId], onDelete: Cascade, onUpdate: Cascade)
 
   @@id([projectId, curriculumId])
   @@map("projects_on_curriculum")
