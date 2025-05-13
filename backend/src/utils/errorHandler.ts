@@ -1,4 +1,5 @@
 import { FastifyReply } from "fastify";
+import { ZodError } from "zod";
 
 type CustomError = {
   status?: number;
@@ -7,7 +8,18 @@ type CustomError = {
 };
 
 export function errorHandler(error: unknown, reply: FastifyReply) {
-  console.error(error);
+  if (error instanceof ZodError) {
+    const formattedErrors = error.errors.map((err) => ({
+      field: err.path.join("."),
+      message: err.message,
+    }));
+
+    return reply.status(400).send({
+      error: "Erro de validação",
+      fields: formattedErrors,
+    });
+  }
+  
   if (typeof error === "object" && error !== null && "status" in error) {
     const typedError = error as CustomError;
 
