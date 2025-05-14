@@ -47,4 +47,20 @@ export class UserController {
       return errorHandler(error, reply);
     }
   }
+
+  async delete(
+    request: FastifyRequest<{ Querystring: { userId: string } }>,
+    reply: FastifyReply
+  ) {
+    try {
+      const userDeleted = await userService.deleteUser(request.query.userId);
+      return reply
+        .status(201)
+        .send({
+          message: `Usuário ${userDeleted.userEmail} deletado com sucesso`,
+        });
+    } catch (error) {
+      return errorHandler(error, reply);
+    }
+  }
 }

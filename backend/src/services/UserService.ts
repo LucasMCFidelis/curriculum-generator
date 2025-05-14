@@ -50,7 +50,11 @@ export class UserService {
     });
   }
 
-  async getUserByIdOrEmail(userId?: string, userEmail?: string, include?: UserRelations) {
+  async getUserByIdOrEmail(
+    userId?: string,
+    userEmail?: string,
+    include?: UserRelations
+  ) {
     if (!userId && !userEmail) {
       throw {
         status: 400,
@@ -70,7 +74,7 @@ export class UserService {
     try {
       user = await prisma.user.findFirst({
         where: { OR: [{ userId }, { userEmail }] },
-        include
+        include,
       });
     } catch (error) {
       throw {
@@ -89,5 +93,21 @@ export class UserService {
     }
 
     return user;
+  }
+
+  async deleteUser(userId: string) {
+    const userDeleted = await this.getUserByIdOrEmail(userId);
+
+    try {
+      await prisma.user.delete({ where: { userId: userDeleted.userId } });
+    } catch (error) {
+      throw {
+        status: 500,
+        error: "Erro no servidor",
+        message: "Erro ao deletar usuário",
+      };
+    }
+
+    return userDeleted;
   }
 }
