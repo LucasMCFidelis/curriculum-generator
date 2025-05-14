@@ -92,4 +92,20 @@ export class UserService {
 
     return user;
   }
+
+  async deleteUser(userId: string) {
+    const userDeleted = await this.getUserByIdOrEmail(userId);
+
+    try {
+      await prisma.user.delete({ where: { userId: userDeleted.userId } });
+    } catch (error) {
+      throw {
+        status: 500,
+        error: "Erro no servidor",
+        message: "Erro ao deletar usuário",
+      };
+    }
+
+    return userDeleted;
+  }
 }
