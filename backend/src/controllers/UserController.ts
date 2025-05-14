@@ -29,16 +29,18 @@ export class UserController {
 
   async get(
     request: FastifyRequest<{
-      Querystring: { userId?: string; userEmail?: string };
+      Querystring: { userId?: string; userEmail?: string } & UserRelations;
     }>,
     reply: FastifyReply
   ) {
     try {
-      const { userId, userEmail } = request.query;
+      const { userId, userEmail, ...rawInclude } = request.query;
+      const include = this.parseRelationsFlags(rawInclude);
 
       const user = await userService.getUserByIdOrEmail(
         userId,
         userEmail,
+        include
       );
       return reply.status(200).send(user);
     } catch (error) {

@@ -50,7 +50,7 @@ export class UserService {
     });
   }
 
-  async getUserByIdOrEmail(userId?: string, userEmail?: string) {
+  async getUserByIdOrEmail(userId?: string, userEmail?: string, include?: UserRelations) {
     if (!userId && !userEmail) {
       throw {
         status: 400,
@@ -70,6 +70,7 @@ export class UserService {
     try {
       user = await prisma.user.findFirst({
         where: { OR: [{ userId }, { userEmail }] },
+        include
       });
     } catch (error) {
       throw {
