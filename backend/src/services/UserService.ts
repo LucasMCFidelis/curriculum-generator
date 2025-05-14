@@ -1,5 +1,10 @@
 import { prisma } from "../lib/prisma";
-import { CreateUserDTO, createUserSchema } from "../schemas/userSchemas";
+import {
+  CreateUserDTO,
+  createUserSchema,
+  userEmailSchema,
+  userIdSchema,
+} from "../schemas/userSchemas";
 import { hashPassword } from "../utils/hashPassword";
 
 export class UserService {
@@ -43,5 +48,45 @@ export class UserService {
         userPassword: hashedPassword,
       },
     });
+  }
+
+  async getUserByIdOrEmail(userId?: string, userEmail?: string) {
+    if (!userId && !userEmail) {
+      throw {
+        status: 400,
+        error: "Erro de validação",
+        message: "Informe um userId ou userEmail para a busca",
+      };
+    }
+
+    if (userId) {
+      await userIdSchema.parseAsync({ userId });
+    } else if (userEmail) {
+      userEmail = userEmail.toLowerCase();
+      await userEmailSchema.parseAsync({ userEmail });
+    }
+
+    let user;
+    try {
+      user = await prisma.user.findFirst({
+        where: { OR: [{ userId }, { userEmail }] },
+      });
+    } catch (error) {
+      throw {
+        status: 500,
+        error: "Erro no servidor",
+        message: "Erro ao buscar usuário",
+      };
+    }
+
+    if (!user) {
+      throw {
+        status: 404,
+        error: "Erro Not Found",
+        message: "Nenhum usuário encontrado com o userId e userEmail fornecido",
+      };
+    }
+
+    return user;
   }
 }

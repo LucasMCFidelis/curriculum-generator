@@ -1,11 +1,21 @@
 import { z } from "zod";
 
+export const userIdSchema = z.object({
+  userId: z.string().uuid("userId deve ser um id válido no padrão uuid")
+})
+export const userEmailSchema = z.object({
+  userEmail: z
+    .string()
+    .email("Email inválido")
+    .max(150, "Email deve conter no máximo 150 caracteres"),
+});
+
 export const createUserSchema = z.object({
   userName: z
     .string()
     .min(3, "O nome precisa ter no mínimo 3 caracteres")
     .max(150, "O nome deve ter no máximo 150 caracteres"),
-  userEmail: z.string().email("E-mail inválido"),
+  userEmail: userEmailSchema.shape.userEmail,
   userPassword: z
     .string()
     .min(6, "Senha deve ter no mínimo 6 caracteres")
