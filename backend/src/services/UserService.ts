@@ -50,8 +50,17 @@ export class UserService {
     });
   }
 
-  async getUserByIdOrEmail(userId?: string, userEmail?: string, include?: UserRelations) {
-    if (!userId && !userEmail) {
+  async getUserByIdOrEmail(
+    userId?: string,
+    userEmail?: string,
+    include?: UserRelations
+  ) {
+    if (userId) {
+      await userIdSchema.parseAsync({ userId });
+    } else if (userEmail) {
+      userEmail = userEmail.toLowerCase();
+      await userEmailSchema.parseAsync({ userEmail });
+    } else {
       throw {
         status: 400,
         error: "Erro de validação",
@@ -59,18 +68,11 @@ export class UserService {
       };
     }
 
-    if (userId) {
-      await userIdSchema.parseAsync({ userId });
-    } else if (userEmail) {
-      userEmail = userEmail.toLowerCase();
-      await userEmailSchema.parseAsync({ userEmail });
-    }
-
     let user;
     try {
       user = await prisma.user.findFirst({
         where: { OR: [{ userId }, { userEmail }] },
-        include
+        include,
       });
     } catch (error) {
       throw {
