@@ -17,9 +17,9 @@ export default fp(async function (fastify: FastifyInstance) {
     sign: { expiresIn: "1h" },
   });
 
-  fastify.decorate("generateToken", function (payload: TokenPayload){
-    return this.jwt.sign(payload)
-  })
+  fastify.decorate("generateToken", function (payload: TokenPayload) {
+    return this.jwt.sign(payload);
+  });
 
   fastify.decorate("validateToken", async function (token: string) {
     try {
@@ -27,14 +27,18 @@ export default fp(async function (fastify: FastifyInstance) {
       if (typeof decoded !== "object" || decoded === null) {
         throw {
           status: 400,
-          message: "Token decodificado não é um objeto válido",
           error: "Erro de validação",
+          message: "Token decodificado não é um objeto válido",
         };
       }
       return { valid: true, decoded };
     } catch (error) {
       console.error(error);
-      throw { valid: false, message: "Token inválido ou expirado" };
+      throw {
+        status: 401,
+        error: "Erro de autenticação",
+        message: "Token inválido ou expirado",
+      };
     }
   });
 });
