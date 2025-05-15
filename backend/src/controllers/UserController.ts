@@ -1,6 +1,10 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { UserService } from "../services/UserService";
-import { CreateUserDTO, UpdateUserDTO } from "../schemas/userSchemas";
+import {
+  CreateUserDTO,
+  LoginUserDTO,
+  UpdateUserDTO,
+} from "../schemas/userSchemas";
 import { errorHandler } from "../utils/errorHandler";
 
 const userService = new UserService();
@@ -21,7 +25,12 @@ export class UserController {
   ) {
     try {
       const newUser = await userService.createUser(request.body);
-      return reply.status(200).send(newUser);
+      const userToken = request.server.generateToken({
+        userId: newUser.userId,
+        userName: newUser.userName,
+        userEmail: newUser.userEmail,
+      })
+      return reply.status(200).send({...newUser, userToken});
     } catch (error) {
       return errorHandler(error, reply);
     }
@@ -78,6 +87,25 @@ export class UserController {
         message: `Usuário ${userUpdated.userEmail} atualizado com sucesso`,
         userUpdated,
       });
+    } catch (error) {
+      return errorHandler(error, reply);
+    }
+  }
+
+  async login(
+    request: FastifyRequest<{
+      Body: LoginUserDTO;
+    }>,
+    reply: FastifyReply
+  ) {
+    try {
+      const userData = await userService.loginUser(request.body);
+      const userToken = request.server.generateToken(userData);
+      return {
+        message: "Login realizado com sucesso",
+        userToken,
+        userData,
+      };
     } catch (error) {
       return errorHandler(error, reply);
     }

@@ -2,11 +2,14 @@ import { prisma } from "../lib/prisma";
 import {
   CreateUserDTO,
   createUserSchema,
+  LoginUserDTO,
+  loginUserSchema,
   UpdateUserDTO,
   updateUserSchema,
   userEmailSchema,
   userIdSchema,
 } from "../schemas/userSchemas";
+import { comparePassword } from "../utils/comparePassword";
 import { hashPassword } from "../utils/hashPassword";
 
 export class UserService {
@@ -116,7 +119,7 @@ export class UserService {
     await updateUserSchema.parseAsync(data);
 
     if (data.userEmail && data.userEmail !== userForUpdate.userEmail) {
-      data.userEmail = data.userEmail.toLowerCase()
+      data.userEmail = data.userEmail.toLowerCase();
       await this.checkExistingUser(data.userEmail);
     }
 
@@ -146,5 +149,20 @@ export class UserService {
     }
 
     return userUpdated;
+  }
+
+  async loginUser(data: LoginUserDTO) {
+    const [,user ] = await Promise.all([
+      loginUserSchema.parseAsync(data),
+      this.getUserByIdOrEmail(undefined, data.userEmail)
+    ]);
+
+    await comparePassword(data.userPassword, user.userPassword);
+
+    return {
+      userId: user.userId,
+      userEmail: user.userEmail,
+      userName: user.userName,
+    };
   }
 }

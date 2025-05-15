@@ -4,5 +4,13 @@ export async function comparePassword(
   passwordProvided: string,
   passwordHash: string
 ) {
-  return await bcrypt.compare(passwordProvided, passwordHash);
+  const isPasswordValid = await bcrypt.compare(passwordProvided, passwordHash);
+
+  if (!isPasswordValid) {
+    throw {
+      status: 401,
+      error: "Erro de autenticação",
+      message: "Credenciais inválidas",
+    };
+  }
 }

@@ -1,5 +1,6 @@
 import fastify from "fastify";
 import { userRoutes } from "./routes/userRoutes";
+import authPlugin from "./plugin/auth";
 
 const server = fastify();
 
@@ -9,6 +10,7 @@ const HOST = process.env.HOST || "localhost";
 server.get("/", async () => {
   return { message: "Hello from Fastify + TypeScript!" };
 });
+server.register(authPlugin)
 server.register(userRoutes, { prefix: "/users" });
 
 server
