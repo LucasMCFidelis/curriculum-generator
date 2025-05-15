@@ -25,7 +25,12 @@ export class UserController {
   ) {
     try {
       const newUser = await userService.createUser(request.body);
-      return reply.status(200).send(newUser);
+      const userToken = request.server.generateToken({
+        userId: newUser.userId,
+        userName: newUser.userName,
+        userEmail: newUser.userEmail,
+      })
+      return reply.status(200).send({...newUser, userToken});
     } catch (error) {
       return errorHandler(error, reply);
     }
