@@ -12,9 +12,11 @@ export class AuthMiddleware {
       };
     }
 
+    const userToken = authorizationHeader.replace(/^Bearer\s+/i, "");
+
     try {
       const { valid, decoded } = await request.server.validateToken(
-        authorizationHeader
+        userToken
       );
 
       if (!valid || !decoded) {
