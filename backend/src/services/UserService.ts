@@ -113,12 +113,13 @@ export class UserService {
 
   async updateUser(userId: string, data: UpdateUserDTO) {
     const userForUpdate = await this.getUserByIdOrEmail(userId);
-
     await updateUserSchema.parseAsync(data);
 
     if (data.userEmail && data.userEmail !== userForUpdate.userEmail) {
-      await this.checkExistingUser(data.userEmail.toLowerCase());
+      data.userEmail = data.userEmail.toLowerCase()
+      await this.checkExistingUser(data.userEmail);
     }
+
     let userUpdated;
     try {
       userUpdated = await prisma.user.update({
