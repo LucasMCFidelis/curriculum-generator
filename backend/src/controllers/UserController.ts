@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { UserService } from "../services/UserService";
-import { CreateUserDTO } from "../schemas/userSchemas";
+import { CreateUserDTO, UpdateUserDTO } from "../schemas/userSchemas";
 import { errorHandler } from "../utils/errorHandler";
 
 const userService = new UserService();
@@ -54,11 +54,30 @@ export class UserController {
   ) {
     try {
       const userDeleted = await userService.deleteUser(request.query.userId);
-      return reply
-        .status(201)
-        .send({
-          message: `Usuário ${userDeleted.userEmail} deletado com sucesso`,
-        });
+      return reply.status(201).send({
+        message: `Usuário ${userDeleted.userEmail} deletado com sucesso`,
+      });
+    } catch (error) {
+      return errorHandler(error, reply);
+    }
+  }
+
+  async update(
+    request: FastifyRequest<{
+      Querystring: { userId: string };
+      Body: UpdateUserDTO;
+    }>,
+    reply: FastifyReply
+  ) {
+    try {
+      const userUpdated = await userService.updateUser(
+        request.query.userId,
+        request.body
+      );
+      return reply.status(201).send({
+        message: `Usuário ${userUpdated.userEmail} atualizado com sucesso`,
+        userUpdated,
+      });
     } catch (error) {
       return errorHandler(error, reply);
     }

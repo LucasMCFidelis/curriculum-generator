@@ -2,6 +2,8 @@ import { prisma } from "../lib/prisma";
 import {
   CreateUserDTO,
   createUserSchema,
+  UpdateUserDTO,
+  updateUserSchema,
   userEmailSchema,
   userIdSchema,
 } from "../schemas/userSchemas";
@@ -107,5 +109,42 @@ export class UserService {
     }
 
     return userDeleted;
+  }
+
+  async updateUser(userId: string, data: UpdateUserDTO) {
+    const userForUpdate = await this.getUserByIdOrEmail(userId);
+    await updateUserSchema.parseAsync(data);
+
+    if (data.userEmail && data.userEmail !== userForUpdate.userEmail) {
+      data.userEmail = data.userEmail.toLowerCase()
+      await this.checkExistingUser(data.userEmail);
+    }
+
+    let userUpdated;
+    try {
+      userUpdated = await prisma.user.update({
+        where: { userId },
+        data: {
+          ...(data.userName && { userName: data.userName }),
+          ...(data.userEmail &&
+            data.userEmail !== userForUpdate.userEmail && {
+              userEmail: data.userEmail,
+            }),
+          ...(data.userCity && { userCity: data.userCity }),
+          ...(data.userPortfolio && { userPortfolio: data.userPortfolio }),
+          ...(data.userGitHub && { userGitHub: data.userGitHub }),
+          ...(data.userLinkedIn && { userLinkedIn: data.userLinkedIn }),
+          ...(data.userResume && { userResume: data.userResume }),
+        },
+      });
+    } catch (error) {
+      throw {
+        status: 500,
+        error: "Erro no servidor",
+        message: "Erro ao atualizar usuário",
+      };
+    }
+
+    return userUpdated;
   }
 }
