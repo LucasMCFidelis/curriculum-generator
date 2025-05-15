@@ -48,7 +48,7 @@ export class AuthMiddleware {
 
   static async authenticateAndVerifyOwnership(request: FastifyRequest<{ Querystring: { userId: string } }>,
     reply: FastifyReply){
-      await this.authenticate(request, reply)
-      await this.verifyOwnership(request, reply)
+      await AuthMiddleware.authenticate(request, reply)
+      await AuthMiddleware.verifyOwnership(request, reply)
   }
 }
