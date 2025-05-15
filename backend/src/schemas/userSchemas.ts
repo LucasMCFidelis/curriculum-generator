@@ -1,8 +1,8 @@
 import { z } from "zod";
 
 export const userIdSchema = z.object({
-  userId: z.string().uuid("userId deve ser um id válido no padrão uuid")
-})
+  userId: z.string().uuid("userId deve ser um id válido no padrão uuid"),
+});
 export const userEmailSchema = z.object({
   userEmail: z
     .string()
@@ -44,4 +44,31 @@ export const createUserSchema = z.object({
   userResume: z.string().max(400, "Texto do resumo muito longo").optional(),
 });
 
+export const updateUserSchema = z.object({
+  userName: z
+    .string()
+    .min(3, "O nome precisa ter no mínimo 3 caracteres")
+    .max(150, "O nome deve ter no máximo 150 caracteres")
+    .optional(),
+  userEmail: userEmailSchema.shape.userEmail.optional(),
+  userCity: z.string().optional(),
+  userPortfolio: z
+    .string()
+    .url("Portfolio deve ser uma url valida")
+    .max(255, "URL do portfólio muito longa")
+    .optional(),
+  userGitHub: z
+    .string()
+    .url("GitHub deve ser uma url valida")
+    .max(255, "URL do GitHub muito longa")
+    .optional(),
+  userLinkedIn: z
+    .string()
+    .url("LinkedIn deve ser uma url valida")
+    .max(255, "URL do LinkedIn muito longa")
+    .optional(),
+  userResume: z.string().max(400, "Texto do resumo muito longo").optional(),
+});
+
 export type CreateUserDTO = z.infer<typeof createUserSchema>;
+export type UpdateUserDTO = z.infer<typeof updateUserSchema>
