@@ -6,10 +6,11 @@ import {
   UpdateUserDTO,
 } from "../schemas/userSchemas";
 import { errorHandler } from "../utils/errorHandler";
+import { BaseCrud } from "../BaseCrud";
 
 const userService = new UserService();
 
-export class UserController {
+export class UserController extends BaseCrud {
   private parseRelationsFlags = (obj: Record<string, any>): UserRelations => {
     return {
       userProjects: obj.userProjects === "true",
