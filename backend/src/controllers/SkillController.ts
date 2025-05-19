@@ -44,8 +44,29 @@ export class SkillController extends BaseCrud {
     reply: FastifyReply
   ) {
     try {
-      const skill = await skillService.getSkill({userId: request.query.userId, skillId: request.query.skillId});
+      const skill = await skillService.getSkill({
+        userId: request.query.userId,
+        skillId: request.query.skillId,
+      });
       return reply.status(200).send(skill);
+    } catch (error) {
+      return errorHandler(error, reply);
+    }
+  }
+
+  public async delete(
+    request: FastifyRequest<{
+      Querystring: { userId: string; skillId: string };
+    }>,
+    reply: FastifyReply
+  ) {
+    try {
+      const skillDeleted = await skillService.deleteSkill(request.query);
+      return reply
+        .status(201)
+        .send({
+          message: `Habilidade ${skillDeleted.skillTitle} deletado com sucesso`,
+        });
     } catch (error) {
       return errorHandler(error, reply);
     }
