@@ -92,4 +92,21 @@ export class SkillService {
 
     return skill;
   }
+
+  async deleteSkill({ userId, skillId }: { userId: string; skillId: string }) {
+    await this.getSkill({ userId, skillId });
+
+    let skillDeleted;
+    try {
+      skillDeleted = await prisma.skill.delete({ where: { skillId } });
+    } catch (error) {
+      throw {
+        status: 500,
+        error: "Erro no servidor",
+        message: "Erro interno ao realizar remoção de habilidade",
+      };
+    }
+
+    return skillDeleted;
+  }
 }

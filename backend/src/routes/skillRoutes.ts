@@ -20,4 +20,5 @@ export async function skillRoutes(server: FastifyInstance) {
     { preHandler: AuthMiddleware.authenticateAndVerifyOwnership },
     skillController.get
   );
+  server.delete("/", {preHandler: AuthMiddleware.authenticateAndVerifyOwnership}, skillController.delete)
 }
