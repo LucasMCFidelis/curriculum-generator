@@ -5,6 +5,8 @@ import {
   FindSkillDTO,
   findSkillSchema,
   skillIdSchema,
+  UpdateSkillDTO,
+  updateSkillSchema,
 } from "../schemas/skillSchemas";
 import { UserService } from "./UserService";
 
@@ -91,6 +93,31 @@ export class SkillService {
     }
 
     return skill;
+  }
+
+  async updateSkill({ userId, skillId, dataUpdate }: { userId: string; skillId: string, dataUpdate: UpdateSkillDTO }){
+    await Promise.all([
+      this.getSkill({userId, skillId}),
+      updateSkillSchema.parseAsync(dataUpdate)
+    ])
+
+    let skillUpdated
+    const {skillTitle, skillDescription, skillType } = dataUpdate
+    try {
+      skillUpdated = await prisma.skill.update({where:{skillId}, data: {
+        ...(skillTitle && {skillTitle}),
+        ...(skillDescription && {skillDescription}),
+        ...(skillType && {skillType}),
+      }})
+     } catch (error) {
+      throw {
+        status: 500,
+        error: "Erro no servidor",
+        message: "Erro interno ao realizar atualização de habilidade",
+      };
+    }
+    
+    return skillUpdated
   }
 
   async deleteSkill({ userId, skillId }: { userId: string; skillId: string }) {

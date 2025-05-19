@@ -2,7 +2,11 @@ import { FastifyRequest, FastifyReply } from "fastify";
 import { BaseCrud } from "../BaseCrud";
 import { errorHandler } from "../utils/errorHandler";
 import { SkillService } from "../services/SkillService";
-import { CreateSkillDTO, FindSkillDTO } from "../schemas/skillSchemas";
+import {
+  CreateSkillDTO,
+  FindSkillDTO,
+  UpdateSkillDTO,
+} from "../schemas/skillSchemas";
 
 const skillService = new SkillService();
 
@@ -54,7 +58,28 @@ export class SkillController extends BaseCrud {
     }
   }
 
-  public async delete(
+  public async update(
+    request: FastifyRequest<{
+      Querystring: { userId: string; skillId: string };
+      Body: UpdateSkillDTO;
+    }>,
+    reply: FastifyReply
+    ) {
+      try {
+        const skillUpdated = await skillService.updateSkill({
+          userId: request.query.userId,
+          skillId: request.query.skillId,
+          dataUpdate: request.body,
+        });
+        return reply
+          .status(201)
+          .send({ message: "Habilidade atualizada com sucesso", skillUpdated });
+      } catch (error) {
+        return errorHandler(error, reply);
+      }
+    }
+ 
+   public async delete(
     request: FastifyRequest<{
       Querystring: { userId: string; skillId: string };
     }>,

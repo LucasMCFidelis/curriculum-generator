@@ -20,6 +20,21 @@ export const createSkillSchema = z.object({
     .max(100, "O tipo deve ter no máximo 100 caracteres."),
 });
 
+export const updateSkillSchema = z.object({
+  skillTitle: z
+    .string()
+    .max(100, "O título deve ter no máximo 100 caracteres.")
+    .optional(),
+  skillDescription: z
+    .string()
+    .max(250, "A descrição deve ter no máximo 250 caracteres.")
+    .optional(),
+  skillType: z
+    .string()
+    .max(100, "O tipo deve ter no máximo 100 caracteres.")
+    .optional(),
+});
+
 export const findSkillSchema = z.object({
   userId: userIdSchema.shape.userId.optional(),
   skillId: skillIdSchema.shape.skillId.optional(),
@@ -27,7 +42,7 @@ export const findSkillSchema = z.object({
   titleContains: z.string().optional(),
 });
 
-
 export type SkillIdDTO = z.infer<typeof skillIdSchema>;
 export type CreateSkillDTO = z.infer<typeof createSkillSchema>;
-export type FindSkillDTO = z.infer<typeof findSkillSchema>
+export type FindSkillDTO = z.infer<typeof findSkillSchema>;
+export type UpdateSkillDTO = z.infer<typeof updateSkillSchema>
