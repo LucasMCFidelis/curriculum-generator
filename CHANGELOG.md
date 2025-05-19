@@ -2,6 +2,36 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/LucasMCFidelis/curriculum-generator/compare/v1.1.0...v1.2.0) (2025-05-19)
+
+
+### ♻️ Refactors
+
+* criar classe abstrata BaseCrud para unificar métodos dos controllers ([5db18a5](https://github.com/LucasMCFidelis/curriculum-generator/commit/5db18a5fff7eba5962243c87b01c8ebb66c193a0))
+* **skill:** substituir listagem por função com múltiplos filtros no Prisma ([256c16f](https://github.com/LucasMCFidelis/curriculum-generator/commit/256c16f3f529fe5e1601fb50733a0db42322e293))
+
+
+### ✨ Features
+
+* **skill:** adicionar função de busca individual de skill por ID ([10713fa](https://github.com/LucasMCFidelis/curriculum-generator/commit/10713fa953d8dbb006e2dbe2078c3a059768836f))
+* **skill:** adicionar funcionalidade de atualização de skill por ID ([239503d](https://github.com/LucasMCFidelis/curriculum-generator/commit/239503d5b71755931cf5af26da194817e6942bd2))
+* **skill:** adicionar funcionalidade de deleção de skill por ID ([f59c0c1](https://github.com/LucasMCFidelis/curriculum-generator/commit/f59c0c13b44050e0f0525b9a7a845821570e4d0d))
+* **skill:** adicionar listagem de skills do usuário ([6f2bf10](https://github.com/LucasMCFidelis/curriculum-generator/commit/6f2bf102fa41109c8b17449f201f946a928f1dd0))
+* **skill:** adicionar schema de validação para criação de skill ([87ac66f](https://github.com/LucasMCFidelis/curriculum-generator/commit/87ac66fef36c5e9736fd51831a5abd2072e4761b))
+* **skill:** implementar rota e lógica para criação de skill ([9838272](https://github.com/LucasMCFidelis/curriculum-generator/commit/983827218b3900ed2e8d454696f29420238e8d89))
+* **skills:** estruturar arquivos iniciais para desenvolvimento das funcionalidades ([cef3a98](https://github.com/LucasMCFidelis/curriculum-generator/commit/cef3a988ec34b4bced70f41ac6bc958272641205))
+
+
+### 🐛 Bug Fixes
+
+* **prisma:** corrige campos do model Skill e aplica migration ([ed73b12](https://github.com/LucasMCFidelis/curriculum-generator/commit/ed73b129c604f67366e3595b0f3cbed1a078e1d0))
+* **skill:** corrigir chamada do serviço de skill na função de atualização ([c1da453](https://github.com/LucasMCFidelis/curriculum-generator/commit/c1da4538294faa27e287509a741bb6ef64858c22))
+
+
+### 🧹 Chores
+
+* **format:** aplicar ajustes de formatação após resolução de conflitos de merge ([141bd7c](https://github.com/LucasMCFidelis/curriculum-generator/commit/141bd7c6d543fcb4268b9f1d8ce289632cd7a361))
+
 ## 1.1.0 (2025-05-15)
 
 
