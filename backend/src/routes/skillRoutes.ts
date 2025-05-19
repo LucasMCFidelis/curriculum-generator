@@ -20,4 +20,9 @@ export async function skillRoutes(server: FastifyInstance) {
     { preHandler: AuthMiddleware.authenticateAndVerifyOwnership },
     skillController.get
   );
+  server.put(
+    "/",
+    { preHandler: AuthMiddleware.authenticateAndVerifyOwnership },
+    skillController.update
+  );
 }
