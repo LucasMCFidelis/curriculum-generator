@@ -4,6 +4,7 @@ import {
   createSkillSchema,
   FindSkillDTO,
   findSkillSchema,
+  skillIdSchema,
 } from "../schemas/skillSchemas";
 import { UserService } from "./UserService";
 
@@ -62,5 +63,33 @@ export class SkillService {
     }
 
     return skills;
+  }
+
+  async getSkill({ userId, skillId }: { userId: string; skillId: string }) {
+    await Promise.all([
+      userService.getUserByIdOrEmail(userId),
+      skillIdSchema.parseAsync({ skillId }),
+    ]);
+
+    let skill;
+    try {
+      skill = await prisma.skill.findUnique({ where: { skillId } });
+    } catch (error) {
+      throw {
+        status: 500,
+        error: "Erro no servidor",
+        message: "Erro interno ao realizar busca de habilidade",
+      };
+    }
+
+    if (!skill) {
+      throw {
+        status: 404,
+        error: "Erro Not Found",
+        message: "Nenhuma habilidade encontrada com a skillId fornecida",
+      };
+    }
+
+    return skill;
   }
 }
