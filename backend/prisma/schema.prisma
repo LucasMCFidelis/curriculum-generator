@@ -30,9 +30,9 @@ model User {
 
 model Skill {
   skillId           String  @id @default(uuid())
-  skillsTitle       String  @db.VarChar(100)
-  skillsDescription String? @db.VarChar(250)
-  skillsType        String  @db.VarChar(100)
+  skillTitle       String  @db.VarChar(100)
+  skillDescription String? @db.VarChar(250)
+  skillType        String  @db.VarChar(100)
 
   skillCreatedAt DateTime @default(now())
 
