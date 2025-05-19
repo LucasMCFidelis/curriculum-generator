@@ -95,29 +95,40 @@ export class SkillService {
     return skill;
   }
 
-  async updateSkill({ userId, skillId, dataUpdate }: { userId: string; skillId: string, dataUpdate: UpdateSkillDTO }){
+  async updateSkill({
+    userId,
+    skillId,
+    dataUpdate,
+  }: {
+    userId: string;
+    skillId: string;
+    dataUpdate: UpdateSkillDTO;
+  }) {
     await Promise.all([
-      this.getSkill({userId, skillId}),
-      updateSkillSchema.parseAsync(dataUpdate)
-    ])
+      this.getSkill({ userId, skillId }),
+      updateSkillSchema.parseAsync(dataUpdate),
+    ]);
 
-    let skillUpdated
-    const {skillTitle, skillDescription, skillType } = dataUpdate
+    let skillUpdated;
+    const { skillTitle, skillDescription, skillType } = dataUpdate;
     try {
-      skillUpdated = await prisma.skill.update({where:{skillId}, data: {
-        ...(skillTitle && {skillTitle}),
-        ...(skillDescription && {skillDescription}),
-        ...(skillType && {skillType}),
-      }})
-     } catch (error) {
+      skillUpdated = await prisma.skill.update({
+        where: { skillId },
+        data: {
+          ...(skillTitle && { skillTitle }),
+          ...(skillDescription && { skillDescription }),
+          ...(skillType && { skillType }),
+        },
+      });
+    } catch (error) {
       throw {
         status: 500,
         error: "Erro no servidor",
         message: "Erro interno ao realizar atualização de habilidade",
       };
     }
-    
-    return skillUpdated
+
+    return skillUpdated;
   }
 
   async deleteSkill({ userId, skillId }: { userId: string; skillId: string }) {
