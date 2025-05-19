@@ -15,4 +15,13 @@ export class SkillController extends BaseCrud {
             return errorHandler(error, reply)
         }
     }
+
+    public async list(request: FastifyRequest<{Querystring:{userId?: string, userEmail?: string}}>, reply: FastifyReply) {
+        try {
+            const userSkills = await skillService.listSkills(request.query)
+            return reply.status(200).send(userSkills)
+        } catch (error) {
+            return errorHandler(error, reply)
+        }
+    }
 }
