@@ -25,6 +25,14 @@ export const createWorkExperienceSchema = z.object({
   workExperienceUserId: userIdSchema.shape.userId,
 });
 
+export const findWorkExperienceSchema = z.object({
+  userId: userIdSchema.shape.userId,
+  workExperiencePosition: z.string().optional(),
+  workExperienceCompany: z.string().optional(),
+  workExperienceFinished: z.boolean().optional(),
+});
+
 export type CreateWorkExperienceDTO = z.infer<
   typeof createWorkExperienceSchema
 >;
+export type FindWorkExperienceDTO = z.infer<typeof findWorkExperienceSchema>;
