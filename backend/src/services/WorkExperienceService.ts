@@ -74,7 +74,7 @@ export class WorkExperienceService {
       };
     }
 
-    if (!workExperiences) {
+    if (workExperiences.length === 0) {
       throw {
         status: 404,
         error: "Erro Not Found",
