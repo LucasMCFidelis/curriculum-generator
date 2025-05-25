@@ -24,4 +24,13 @@ export class WorkExperienceController extends BaseCrud {
             return errorHandler(error, reply)
         }
     }
+
+    public async get(request: FastifyRequest<{Querystring: {userId: string,workExperienceId: string }}>, reply: FastifyReply) {
+        try {
+            const workExperience = await workExperienceService.getWorkExperience(request.query.userId, request.query.workExperienceId)
+            return reply.status(200).send(workExperience)
+        } catch (error) {
+            return errorHandler(error, reply)
+        }
+    }
 }

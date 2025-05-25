@@ -15,4 +15,9 @@ export async function workExperienceRoutes(server: FastifyInstance) {
     { preHandler: AuthMiddleware.authenticateAndVerifyOwnership },
     workExperienceController.list
   );
+  server.get(
+    "/",
+    { preHandler: AuthMiddleware.authenticateAndVerifyOwnership },
+    workExperienceController.get
+  );
 }

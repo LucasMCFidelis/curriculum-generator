@@ -1,6 +1,10 @@
 import { z } from "zod";
 import { userIdSchema } from "./userSchemas";
 
+export const workExperienceIdSchema = z.object({
+  workExperienceId: z.string().uuid("workExperienceId deve ser um id válido no padrão uuid"),
+});
+
 export const createWorkExperienceSchema = z.object({
   workExperiencePosition: z
     .string()

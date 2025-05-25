@@ -4,6 +4,7 @@ import {
   createWorkExperienceSchema,
   FindWorkExperienceDTO,
   findWorkExperienceSchema,
+  workExperienceIdSchema,
 } from "../schemas/workExperienceSchemas";
 import { UserService } from "./UserService";
 
@@ -82,5 +83,35 @@ export class WorkExperienceService {
     }
 
     return workExperiences;
+  }
+
+  async getWorkExperience(userId: string, workExperienceId: string) {
+    await Promise.all([
+      workExperienceIdSchema.parseAsync({ workExperienceId }),
+      userService.getUserByIdOrEmail(userId),
+    ]);
+
+    let workExperience;
+    try {
+      workExperience = await prisma.workExperience.findUnique({
+        where: { workExperienceUserId: userId, workExperienceId },
+      });
+    } catch (error) {
+      throw {
+        status: 500,
+        error: "Erro no servidor",
+        message: "Erro ao buscar work experience",
+      };
+    }
+
+    if (!workExperience) {
+      throw {
+        status: 404,
+        error: "Erro Not Found",
+        message: "Nenhuma work experience encontrada com o id informado",
+      };
+    }
+
+    return workExperience;
   }
 }
