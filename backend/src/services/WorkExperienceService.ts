@@ -114,4 +114,21 @@ export class WorkExperienceService {
 
     return workExperience;
   }
+
+  async deleteWorkExperience(userId: string, workExperienceId: string) {
+    await this.getWorkExperience(userId, workExperienceId)
+
+    let workExperienceDeleted
+    try {
+      workExperienceDeleted = prisma.workExperience.delete({where:{workExperienceUserId: userId, workExperienceId}})
+    } catch (error) {
+      throw{
+        status: 500,
+        error: "Erro no servidor",
+        message: "Erro ao deletar work experience"
+      }
+    }
+
+    return workExperienceDeleted
+  }
 }

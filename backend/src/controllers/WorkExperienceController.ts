@@ -33,4 +33,13 @@ export class WorkExperienceController extends BaseCrud {
             return errorHandler(error, reply)
         }
     }
+
+    public async delete(request: FastifyRequest<{Querystring: {userId: string,workExperienceId: string }}>, reply: FastifyReply) {
+        try {
+            const workExperienceDeleted = await workExperienceService.deleteWorkExperience(request.query.userId, request.query.workExperienceId)
+            return reply.status(201).send({message: "Experiencia profissional deletada com sucesso", workExperienceDeleted})
+        } catch (error) {
+            return errorHandler(error, reply)
+        }
+    }
 }
