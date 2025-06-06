@@ -36,7 +36,7 @@ function Footer() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <Button variant={"outline"} className="size-10 rounded-full">
+          <Button variant={"outline"} size={"icon"}>
             <Linkedin></Linkedin>
           </Button>
         </a>
@@ -45,7 +45,7 @@ function Footer() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <Button variant={"outline"} className="size-10 rounded-full">
+          <Button variant={"outline"} size={"icon"}>
             <Github></Github>
           </Button>
         </a>
