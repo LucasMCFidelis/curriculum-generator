@@ -1,11 +1,14 @@
 import Layout from "@/components/Layout";
+import { AuthProvider } from "./contexts/AuthContext";
 
 function App() {
   return (
     <>
-      <Layout>
-        <h1>Teste</h1>
-      </Layout>
+      <AuthProvider>
+        <Layout>
+          <h1>Teste</h1>
+        </Layout>
+      </AuthProvider>
     </>
   );
 }
