@@ -1,31 +1,26 @@
-import type { ButtonHTMLAttributes, ElementType } from "react";
+import type { ButtonHTMLAttributes, ReactNode } from "react";
 import { Button } from "../ui/button";
 import type { ButtonVariant } from "@/types/ButtonVariant";
 
 interface ModalActionProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  textContent?: string;
-  icon?: ElementType;
+  children: ReactNode;
   actionOnClick: () => void;
   variant?: ButtonVariant;
-  className?: string;
 }
 
 function ModalAction({
-  textContent,
-  icon: Icon,
+  children,
   actionOnClick,
   variant,
-  className,
   ...rest
 }: ModalActionProps) {
   return (
     <Button
       onClick={actionOnClick}
       variant={variant}
-      className={className}
       {...rest}
     >
-      {textContent} {Icon && <Icon />}
+      {children}
     </Button>
   );
 }
