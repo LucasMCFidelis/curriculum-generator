@@ -11,25 +11,20 @@ import {
 } from "./ui/form";
 import { Input } from "./ui/input";
 import { LogIn, X } from "lucide-react";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { formLoginSchema } from "@/schemas/formLoginSchema";
+import type {formLoginDTO} from "@/schemas/formLoginSchema"
 
 function LoginModal() {
   const { isLoginModalOpen, loginUser, closeLoginModal } = useAuth();
 
-  const form = useForm<z.infer<typeof formLoginSchema>>({
+  const form = useForm<formLoginDTO>({
     resolver: zodResolver(formLoginSchema),
     defaultValues: {
       userEmail: "",
       userPassword: "",
     },
   });
-
-  const onSubmit = (data: z.infer<typeof formLoginSchema>) => {
-    console.log("Dados enviados:", data);
-    loginUser();
-  };
 
   return (
     <>
@@ -75,7 +70,7 @@ function LoginModal() {
             textContent="Login"
             icon={LogIn}
             type="submit"
-            confirmAction={form.handleSubmit(onSubmit)}
+            confirmAction={form.handleSubmit(loginUser)}
             className="w-full"
           />
         </Modal.Root>

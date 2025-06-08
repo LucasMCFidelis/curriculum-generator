@@ -1,3 +1,4 @@
+import type { formLoginDTO } from "@/schemas/formLoginSchema";
 import { createContext, useEffect, useState, type ReactNode } from "react";
 
 interface AuthProviderProps {
@@ -6,7 +7,7 @@ interface AuthProviderProps {
 
 interface AuthContextType {
   currentUser: string | null;
-  loginUser: () => void;
+  loginUser: (data: formLoginDTO) => void;
   logoutUser: () => void;
   isLoginModalOpen: boolean;
   openLoginModal: () => void;
@@ -37,9 +38,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   }, [currentUser]);
 
-  const loginUser = async () => {
+  const loginUser = async (data: formLoginDTO) => {
+    console.log("Dados enviados:", data);
     setCurrentUser("teste");
   };
+
   const logoutUser = (): void => {
     localStorage.removeItem("currentUser");
     setCurrentUser(null);

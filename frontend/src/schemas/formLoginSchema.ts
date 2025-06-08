@@ -15,3 +15,5 @@ export const formLoginSchema = z.object({
       message: "A senha deve conter ao menos um caractere especial",
     }),
 });
+
+export type formLoginDTO = z.infer<typeof formLoginSchema>
