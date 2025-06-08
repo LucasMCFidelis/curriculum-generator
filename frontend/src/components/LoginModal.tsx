@@ -1,6 +1,5 @@
 import { useAuth } from "@/hooks/useAuth";
 import Modal from "./modal";
-import { useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
@@ -11,20 +10,10 @@ import {
 } from "./ui/form";
 import { Input } from "./ui/input";
 import { LogIn, X } from "lucide-react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { formLoginSchema } from "@/schemas/formLoginSchema";
-import type {formLoginDTO} from "@/schemas/formLoginSchema"
 
 function LoginModal() {
-  const { isLoginModalOpen, loginUser, closeLoginModal } = useAuth();
-
-  const form = useForm<formLoginDTO>({
-    resolver: zodResolver(formLoginSchema),
-    defaultValues: {
-      userEmail: "",
-      userPassword: "",
-    },
-  });
+  const { form, isLoginModalOpen, loginUser, closeLoginModal, isLoginError } =
+    useAuth();
 
   return (
     <>
@@ -66,6 +55,11 @@ function LoginModal() {
               </form>
             </Form>
           </Modal.Body>
+          {isLoginError && (
+            <p className="text-destructive font-bold text-center">
+              {isLoginError}
+            </p>
+          )}
           <Modal.Confirm
             textContent="Login"
             icon={LogIn}
