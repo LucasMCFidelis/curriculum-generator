@@ -20,6 +20,7 @@ interface AuthContextType {
   isLoginModalOpen: boolean;
   openLoginModal: () => void;
   closeLoginModal: () => void;
+  isLoginLoading: boolean;
   isLoginError: string;
 }
 
@@ -40,6 +41,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   });
 
   const [isLoginModalOpen, setIsLoginModalOpen] = useState<boolean>(false);
+  const [isLoginLoading, setIsLoginLoading] = useState<boolean>(false);
   const [isLoginError, setIsLoginError] = useState<string>("");
 
   const form = useForm<formLoginDTO>({
@@ -66,6 +68,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }, [currentUser]);
 
   const loginUser = async (data: formLoginDTO) => {
+    setIsLoginLoading(true)
     let loginResponse;
     try {
       loginResponse = await axios.post(
@@ -91,6 +94,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       setCurrentUser(userData);
       closeLoginModal();
     }
+    setIsLoginLoading(false)
   };
 
   const logoutUser = (): void => {
@@ -108,6 +112,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         isLoginModalOpen,
         openLoginModal,
         closeLoginModal,
+        isLoginLoading,
         isLoginError,
       }}
     >

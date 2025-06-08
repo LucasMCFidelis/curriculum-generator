@@ -12,8 +12,14 @@ import { Input } from "./ui/input";
 import { LogIn, X } from "lucide-react";
 
 function LoginModal() {
-  const { form, isLoginModalOpen, loginUser, closeLoginModal, isLoginError } =
-    useAuth();
+  const {
+    form,
+    isLoginModalOpen,
+    loginUser,
+    closeLoginModal,
+    isLoginLoading,
+    isLoginError,
+  } = useAuth();
 
   return (
     <>
@@ -21,7 +27,9 @@ function LoginModal() {
         <Modal.Root>
           <div className="flex justify-between items-center">
             <h2 className="text-lg md:text-xl font-bold">Login</h2>
-            <Modal.Close icon={X} closeAction={closeLoginModal} />
+            <Modal.Close closeAction={closeLoginModal}>
+              <X />
+            </Modal.Close>
           </div>
           <Modal.Body>
             <Form {...form}>
@@ -33,7 +41,11 @@ function LoginModal() {
                     <FormItem>
                       <FormLabel>Email</FormLabel>
                       <FormControl>
-                        <Input placeholder="Email..." {...field} />
+                        <Input
+                          placeholder="Email..."
+                          disabled={isLoginLoading}
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -46,7 +58,11 @@ function LoginModal() {
                     <FormItem>
                       <FormLabel>Senha</FormLabel>
                       <FormControl>
-                        <Input placeholder="Senha..." {...field} />
+                        <Input
+                          placeholder="Senha..."
+                          disabled={isLoginLoading}
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -61,12 +77,22 @@ function LoginModal() {
             </p>
           )}
           <Modal.Confirm
-            textContent="Login"
-            icon={LogIn}
             type="submit"
             confirmAction={form.handleSubmit(loginUser)}
+            disabled={isLoginLoading}
             className="w-full"
-          />
+          >
+            {isLoginLoading ? (
+              <>
+                Entrando...
+                <div className="w-4 h-4 border-2 border-white border-t-zinc-500 rounded-full animate-spin" />
+              </>
+            ) : (
+              <>
+                Login <LogIn />
+              </>
+            )}
+          </Modal.Confirm>
         </Modal.Root>
       )}
     </>
