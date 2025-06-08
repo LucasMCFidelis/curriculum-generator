@@ -20,7 +20,7 @@ import { Button } from "./ui/button";
 import { useAuth } from "@/hooks/useAuth";
 
 function Header() {
-  const { currentUser, loginUser, logoutUser } = useAuth();
+  const { currentUser, openLoginModal, logoutUser } = useAuth();
 
   const sections = [
     {
@@ -101,7 +101,7 @@ function Header() {
           </MenubarMenu>
         ) : (
           <>
-            <Button onClick={loginUser}>
+            <Button onClick={openLoginModal}>
               Login <LogIn />
             </Button>
           </>
