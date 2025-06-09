@@ -77,6 +77,7 @@ function LoginModal() {
                             type="button"
                             variant={"ghost"}
                             onClick={toggleShowPassword}
+                            disabled={isLoginLoading}
                             className="absolute right-0 top-1/2 transform -translate-y-1/2 text-secondary-foreground dark:text-primary-foreground hover:bg-transparent dark:hover:bg-transparent"
                             aria-label={
                               showPassword ? "Ocultar senha" : "Mostrar senha"
@@ -100,7 +101,10 @@ function LoginModal() {
           )}
           <Modal.Confirm
             type="submit"
-            confirmAction={form.handleSubmit(loginUser)}
+            confirmAction={form.handleSubmit(async (data) => {
+              setShowPassword(false)
+              await loginUser(data)
+            })}
             disabled={isLoginLoading}
             className="w-full"
           >
