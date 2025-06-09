@@ -12,16 +12,17 @@ import { Input } from "./ui/input";
 import { Eye, EyeClosed, LogIn, X } from "lucide-react";
 import { useState } from "react";
 import { Button } from "./ui/button";
+import { useModal } from "@/contexts/ModalContext";
 
 function LoginModal() {
   const {
     form,
-    isLoginModalOpen,
     loginUser,
     closeLoginModal,
     isLoginLoading,
     isLoginError,
   } = useAuth();
+  const {currentModal} = useModal()
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -31,7 +32,7 @@ function LoginModal() {
 
   return (
     <>
-      {isLoginModalOpen && (
+      {currentModal === "loginUser" && (
         <Modal.Root>
           <div className="flex justify-between items-center">
             <h2 className="text-lg md:text-xl font-bold">Login</h2>

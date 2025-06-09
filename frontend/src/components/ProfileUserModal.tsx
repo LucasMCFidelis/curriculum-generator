@@ -5,10 +5,9 @@ import { X } from "lucide-react";
 function ProfileUserModal() {
   const { currentModal, closeModal } = useModal();
 
-  if (currentModal !== "profileUser") return null;
-
   return (
-    
+    <>
+      {currentModal === "profileUser" && (
         <Modal.Root>
           <Modal.Close closeAction={closeModal}>
             <X />
@@ -17,7 +16,8 @@ function ProfileUserModal() {
             <h2>teste</h2>
           </Modal.Body>
         </Modal.Root>
-     
+      )}
+    </>
   );
 }
 

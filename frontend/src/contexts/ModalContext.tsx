@@ -1,6 +1,6 @@
 import { createContext, useState, useContext } from "react";
 
-type ModalType = "profileUser" | "settings" | "delete-confirm" | null;
+type ModalType = "profileUser" | "loginUser" | null;
 
 type ModalContextType = {
   currentModal: ModalType;

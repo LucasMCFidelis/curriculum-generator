@@ -4,6 +4,7 @@ import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { formLoginSchema } from "@/schemas/formLoginSchema";
 import { useForm, type UseFormReturn } from "react-hook-form";
+import { useModal } from "./ModalContext";
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -17,7 +18,6 @@ interface AuthContextType {
     userPassword: string;
   }>;
   logoutUser: () => void;
-  isLoginModalOpen: boolean;
   openLoginModal: () => void;
   closeLoginModal: () => void;
   isLoginLoading: boolean;
@@ -40,7 +40,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   });
 
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState<boolean>(false);
+  const { openModal, closeModal } = useModal();
   const [isLoginLoading, setIsLoginLoading] = useState<boolean>(false);
   const [isLoginError, setIsLoginError] = useState<string>("");
 
@@ -53,12 +53,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
   });
 
   function openLoginModal() {
-    setIsLoginModalOpen(true);
+    openModal("loginUser");
   }
   function closeLoginModal() {
     form.reset();
     setIsLoginError("");
-    setIsLoginModalOpen(false);
+    closeModal();
   }
 
   useEffect(() => {
@@ -68,7 +68,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }, [currentUser]);
 
   const loginUser = async (data: formLoginDTO) => {
-    setIsLoginLoading(true)
+    setIsLoginLoading(true);
     let loginResponse;
     try {
       loginResponse = await axios.post(
@@ -94,7 +94,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       setCurrentUser(userData);
       closeLoginModal();
     }
-    setIsLoginLoading(false)
+    setIsLoginLoading(false);
   };
 
   const logoutUser = (): void => {
@@ -109,7 +109,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
         loginUser,
         logoutUser,
         currentUser,
-        isLoginModalOpen,
         openLoginModal,
         closeLoginModal,
         isLoginLoading,
