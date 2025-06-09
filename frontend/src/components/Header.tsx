@@ -17,26 +17,10 @@ import {
   MenubarTrigger,
 } from "./ui/menubar";
 import { Button } from "./ui/button";
-import { useEffect, useState } from "react";
+import { useAuth } from "@/hooks/useAuth";
 
 function Header() {
-  const [currentUser, setCurrentUser] = useState(() => {
-    return localStorage.getItem("currentUser") || null;
-  });
-
-  useEffect(() => {
-    if (currentUser) {
-      localStorage.setItem("currentUser", currentUser);
-    }
-  }, [currentUser]);
-
-  function loginUser() {
-    setCurrentUser("teste");
-  }
-  function logoutUser() {
-    localStorage.removeItem("currentUser");
-    setCurrentUser(null);
-  }
+  const { currentUser, openLoginModal, logoutUser } = useAuth();
 
   const sections = [
     {
@@ -117,7 +101,7 @@ function Header() {
           </MenubarMenu>
         ) : (
           <>
-            <Button onClick={loginUser}>
+            <Button onClick={openLoginModal}>
               Login <LogIn />
             </Button>
           </>

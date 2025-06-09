@@ -8,7 +8,7 @@ function ModalBody({
   children
 }: ModalBodyProps) {
   return (
-    <div className="mt-4 flex flex-col gap-2 w-full">
+    <div className="flex flex-col flex-1 gap-2 w-full">
       {children}
     </div>
   );

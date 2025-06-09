@@ -1,28 +1,18 @@
-import type { ButtonHTMLAttributes, ElementType } from "react";
+import type { ButtonHTMLAttributes, ReactNode } from "react";
 import ModalAction from "./ModalAction";
 
 interface ModalCloseProps
   extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "onClick"> {
-  textContent?: string;
-  icon?: ElementType;
+  children: ReactNode;
   closeAction: () => void;
-  className?: string;
 }
 
-function ModalClose({
-  textContent,
-  icon: Icon,
-  closeAction,
-  className,
-  ...rest
-}: ModalCloseProps) {
+function ModalClose({ children, closeAction, ...rest }: ModalCloseProps) {
   return (
     <ModalAction
       actionOnClick={closeAction}
-      textContent={textContent}
       variant={"destructive"}
-      icon={Icon}
-      className={className}
+      children={children}
       {...rest}
     />
   );

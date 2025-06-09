@@ -1,28 +1,18 @@
-import type { ButtonHTMLAttributes, ElementType } from "react";
+import type { ButtonHTMLAttributes, ReactNode } from "react";
 import ModalAction from "./ModalAction";
 
 interface ModalConfirmProps
   extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "onClick"> {
-  textContent?: string;
-  icon?: ElementType;
+  children: ReactNode;
   confirmAction: () => void;
-  className?: string;
 }
 
-function ModalConfirm({
-  textContent,
-  icon: Icon,
-  confirmAction,
-  className,
-  ...rest
-}: ModalConfirmProps) {
+function ModalConfirm({ children, confirmAction, ...rest }: ModalConfirmProps) {
   return (
     <ModalAction
       actionOnClick={confirmAction}
-      textContent={textContent}
       variant={"default"}
-      icon={Icon}
-      className={className}
+      children={children}
       {...rest}
     />
   );
