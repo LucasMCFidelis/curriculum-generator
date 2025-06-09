@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import Footer from "./Footer";
 import Header from "./Header";
 import LoginModal from "./LoginModal";
+import ProfileUserModal from "./ProfileUserModal";
 
 type LayoutProps = {
   children: ReactNode;
@@ -15,6 +16,7 @@ function Layout({ children }: LayoutProps) {
         <div className="flex-1">{children}</div>
         <Footer />
         <LoginModal/>
+        <ProfileUserModal/>
       </div>
     </>
   );
