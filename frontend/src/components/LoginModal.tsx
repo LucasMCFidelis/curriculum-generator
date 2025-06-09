@@ -9,7 +9,9 @@ import {
   FormMessage,
 } from "./ui/form";
 import { Input } from "./ui/input";
-import { LogIn, X } from "lucide-react";
+import { Eye, EyeClosed, LogIn, X } from "lucide-react";
+import { useState } from "react";
+import { Button } from "./ui/button";
 
 function LoginModal() {
   const {
@@ -20,6 +22,12 @@ function LoginModal() {
     isLoginLoading,
     isLoginError,
   } = useAuth();
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  function toggleShowPassword() {
+    setShowPassword((prev) => !prev);
+  }
 
   return (
     <>
@@ -58,11 +66,25 @@ function LoginModal() {
                     <FormItem>
                       <FormLabel>Senha</FormLabel>
                       <FormControl>
-                        <Input
-                          placeholder="Senha..."
-                          disabled={isLoginLoading}
-                          {...field}
-                        />
+                        <div className="relative w-full">
+                          <Input
+                            placeholder="Senha..."
+                            type={showPassword ? "text" : "password"}
+                            disabled={isLoginLoading}
+                            {...field}
+                          />
+                          <Button
+                            type="button"
+                            variant={"ghost"}
+                            onClick={toggleShowPassword}
+                            className="absolute right-0 top-1/2 transform -translate-y-1/2 text-secondary-foreground dark:text-primary-foreground hover:bg-transparent dark:hover:bg-transparent"
+                            aria-label={
+                              showPassword ? "Ocultar senha" : "Mostrar senha"
+                            }
+                          >
+                            {showPassword ? <EyeClosed /> : <Eye />}
+                          </Button>
+                        </div>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
