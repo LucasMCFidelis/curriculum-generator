@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { formLoginSchema } from "@/schemas/formLoginSchema";
 import { useForm, type UseFormReturn } from "react-hook-form";
 import { useModal } from "./ModalContext";
+import { setUnauthorizedHandler } from "@/utils/authUtils";
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -67,6 +68,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   }, [currentUser]);
 
+  useEffect(() => {
+    setUnauthorizedHandler(() => {
+      logoutUser(); // Limpa estado e localStorage
+      openLoginModal(); // Solicita login novamente
+    });
+  }, []);
+
   const loginUser = async (data: formLoginDTO) => {
     setIsLoginLoading(true);
     let loginResponse;
@@ -87,11 +95,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
 
     if (loginResponse) {
-      const userData = {
-        userToken: loginResponse.data.userToken,
-        ...loginResponse.data.userData,
-      };
-      setCurrentUser(userData);
+      setCurrentUser(loginResponse.data.userData);
+      localStorage.setItem("authToken", loginResponse.data.userToken);
       closeLoginModal();
     }
     setIsLoginLoading(false);
@@ -99,6 +104,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const logoutUser = (): void => {
     localStorage.removeItem("currentUser");
+    localStorage.removeItem("authToken");
     setCurrentUser(null);
   };
 
