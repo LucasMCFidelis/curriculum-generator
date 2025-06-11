@@ -6,13 +6,14 @@ import { formLoginSchema } from "@/schemas/formLoginSchema";
 import { useForm, type UseFormReturn } from "react-hook-form";
 import { useModal } from "./ModalContext";
 import { setUnauthorizedHandler } from "@/utils/authUtils";
+import type { CurrentUserData } from "@/types/CurrentUserData";
 
 interface AuthProviderProps {
   children: ReactNode;
 }
 
 interface AuthContextType {
-  currentUser: object | null;
+  currentUser: CurrentUserData | null;
   loginUser: (data: formLoginDTO) => Promise<void>;
   form: UseFormReturn<{
     userEmail: string;
@@ -30,7 +31,7 @@ export const AuthContext = createContext<AuthContextType | undefined>(
 );
 
 export function AuthProvider({ children }: AuthProviderProps) {
-  const [currentUser, setCurrentUser] = useState<object | null>(() => {
+  const [currentUser, setCurrentUser] = useState<CurrentUserData | null>(() => {
     try {
       const storedUser = localStorage.getItem("currentUser");
       return storedUser ? JSON.parse(storedUser) : null;
