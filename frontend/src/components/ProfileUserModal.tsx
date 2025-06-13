@@ -19,39 +19,50 @@ import type { User } from "@/types/User";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { formUserUpdateSchema } from "@/schemas/formUserUpdateSchema";
 import type { formUserUpdateSchemaDTO } from "@/schemas/formUserUpdateSchema";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import LoadingSpin from "./LoadingSpin";
 
 function ProfileUserModal() {
   const { currentUser } = useAuth();
   const { currentModal, closeModal } = useModal();
-  const [userDataComplete, setUserDataComplete] = useState<User | null>(null);
   const [isEditableDataUser, setIsEditableDataUser] = useState<boolean>(false);
   const [isLoadingUpdateUser, setIsLoadingUpdateUser] =
     useState<boolean>(false);
+
+  const queryClient = useQueryClient();
+
+  const {
+    data: userComplete,
+    isLoading,
+    isError,
+    refetch,
+  } = useQuery<User, Error>({
+    queryKey: ["user"],
+    queryFn: async () => {
+      const response = await api.get<User>(
+        `/users?userId=${currentUser?.userId}`
+      );
+      return response.data;
+    },
+  });
 
   function toggleEditableDataUser() {
     setIsEditableDataUser((prev) => !prev);
   }
 
-  async function GetUserComplete(userId: string) {
-    return await api.get(`/users?userId=${userId}`);
-  }
-
   useEffect(() => {
     async function fetchUserData() {
-      if (!currentUser) return;
+      if (!currentUser || !userComplete) return;
       try {
-        const response = await GetUserComplete(currentUser.userId);
-        setUserDataComplete(response.data);
-
         // Atualiza os valores do formulário com os dados obtidos
         formProfileUser.reset({
-          userName: response.data.userName || "",
-          userEmail: response.data.userEmail || "",
-          userCity: response.data.userCity || "",
-          userPortfolio: response.data.userPortfolio || "",
-          userGitHub: response.data.userGitHub || "",
-          userLinkedIn: response.data.userLinkedIn || "",
-          userResume: response.data.userResume || "",
+          userName: userComplete.userName || "",
+          userEmail: userComplete.userEmail || "",
+          userCity: userComplete.userCity || "",
+          userPortfolio: userComplete.userPortfolio || "",
+          userGitHub: userComplete.userGitHub || "",
+          userLinkedIn: userComplete.userLinkedIn || "",
+          userResume: userComplete.userResume || "",
         });
       } catch (error) {
         console.error("Erro ao buscar dados completos do usuário:", error);
@@ -59,7 +70,7 @@ function ProfileUserModal() {
     }
 
     fetchUserData();
-  }, [currentUser]);
+  }, [currentUser, userComplete]);
 
   const formProfileUser = useForm<formUserUpdateSchemaDTO>({
     resolver: zodResolver(formUserUpdateSchema),
@@ -71,6 +82,22 @@ function ProfileUserModal() {
       userGitHub: "",
       userLinkedIn: "",
       userResume: "",
+    },
+  });
+
+  const updateUserMutation = useMutation({
+    mutationFn: async (updatedUser: Partial<User>) => {
+      await api.put(`/users?userId=${currentUser?.userId}`, updatedUser);
+      return updatedUser;
+    },
+    onSuccess: (updatedUser) => {
+      queryClient.setQueryData<User>(["user"], (oldUser) => {
+        if (!oldUser) return undefined;
+        return {
+          ...oldUser,
+          ...updatedUser,
+        };
+      });
     },
   });
 
@@ -90,7 +117,7 @@ function ProfileUserModal() {
             </Modal.Close>
           </div>
           <Modal.Body>
-            {userDataComplete ? (
+            {userComplete && (
               <Form {...formProfileUser}>
                 <form className="grid gap-4">
                   <FormField
@@ -214,50 +241,68 @@ function ProfileUserModal() {
                   />
                 </form>
               </Form>
-            ) : (
-              <p className="text-sm text-muted-foreground">
-                Carregando dados do usuário...
-              </p>
             )}
 
-            {isEditableDataUser ? (
-              <Modal.Confirm
-                type="submit"
-                disabled={isLoadingUpdateUser}
-                confirmAction={formProfileUser.handleSubmit(async (data) => {
-                  try {
-                    setIsLoadingUpdateUser(true);
-                    await api.put(`/users?userId=${currentUser?.userId}`, data);
-                    console.log("Dados enviados", data);
-                    toggleEditableDataUser();
-                  } catch (error) {
-                    console.error("Erro ao atualizar usuário", error);
-                  } finally {
-                    setIsLoadingUpdateUser(false);
-                  }
-                })}
-              >
-                {isLoadingUpdateUser ? (
-                  <>
-                    Salvando alterações...
-                    <div className="w-4 h-4 border-2 border-white border-t-zinc-500 rounded-full animate-spin" />
-                  </>
-                ) : (
-                  <>
-                    Salvar alterações
-                    <Save />
-                  </>
-                )}
-              </Modal.Confirm>
-            ) : (
-              <Modal.Action
-                type="button"
-                actionOnClick={toggleEditableDataUser}
-              >
-                Editar dados
-                <Edit />
-              </Modal.Action>
+            {isLoading && (
+              <div className="flex justify-center items-center gap-4">
+                <p>Carregando dados do usuário...</p>
+                <LoadingSpin/>
+              </div>
             )}
+
+            {isError && (
+              <div className="flex flex-col justify-center items-center gap-4">
+                <p className="text-destructive">Erro ao carregar dados do usuário</p>
+                <Modal.Action
+                  type="button"
+                  actionOnClick={refetch}
+                  className="w-full"
+                >
+                  Tentar Novamente
+                </Modal.Action>
+              </div>
+            )}
+
+            {!isError &&
+              !isLoading &&
+              (isEditableDataUser ? (
+                <Modal.Confirm
+                  type="submit"
+                  disabled={isLoadingUpdateUser}
+                  confirmAction={formProfileUser.handleSubmit(async (data) => {
+                    try {
+                      setIsLoadingUpdateUser(true);
+                      updateUserMutation.mutate(data);
+                      console.log("Dados enviados", data);
+                      toggleEditableDataUser();
+                    } catch (error) {
+                      console.error("Erro ao atualizar usuário", error);
+                    } finally {
+                      setIsLoadingUpdateUser(false);
+                    }
+                  })}
+                >
+                  {isLoadingUpdateUser ? (
+                    <>
+                      Salvando alterações...
+                      <LoadingSpin/>
+                    </>
+                  ) : (
+                    <>
+                      Salvar alterações
+                      <Save />
+                    </>
+                  )}
+                </Modal.Confirm>
+              ) : (
+                <Modal.Action
+                  type="button"
+                  actionOnClick={toggleEditableDataUser}
+                >
+                  Editar dados
+                  <Edit />
+                </Modal.Action>
+              ))}
           </Modal.Body>
         </Modal.Root>
       )}
