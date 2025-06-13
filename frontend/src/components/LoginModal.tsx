@@ -13,6 +13,7 @@ import { Eye, EyeClosed, LogIn, X } from "lucide-react";
 import { useState } from "react";
 import { Button } from "./ui/button";
 import { useModal } from "@/contexts/ModalContext";
+import LoadingSpin from "./LoadingSpin";
 
 function LoginModal() {
   const {
@@ -112,7 +113,7 @@ function LoginModal() {
             {isLoginLoading ? (
               <>
                 Entrando...
-                <div className="w-4 h-4 border-2 border-white border-t-zinc-500 rounded-full animate-spin" />
+                <LoadingSpin/>
               </>
             ) : (
               <>
