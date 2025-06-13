@@ -25,6 +25,8 @@ function ProfileUserModal() {
   const { currentModal, closeModal } = useModal();
   const [userDataComplete, setUserDataComplete] = useState<User | null>(null);
   const [isEditableDataUser, setIsEditableDataUser] = useState<boolean>(false);
+  const [isLoadingUpdateUser, setIsLoadingUpdateUser] =
+    useState<boolean>(false);
 
   function toggleEditableDataUser() {
     setIsEditableDataUser((prev) => !prev);
@@ -221,13 +223,31 @@ function ProfileUserModal() {
             {isEditableDataUser ? (
               <Modal.Confirm
                 type="submit"
-                confirmAction={formProfileUser.handleSubmit((data) => {
-                  toggleEditableDataUser();
-                  console.log("Dados enviados", data);
+                disabled={isLoadingUpdateUser}
+                confirmAction={formProfileUser.handleSubmit(async (data) => {
+                  try {
+                    setIsLoadingUpdateUser(true);
+                    await api.put(`/users?userId=${currentUser?.userId}`, data);
+                    console.log("Dados enviados", data);
+                    toggleEditableDataUser();
+                  } catch (error) {
+                    console.error("Erro ao atualizar usuário", error);
+                  } finally {
+                    setIsLoadingUpdateUser(false);
+                  }
                 })}
               >
-                Salvar alterações
-                <Save />
+                {isLoadingUpdateUser ? (
+                  <>
+                    Salvando alterações...
+                    <div className="w-4 h-4 border-2 border-white border-t-zinc-500 rounded-full animate-spin" />
+                  </>
+                ) : (
+                  <>
+                    Salvar alterações
+                    <Save />
+                  </>
+                )}
               </Modal.Confirm>
             ) : (
               <Modal.Action
