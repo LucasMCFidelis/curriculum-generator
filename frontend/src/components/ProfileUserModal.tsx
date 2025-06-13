@@ -78,10 +78,12 @@ function ProfileUserModal() {
         <Modal.Root>
           <div className="flex justify-between items-center">
             <h2 className="text-lg md:text-xl font-bold">Perfil</h2>
-            <Modal.Close closeAction={()=>{
-              formProfileUser.reset()
-              closeModal()
-            }}>
+            <Modal.Close
+              closeAction={() => {
+                formProfileUser.reset();
+                closeModal();
+              }}
+            >
               <X />
             </Modal.Close>
           </div>
@@ -102,7 +104,7 @@ function ProfileUserModal() {
                             disabled={!isEditableDataUser}
                           />
                         </FormControl>
-                        <FormMessage className="col-span-full"/>
+                        <FormMessage className="col-span-full" />
                       </FormItem>
                     )}
                   />
@@ -119,7 +121,7 @@ function ProfileUserModal() {
                             disabled={!isEditableDataUser}
                           />
                         </FormControl>
-                        <FormMessage />
+                        <FormMessage className="col-span-full" />
                       </FormItem>
                     )}
                   />
@@ -136,7 +138,7 @@ function ProfileUserModal() {
                             disabled={!isEditableDataUser}
                           />
                         </FormControl>
-                        <FormMessage />
+                        <FormMessage className="col-span-full" />
                       </FormItem>
                     )}
                   />
@@ -153,7 +155,7 @@ function ProfileUserModal() {
                             disabled={!isEditableDataUser}
                           />
                         </FormControl>
-                        <FormMessage />
+                        <FormMessage className="col-span-full" />
                       </FormItem>
                     )}
                   />
@@ -170,7 +172,7 @@ function ProfileUserModal() {
                             disabled={!isEditableDataUser}
                           />
                         </FormControl>
-                        <FormMessage />
+                        <FormMessage className="col-span-full" />
                       </FormItem>
                     )}
                   />
@@ -187,7 +189,7 @@ function ProfileUserModal() {
                             disabled={!isEditableDataUser}
                           />
                         </FormControl>
-                        <FormMessage />
+                        <FormMessage className="col-span-full" />
                       </FormItem>
                     )}
                   />
@@ -204,7 +206,7 @@ function ProfileUserModal() {
                             disabled={!isEditableDataUser}
                           />
                         </FormControl>
-                        <FormMessage />
+                        <FormMessage className="col-span-full" />
                       </FormItem>
                     )}
                   />
@@ -218,6 +220,7 @@ function ProfileUserModal() {
 
             {isEditableDataUser ? (
               <Modal.Confirm
+                type="submit"
                 confirmAction={formProfileUser.handleSubmit((data) => {
                   toggleEditableDataUser();
                   console.log("Dados enviados", data);
@@ -227,7 +230,10 @@ function ProfileUserModal() {
                 <Save />
               </Modal.Confirm>
             ) : (
-              <Modal.Action actionOnClick={toggleEditableDataUser}>
+              <Modal.Action
+                type="button"
+                actionOnClick={toggleEditableDataUser}
+              >
                 Editar dados
                 <Edit />
               </Modal.Action>
