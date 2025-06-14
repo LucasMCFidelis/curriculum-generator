@@ -21,6 +21,7 @@ import { formUserUpdateSchema } from "@/schemas/formUserUpdateSchema";
 import type { formUserUpdateSchemaDTO } from "@/schemas/formUserUpdateSchema";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import LoadingSpin from "./LoadingSpin";
+import { isAxiosError } from "axios";
 
 function ProfileUserModal() {
   const { currentUser } = useAuth();
@@ -28,6 +29,7 @@ function ProfileUserModal() {
   const [isEditableDataUser, setIsEditableDataUser] = useState<boolean>(false);
   const [isLoadingUpdateUser, setIsLoadingUpdateUser] =
     useState<boolean>(false);
+    const [isErrorUpdate, setIsErrorUpdate] = useState<string>("")
 
   const queryClient = useQueryClient();
 
@@ -99,6 +101,13 @@ function ProfileUserModal() {
         };
       });
     },
+    onError: (error) => {
+      let errorMessage
+      if (isAxiosError(error)){
+        errorMessage = error.response?.data.message
+      }
+      setIsErrorUpdate(errorMessage || "Erro inesperado ao atualizar dados do usuário")
+    },
   });
 
   return (
@@ -110,6 +119,7 @@ function ProfileUserModal() {
             <Modal.Close
               closeAction={() => {
                 formProfileUser.reset();
+                setIsErrorUpdate("")
                 closeModal();
               }}
             >
@@ -261,6 +271,10 @@ function ProfileUserModal() {
                   Tentar Novamente
                 </Modal.Action>
               </div>
+            )}
+
+            {isErrorUpdate && (
+              <p className="text-center text-destructive">{isErrorUpdate}</p>
             )}
 
             {!isError &&
