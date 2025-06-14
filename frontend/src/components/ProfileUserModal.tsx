@@ -29,7 +29,7 @@ function ProfileUserModal() {
   const [isEditableDataUser, setIsEditableDataUser] = useState<boolean>(false);
   const [isLoadingUpdateUser, setIsLoadingUpdateUser] =
     useState<boolean>(false);
-    const [isErrorUpdate, setIsErrorUpdate] = useState<string>("")
+  const [isErrorUpdate, setIsErrorUpdate] = useState<string>("");
 
   const queryClient = useQueryClient();
 
@@ -52,28 +52,6 @@ function ProfileUserModal() {
     setIsEditableDataUser((prev) => !prev);
   }
 
-  useEffect(() => {
-    async function fetchUserData() {
-      if (!currentUser || !userComplete) return;
-      try {
-        // Atualiza os valores do formulário com os dados obtidos
-        formProfileUser.reset({
-          userName: userComplete.userName || "",
-          userEmail: userComplete.userEmail || "",
-          userCity: userComplete.userCity || "",
-          userPortfolio: userComplete.userPortfolio || "",
-          userGitHub: userComplete.userGitHub || "",
-          userLinkedIn: userComplete.userLinkedIn || "",
-          userResume: userComplete.userResume || "",
-        });
-      } catch (error) {
-        console.error("Erro ao buscar dados completos do usuário:", error);
-      }
-    }
-
-    fetchUserData();
-  }, [currentUser, userComplete]);
-
   const formProfileUser = useForm<formUserUpdateSchemaDTO>({
     resolver: zodResolver(formUserUpdateSchema),
     defaultValues: {
@@ -86,6 +64,33 @@ function ProfileUserModal() {
       userResume: "",
     },
   });
+
+  function resetFormProfileUser() {
+    if (!userComplete) return;
+    formProfileUser.reset({
+      userName: userComplete.userName || "",
+      userEmail: userComplete.userEmail || "",
+      userCity: userComplete.userCity || "",
+      userPortfolio: userComplete.userPortfolio || "",
+      userGitHub: userComplete.userGitHub || "",
+      userLinkedIn: userComplete.userLinkedIn || "",
+      userResume: userComplete.userResume || "",
+    });
+  }
+
+  useEffect(() => {
+    async function fetchUserData() {
+      if (!currentUser) return;
+      try {
+        // Atualiza os valores do formulário com os dados obtidos
+        resetFormProfileUser();
+      } catch (error) {
+        console.error("Erro ao buscar dados completos do usuário:", error);
+      }
+    }
+
+    fetchUserData();
+  }, [currentUser, userComplete]);
 
   const updateUserMutation = useMutation({
     mutationFn: async (updatedUser: Partial<User>) => {
@@ -102,11 +107,14 @@ function ProfileUserModal() {
       });
     },
     onError: (error) => {
-      let errorMessage
-      if (isAxiosError(error)){
-        errorMessage = error.response?.data.message
+      let errorMessage;
+      if (isAxiosError(error)) {
+        errorMessage = error.response?.data.message;
       }
-      setIsErrorUpdate(errorMessage || "Erro inesperado ao atualizar dados do usuário")
+      setIsErrorUpdate(
+        errorMessage || "Erro inesperado ao atualizar dados do usuário"
+      );
+      resetFormProfileUser();
     },
   });
 
@@ -118,8 +126,9 @@ function ProfileUserModal() {
             <h2 className="text-lg md:text-xl font-bold">Perfil</h2>
             <Modal.Close
               closeAction={() => {
-                formProfileUser.reset();
-                setIsErrorUpdate("")
+                resetFormProfileUser();
+                setIsEditableDataUser(false);
+                setIsErrorUpdate("");
                 closeModal();
               }}
             >
@@ -256,13 +265,15 @@ function ProfileUserModal() {
             {isLoading && (
               <div className="flex justify-center items-center gap-4">
                 <p>Carregando dados do usuário...</p>
-                <LoadingSpin/>
+                <LoadingSpin />
               </div>
             )}
 
             {isError && (
               <div className="flex flex-col justify-center items-center gap-4">
-                <p className="text-destructive">Erro ao carregar dados do usuário</p>
+                <p className="text-destructive">
+                  Erro ao carregar dados do usuário
+                </p>
                 <Modal.Action
                   type="button"
                   actionOnClick={refetch}
@@ -299,7 +310,7 @@ function ProfileUserModal() {
                   {isLoadingUpdateUser ? (
                     <>
                       Salvando alterações...
-                      <LoadingSpin/>
+                      <LoadingSpin />
                     </>
                   ) : (
                     <>
