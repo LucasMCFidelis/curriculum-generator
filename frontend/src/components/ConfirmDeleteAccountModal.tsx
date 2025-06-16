@@ -1,0 +1,72 @@
+import { useModal } from "@/contexts/ModalContext";
+import Modal from "./modal";
+import { Trash2, X } from "lucide-react";
+import { Input } from "./ui/input";
+import { useState } from "react";
+
+function ConfirmDeleteAccountModal() {
+  const { currentModal, closeModal } = useModal();
+  const [confirmationText, setConfirmationText] = useState<string>("");
+  const [error, setError] = useState<string>("");
+
+  const handleClose = () => {
+    setConfirmationText("");
+    setError("");
+    closeModal();
+  };
+
+  const handleDelete = () => {
+    if (confirmationText !== "DELETAR") {
+      setError("Você precisa digitar exatamente 'DELETAR'");
+      return;
+    }
+
+    console.log("deletar");
+
+    handleClose();
+  };
+
+  return (
+    <>
+      {currentModal === "ConfirmDeleteAccount" && (
+        <Modal.Root>
+          <h2 className="text-lg md:text-xl font-bold">
+            Confirmar exclusão de conta
+          </h2>
+          <Modal.Body>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="col-span-full flex flex-col gap-2">
+                <p className="text-justify">
+                  Para confirmar a exclusão da sua conta digite "DELETAR" e
+                  confirme
+                </p>
+                <Input
+                  value={confirmationText}
+                  onChange={(e) => {
+                    setConfirmationText(e.target.value);
+                    setError("");
+                  }}
+                  placeholder="Digite aqui..."
+                  autoFocus
+                />
+                {error && (
+                  <p className="text-destructive">{error}</p>
+                )}
+              </div>
+              <Modal.Close closeAction={handleClose}>
+                Cancelar
+                <X />
+              </Modal.Close>
+              <Modal.Confirm confirmAction={handleDelete}>
+                Deletar minha conta
+                <Trash2 />
+              </Modal.Confirm>
+            </div>
+          </Modal.Body>
+        </Modal.Root>
+      )}
+    </>
+  );
+}
+
+export default ConfirmDeleteAccountModal;

@@ -96,7 +96,7 @@ function Header() {
                     <ArrowRightIcon />
                   </MenubarShortcut>
                 </MenubarItem>
-                <MenubarItem>
+                <MenubarItem onClick={()=>openModal("ConfirmDeleteAccount")}>
                   Deletar conta{" "}
                   <MenubarShortcut>
                     <Trash2 />

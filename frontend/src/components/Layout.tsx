@@ -3,6 +3,7 @@ import Footer from "./Footer";
 import Header from "./Header";
 import LoginModal from "./LoginModal";
 import ProfileUserModal from "./ProfileUserModal";
+import ConfirmDeleteAccountModal from "./ConfirmDeleteAccountModal";
 
 type LayoutProps = {
   children: ReactNode;
@@ -17,6 +18,7 @@ function Layout({ children }: LayoutProps) {
         <Footer />
         <LoginModal/>
         <ProfileUserModal/>
+        <ConfirmDeleteAccountModal/>
       </div>
     </>
   );
