@@ -6,6 +6,7 @@ import {
   Search,
   Trash2,
   User,
+  UserCircle2,
 } from "lucide-react";
 import ToggleTheme from "./ToggleTheme";
 import {
@@ -18,9 +19,11 @@ import {
 } from "./ui/menubar";
 import { Button } from "./ui/button";
 import { useAuth } from "@/hooks/useAuth";
+import { useModal } from "@/contexts/ModalContext";
 
 function Header() {
   const { currentUser, openLoginModal, logoutUser } = useAuth();
+  const {openModal} = useModal()
 
   const sections = [
     {
@@ -55,25 +58,25 @@ function Header() {
 
       <Menubar className="border-none shadow-none">
         {sections.map((section) => (
-            <MenubarMenu key={section.label}>
-          <MenubarTrigger>{section.label}</MenubarTrigger>
-          <MenubarContent>
-            <MenubarItem onClick={section.onCreate}>
-              Cadastrar{" "}
-              <MenubarShortcut>
-                <Plus />
-              </MenubarShortcut>
-            </MenubarItem>
-            <MenubarItem onClick={section.onSearch}>
-              Buscar{" "}
-              <MenubarShortcut>
-                <Search />
-              </MenubarShortcut>
-            </MenubarItem>
-          </MenubarContent>
-        </MenubarMenu>
+          <MenubarMenu key={section.label}>
+            <MenubarTrigger>{section.label}</MenubarTrigger>
+            <MenubarContent>
+              <MenubarItem onClick={section.onCreate}>
+                Cadastrar{" "}
+                <MenubarShortcut>
+                  <Plus />
+                </MenubarShortcut>
+              </MenubarItem>
+              <MenubarItem onClick={section.onSearch}>
+                Buscar{" "}
+                <MenubarShortcut>
+                  <Search />
+                </MenubarShortcut>
+              </MenubarItem>
+            </MenubarContent>
+          </MenubarMenu>
         ))}
-        
+
         {currentUser ? (
           <MenubarMenu>
             <>
@@ -81,13 +84,19 @@ function Header() {
                 <User />
               </MenubarTrigger>
               <MenubarContent>
-                <MenubarItem>
+                <div className="flex justify-start items-center gap-2 p-2 ">
+                  <UserCircle2 size={30} />
+                  <h2 className="text-center font-bold">
+                    {currentUser.userName}
+                  </h2>
+                </div>
+                <MenubarItem onClick={() => openModal("profileUser")}>
                   Perfil{" "}
                   <MenubarShortcut>
                     <ArrowRightIcon />
                   </MenubarShortcut>
                 </MenubarItem>
-                <MenubarItem>
+                <MenubarItem onClick={()=>openModal("ConfirmDeleteAccount")}>
                   Deletar conta{" "}
                   <MenubarShortcut>
                     <Trash2 />
@@ -106,7 +115,7 @@ function Header() {
             </Button>
           </>
         )}
-        
+
         <ToggleTheme />
       </Menubar>
     </header>

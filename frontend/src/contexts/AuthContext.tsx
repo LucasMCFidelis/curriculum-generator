@@ -4,20 +4,22 @@ import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { formLoginSchema } from "@/schemas/formLoginSchema";
 import { useForm, type UseFormReturn } from "react-hook-form";
+import { useModal } from "./ModalContext";
+import { setUnauthorizedHandler } from "@/utils/authUtils";
+import type { CurrentUserData } from "@/types/CurrentUserData";
 
 interface AuthProviderProps {
   children: ReactNode;
 }
 
 interface AuthContextType {
-  currentUser: object | null;
+  currentUser: CurrentUserData | null;
   loginUser: (data: formLoginDTO) => Promise<void>;
   form: UseFormReturn<{
     userEmail: string;
     userPassword: string;
   }>;
   logoutUser: () => void;
-  isLoginModalOpen: boolean;
   openLoginModal: () => void;
   closeLoginModal: () => void;
   isLoginLoading: boolean;
@@ -29,7 +31,7 @@ export const AuthContext = createContext<AuthContextType | undefined>(
 );
 
 export function AuthProvider({ children }: AuthProviderProps) {
-  const [currentUser, setCurrentUser] = useState<object | null>(() => {
+  const [currentUser, setCurrentUser] = useState<CurrentUserData | null>(() => {
     try {
       const storedUser = localStorage.getItem("currentUser");
       return storedUser ? JSON.parse(storedUser) : null;
@@ -40,7 +42,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   });
 
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState<boolean>(false);
+  const { openModal, closeModal } = useModal();
   const [isLoginLoading, setIsLoginLoading] = useState<boolean>(false);
   const [isLoginError, setIsLoginError] = useState<string>("");
 
@@ -53,12 +55,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
   });
 
   function openLoginModal() {
-    setIsLoginModalOpen(true);
+    openModal("loginUser");
   }
   function closeLoginModal() {
     form.reset();
     setIsLoginError("");
-    setIsLoginModalOpen(false);
+    closeModal();
   }
 
   useEffect(() => {
@@ -67,8 +69,15 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   }, [currentUser]);
 
+  useEffect(() => {
+    setUnauthorizedHandler(() => {
+      logoutUser(); // Limpa estado e localStorage
+      openLoginModal(); // Solicita login novamente
+    });
+  }, []);
+
   const loginUser = async (data: formLoginDTO) => {
-    setIsLoginLoading(true)
+    setIsLoginLoading(true);
     let loginResponse;
     try {
       loginResponse = await axios.post(
@@ -87,18 +96,16 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
 
     if (loginResponse) {
-      const userData = {
-        userToken: loginResponse.data.userToken,
-        ...loginResponse.data.userData,
-      };
-      setCurrentUser(userData);
+      setCurrentUser(loginResponse.data.userData);
+      localStorage.setItem("authToken", loginResponse.data.userToken);
       closeLoginModal();
     }
-    setIsLoginLoading(false)
+    setIsLoginLoading(false);
   };
 
   const logoutUser = (): void => {
     localStorage.removeItem("currentUser");
+    localStorage.removeItem("authToken");
     setCurrentUser(null);
   };
 
@@ -109,7 +116,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
         loginUser,
         logoutUser,
         currentUser,
-        isLoginModalOpen,
         openLoginModal,
         closeLoginModal,
         isLoginLoading,
