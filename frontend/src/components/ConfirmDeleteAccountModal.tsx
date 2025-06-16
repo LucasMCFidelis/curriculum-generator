@@ -3,9 +3,13 @@ import Modal from "./modal";
 import { Trash2, X } from "lucide-react";
 import { Input } from "./ui/input";
 import { useState } from "react";
+import { api } from "@/api";
+import { useAuth } from "@/hooks/useAuth";
+import { isAxiosError } from "axios";
 
 function ConfirmDeleteAccountModal() {
   const { currentModal, closeModal } = useModal();
+  const { currentUser, logoutUser } = useAuth()
   const [confirmationText, setConfirmationText] = useState<string>("");
   const [error, setError] = useState<string>("");
 
@@ -15,15 +19,25 @@ function ConfirmDeleteAccountModal() {
     closeModal();
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (confirmationText !== "DELETAR") {
       setError("Você precisa digitar exatamente 'DELETAR'");
       return;
     }
 
-    console.log("deletar");
-
-    handleClose();
+    try {
+      console.log("deletar");
+      if (!currentUser) return
+      await api.delete(`/users?userId=${currentUser.userId}`)
+      handleClose();
+      logoutUser()
+    } catch (error) {
+      console.log(error);
+      
+      if(isAxiosError(error)){
+        setError(error.response?.data.message)
+      }
+    }
   };
 
   return (
