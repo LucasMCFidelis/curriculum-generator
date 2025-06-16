@@ -1,5 +1,6 @@
 import {
   ArrowRightIcon,
+  ClipboardSignature,
   LogIn,
   LogOut,
   Plus,
@@ -23,7 +24,7 @@ import { useModal } from "@/contexts/ModalContext";
 
 function Header() {
   const { currentUser, openLoginModal, logoutUser } = useAuth();
-  const {openModal} = useModal()
+  const { openModal } = useModal();
 
   const sections = [
     {
@@ -57,29 +58,28 @@ function Header() {
       <h2 className="font-bold text-lg">CurriculumHub</h2>
 
       <Menubar className="border-none shadow-none">
-        {sections.map((section) => (
-          <MenubarMenu key={section.label}>
-            <MenubarTrigger>{section.label}</MenubarTrigger>
-            <MenubarContent>
-              <MenubarItem onClick={section.onCreate}>
-                Cadastrar{" "}
-                <MenubarShortcut>
-                  <Plus />
-                </MenubarShortcut>
-              </MenubarItem>
-              <MenubarItem onClick={section.onSearch}>
-                Buscar{" "}
-                <MenubarShortcut>
-                  <Search />
-                </MenubarShortcut>
-              </MenubarItem>
-            </MenubarContent>
-          </MenubarMenu>
-        ))}
-
         {currentUser ? (
-          <MenubarMenu>
-            <>
+          <>
+            {sections.map((section) => (
+              <MenubarMenu key={section.label}>
+                <MenubarTrigger>{section.label}</MenubarTrigger>
+                <MenubarContent>
+                  <MenubarItem onClick={section.onCreate}>
+                    Cadastrar{" "}
+                    <MenubarShortcut>
+                      <Plus />
+                    </MenubarShortcut>
+                  </MenubarItem>
+                  <MenubarItem onClick={section.onSearch}>
+                    Buscar{" "}
+                    <MenubarShortcut>
+                      <Search />
+                    </MenubarShortcut>
+                  </MenubarItem>
+                </MenubarContent>
+              </MenubarMenu>
+            ))}
+            <MenubarMenu>
               <MenubarTrigger>
                 <User />
               </MenubarTrigger>
@@ -96,7 +96,7 @@ function Header() {
                     <ArrowRightIcon />
                   </MenubarShortcut>
                 </MenubarItem>
-                <MenubarItem onClick={()=>openModal("ConfirmDeleteAccount")}>
+                <MenubarItem onClick={() => openModal("ConfirmDeleteAccount")}>
                   Deletar conta{" "}
                   <MenubarShortcut>
                     <Trash2 />
@@ -106,12 +106,15 @@ function Header() {
                   Logout <LogOut className="text-destructive" />
                 </Button>
               </MenubarContent>
-            </>
-          </MenubarMenu>
+            </MenubarMenu>
+          </>
         ) : (
           <>
             <Button onClick={openLoginModal}>
               Login <LogIn />
+            </Button>
+            <Button onClick={() => openModal("cadastreUser")}>
+              Cadastrar <ClipboardSignature />
             </Button>
           </>
         )}
