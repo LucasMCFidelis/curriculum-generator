@@ -48,7 +48,7 @@ function ConfirmDeleteAccountModal() {
             Confirmar exclusão de conta
           </h2>
           <Modal.Body>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid md:grid-cols-2 gap-4">
               <div className="col-span-full flex flex-col gap-2">
                 <p className="text-justify">
                   Para confirmar a exclusão da sua conta digite "DELETAR" e
