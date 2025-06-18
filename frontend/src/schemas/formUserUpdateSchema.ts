@@ -1,33 +1,16 @@
 import z from "zod";
+import { formUserCadastreSchema } from "./formUserCadastreSchema";
+
+const userCadastreShape = formUserCadastreSchema.shape;
 
 export const formUserUpdateSchema = z.object({
-  userName: z
-    .string()
-    .min(3, "O nome precisa ter no mínimo 3 caracteres")
-    .max(150, "O nome deve ter no máximo 150 caracteres")
-    .optional(),
-  userEmail: z
-    .string()
-    .email("Email inválido")
-    .max(150, "Email deve conter no máximo 150 caracteres")
-    .optional(),
-  userCity: z.string().optional(),
-  userPortfolio: z
-    .string()
-    .url("Portfolio deve ser uma url valida")
-    .max(255, "URL do portfólio muito longa")
-    .optional(),
-  userGitHub: z
-    .string()
-    .url("GitHub deve ser uma url valida")
-    .max(255, "URL do GitHub muito longa")
-    .optional(),
-  userLinkedIn: z
-    .string()
-    .url("LinkedIn deve ser uma url valida")
-    .max(255, "URL do LinkedIn muito longa")
-    .optional(),
-  userResume: z.string().max(400, "Texto do resumo muito longo").optional(),
+  userName: userCadastreShape.userName.optional(),
+  userEmail: userCadastreShape.userEmail.optional(),
+  userCity: userCadastreShape.userCity,
+  userPortfolio: userCadastreShape.userPortfolio,
+  userGitHub: userCadastreShape.userGitHub,
+  userLinkedIn: userCadastreShape.userLinkedIn,
+  userResume: userCadastreShape.userResume,
 });
 
-export type formUserUpdateSchemaDTO = z.infer<typeof formUserUpdateSchema>
+export type formUserUpdateSchemaDTO = z.infer<typeof formUserUpdateSchema>;
