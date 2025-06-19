@@ -9,27 +9,15 @@ import {
   FormMessage,
 } from "./ui/form";
 import { Input } from "./ui/input";
-import { Eye, EyeClosed, LogIn, X } from "lucide-react";
-import { useState } from "react";
-import { Button } from "./ui/button";
+import { LogIn, X } from "lucide-react";
 import { useModal } from "@/contexts/ModalContext";
 import LoadingSpin from "./LoadingSpin";
+import FormFieldPassword from "./FormFieldPassword";
 
 function LoginModal() {
-  const {
-    form,
-    loginUser,
-    closeLoginModal,
-    isLoginLoading,
-    isLoginError,
-  } = useAuth();
-  const {currentModal} = useModal()
-
-  const [showPassword, setShowPassword] = useState(false);
-
-  function toggleShowPassword() {
-    setShowPassword((prev) => !prev);
-  }
+  const { form, loginUser, closeLoginModal, isLoginLoading, isLoginError } =
+    useAuth();
+  const { currentModal } = useModal();
 
   return (
     <>
@@ -61,38 +49,7 @@ function LoginModal() {
                     </FormItem>
                   )}
                 />
-                <FormField
-                  control={form.control}
-                  name="userPassword"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Senha</FormLabel>
-                      <FormControl>
-                        <div className="relative w-full">
-                          <Input
-                            placeholder="Senha..."
-                            type={showPassword ? "text" : "password"}
-                            disabled={isLoginLoading}
-                            {...field}
-                          />
-                          <Button
-                            type="button"
-                            variant={"ghost"}
-                            onClick={toggleShowPassword}
-                            disabled={isLoginLoading}
-                            className="absolute right-0 top-1/2 transform -translate-y-1/2 text-secondary-foreground dark:text-primary-foreground hover:bg-transparent dark:hover:bg-transparent"
-                            aria-label={
-                              showPassword ? "Ocultar senha" : "Mostrar senha"
-                            }
-                          >
-                            {showPassword ? <EyeClosed /> : <Eye />}
-                          </Button>
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                <FormFieldPassword form={form} isDisabled={isLoginLoading} />
               </form>
             </Form>
           </Modal.Body>
@@ -104,8 +61,7 @@ function LoginModal() {
           <Modal.Confirm
             type="submit"
             confirmAction={form.handleSubmit(async (data) => {
-              setShowPassword(false)
-              await loginUser(data)
+              await loginUser(data);
             })}
             disabled={isLoginLoading}
             className="w-full"
@@ -113,7 +69,7 @@ function LoginModal() {
             {isLoginLoading ? (
               <>
                 Entrando...
-                <LoadingSpin/>
+                <LoadingSpin />
               </>
             ) : (
               <>
