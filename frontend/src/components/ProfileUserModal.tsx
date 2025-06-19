@@ -4,17 +4,7 @@ import { Edit, Save, X } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useEffect, useState } from "react";
 import { api } from "@/api";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "./ui/form";
 import { useForm } from "react-hook-form";
-import { Input } from "./ui/input";
-import { Textarea } from "./ui/textarea";
 import type { User } from "@/types/User";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { formUserUpdateSchema } from "@/schemas/formUserUpdateSchema";
@@ -22,6 +12,7 @@ import type { formUserUpdateSchemaDTO } from "@/schemas/formUserUpdateSchema";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import LoadingSpin from "./LoadingSpin";
 import { isAxiosError } from "axios";
+import UserForm from "./UserForm";
 
 function ProfileUserModal() {
   const { currentUser } = useAuth();
@@ -137,129 +128,7 @@ function ProfileUserModal() {
           </div>
           <Modal.Body>
             {userComplete && (
-              <Form {...formProfileUser}>
-                <form className="grid gap-4">
-                  <FormField
-                    control={formProfileUser.control}
-                    name="userName"
-                    render={({ field }) => (
-                      <FormItem className="grid grid-cols-[100px_1fr] items-center gap-2">
-                        <FormLabel>Nome</FormLabel>
-                        <FormControl>
-                          <Input
-                            {...field}
-                            placeholder="Nome..."
-                            disabled={!isEditableDataUser}
-                          />
-                        </FormControl>
-                        <FormMessage className="col-span-full" />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={formProfileUser.control}
-                    name="userEmail"
-                    render={({ field }) => (
-                      <FormItem className="grid grid-cols-[100px_1fr] items-center gap-2">
-                        <FormLabel>Email</FormLabel>
-                        <FormControl>
-                          <Input
-                            {...field}
-                            placeholder="Email..."
-                            disabled={!isEditableDataUser}
-                          />
-                        </FormControl>
-                        <FormMessage className="col-span-full" />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={formProfileUser.control}
-                    name="userCity"
-                    render={({ field }) => (
-                      <FormItem className="grid grid-cols-[100px_1fr] items-center gap-2">
-                        <FormLabel>Cidade</FormLabel>
-                        <FormControl>
-                          <Input
-                            {...field}
-                            placeholder="Cidade..."
-                            disabled={!isEditableDataUser}
-                          />
-                        </FormControl>
-                        <FormMessage className="col-span-full" />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={formProfileUser.control}
-                    name="userPortfolio"
-                    render={({ field }) => (
-                      <FormItem className="grid grid-cols-[100px_1fr] items-center gap-2">
-                        <FormLabel>Portfólio</FormLabel>
-                        <FormControl>
-                          <Input
-                            {...field}
-                            placeholder="Portfólio..."
-                            disabled={!isEditableDataUser}
-                          />
-                        </FormControl>
-                        <FormMessage className="col-span-full" />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={formProfileUser.control}
-                    name="userGitHub"
-                    render={({ field }) => (
-                      <FormItem className="grid grid-cols-[100px_1fr] items-center gap-2">
-                        <FormLabel>GitHub</FormLabel>
-                        <FormControl>
-                          <Input
-                            {...field}
-                            placeholder="GitHub..."
-                            disabled={!isEditableDataUser}
-                          />
-                        </FormControl>
-                        <FormMessage className="col-span-full" />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={formProfileUser.control}
-                    name="userLinkedIn"
-                    render={({ field }) => (
-                      <FormItem className="grid grid-cols-[100px_1fr] items-center gap-2">
-                        <FormLabel>LinkedIn</FormLabel>
-                        <FormControl>
-                          <Input
-                            {...field}
-                            placeholder="LinkedIn..."
-                            disabled={!isEditableDataUser}
-                          />
-                        </FormControl>
-                        <FormMessage className="col-span-full" />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={formProfileUser.control}
-                    name="userResume"
-                    render={({ field }) => (
-                      <FormItem className="grid grid-cols-[100px_1fr] items-start gap-2">
-                        <FormLabel>Resumo</FormLabel>
-                        <FormControl>
-                          <Textarea
-                            {...field}
-                            placeholder="Resumo..."
-                            disabled={!isEditableDataUser}
-                          />
-                        </FormControl>
-                        <FormMessage className="col-span-full" />
-                      </FormItem>
-                    )}
-                  />
-                </form>
-              </Form>
+              <UserForm form={formProfileUser} isEditable={isEditableDataUser}/>
             )}
 
             {isLoading && (
