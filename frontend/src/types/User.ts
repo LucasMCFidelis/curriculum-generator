@@ -6,5 +6,6 @@ export type User = {
   userGitHub?: string;
   userLinkedIn?: string;
   userResume?: string;
+  userPassword: string;
   userCreatedAt: Date;
 };

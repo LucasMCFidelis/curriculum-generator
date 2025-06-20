@@ -14,6 +14,7 @@ interface AuthProviderProps {
 
 interface AuthContextType {
   currentUser: CurrentUserData | null;
+  setCurrentUser: (data: CurrentUserData | null) => void;
   loginUser: (data: formLoginDTO) => Promise<void>;
   form: UseFormReturn<{
     userEmail: string;
@@ -116,6 +117,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         loginUser,
         logoutUser,
         currentUser,
+        setCurrentUser,
         openLoginModal,
         closeLoginModal,
         isLoginLoading,
