@@ -36,7 +36,7 @@ function FormFieldPassword<T extends UserFormFields>({
       render={({ field }) => (
         <FormItem
           className={`${
-            inGrid && "grid grid-cols-[100px_1fr] items-center gap-2"
+            inGrid && "grid md:grid-cols-[100px_1fr] items-center gap-2"
           }`}
         >
           <FormLabel>Senha</FormLabel>

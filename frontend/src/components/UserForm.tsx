@@ -30,7 +30,7 @@ function UserForm<T extends UserFormFields>({
           control={form.control}
           name={"userName" as Path<T>}
           render={({ field }) => (
-            <FormItem className="grid grid-cols-[100px_1fr] items-center gap-2">
+            <FormItem className="grid md:grid-cols-[100px_1fr] items-center gap-2">
               <FormLabel>Nome</FormLabel>
               <FormControl>
                 <Input
@@ -47,7 +47,7 @@ function UserForm<T extends UserFormFields>({
           control={form.control}
           name={"userEmail" as Path<T>}
           render={({ field }) => (
-            <FormItem className="grid grid-cols-[100px_1fr] items-center gap-2">
+            <FormItem className="grid md:grid-cols-[100px_1fr] items-center gap-2">
               <FormLabel>Email</FormLabel>
               <FormControl>
                 <Input
@@ -64,7 +64,7 @@ function UserForm<T extends UserFormFields>({
           control={form.control}
           name={"userCity" as Path<T>}
           render={({ field }) => (
-            <FormItem className="grid grid-cols-[100px_1fr] items-center gap-2">
+            <FormItem className="grid md:grid-cols-[100px_1fr] items-center gap-2">
               <FormLabel>Cidade</FormLabel>
               <FormControl>
                 <Input
@@ -81,7 +81,7 @@ function UserForm<T extends UserFormFields>({
           control={form.control}
           name={"userPortfolio" as Path<T>}
           render={({ field }) => (
-            <FormItem className="grid grid-cols-[100px_1fr] items-center gap-2">
+            <FormItem className="grid md:grid-cols-[100px_1fr] items-center gap-2">
               <FormLabel>Portfólio</FormLabel>
               <FormControl>
                 <Input
@@ -98,7 +98,7 @@ function UserForm<T extends UserFormFields>({
           control={form.control}
           name={"userGitHub" as Path<T>}
           render={({ field }) => (
-            <FormItem className="grid grid-cols-[100px_1fr] items-center gap-2">
+            <FormItem className="grid md:grid-cols-[100px_1fr] items-center gap-2">
               <FormLabel>GitHub</FormLabel>
               <FormControl>
                 <Input
@@ -115,7 +115,7 @@ function UserForm<T extends UserFormFields>({
           control={form.control}
           name={"userLinkedIn" as Path<T>}
           render={({ field }) => (
-            <FormItem className="grid grid-cols-[100px_1fr] items-center gap-2">
+            <FormItem className="grid md:grid-cols-[100px_1fr] items-center gap-2">
               <FormLabel>LinkedIn</FormLabel>
               <FormControl>
                 <Input
@@ -132,7 +132,7 @@ function UserForm<T extends UserFormFields>({
           control={form.control}
           name={"userResume" as Path<T>}
           render={({ field }) => (
-            <FormItem className="grid grid-cols-[100px_1fr] items-start gap-2">
+            <FormItem className="grid md:grid-cols-[100px_1fr] items-start gap-2">
               <FormLabel>Resumo</FormLabel>
               <FormControl>
                 <Textarea
