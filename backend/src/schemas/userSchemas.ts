@@ -28,7 +28,7 @@ export const createUserSchema = z.object({
     .max(150, "O nome deve ter no máximo 150 caracteres"),
   userEmail: userEmailSchema.shape.userEmail,
   userPassword: userPasswordSchema.shape.userPassword,
-  userCity: z.string().optional(),
+  userCity: z.string().max(50, "A cidade deve ter no máximo 50 caracteres").optional(),
   userPortfolio: z
     .string()
     .url("Portfolio deve ser uma url valida")
