@@ -18,8 +18,6 @@ function ProfileUserModal() {
   const { currentUser } = useAuth();
   const { currentModal, closeModal } = useModal();
   const [isEditableDataUser, setIsEditableDataUser] = useState<boolean>(false);
-  const [isLoadingUpdateUser, setIsLoadingUpdateUser] =
-    useState<boolean>(false);
   const [isErrorUpdate, setIsErrorUpdate] = useState<string>("");
 
   const queryClient = useQueryClient();
@@ -45,27 +43,18 @@ function ProfileUserModal() {
 
   const formProfileUser = useForm<formUserUpdateSchemaDTO>({
     resolver: zodResolver(formUserUpdateSchema),
-    defaultValues: {
-      userName: "",
-      userEmail: "",
-      userCity: "",
-      userPortfolio: "",
-      userGitHub: "",
-      userLinkedIn: "",
-      userResume: "",
-    },
   });
 
   function resetFormProfileUser() {
     if (!userComplete) return;
     formProfileUser.reset({
-      userName: userComplete.userName || "",
-      userEmail: userComplete.userEmail || "",
-      userCity: userComplete.userCity || "",
-      userPortfolio: userComplete.userPortfolio || "",
-      userGitHub: userComplete.userGitHub || "",
-      userLinkedIn: userComplete.userLinkedIn || "",
-      userResume: userComplete.userResume || "",
+      userName: userComplete.userName || undefined,
+      userEmail: userComplete.userEmail || undefined,
+      userCity: userComplete.userCity || undefined,
+      userPortfolio: userComplete.userPortfolio || undefined,
+      userGitHub: userComplete.userGitHub || undefined,
+      userLinkedIn: userComplete.userLinkedIn || undefined,
+      userResume: userComplete.userResume || undefined,
     });
   }
 
@@ -86,6 +75,8 @@ function ProfileUserModal() {
   const updateUserMutation = useMutation({
     mutationFn: async (updatedUser: Partial<User>) => {
       await api.put(`/users?userId=${currentUser?.userId}`, updatedUser);
+      console.log("updated",updatedUser);
+      
       return updatedUser;
     },
     onSuccess: (updatedUser) => {
@@ -128,7 +119,10 @@ function ProfileUserModal() {
           </div>
           <Modal.Body>
             {userComplete && (
-              <UserForm form={formProfileUser} isEditable={isEditableDataUser}/>
+              <UserForm
+                form={formProfileUser}
+                isEditable={isEditableDataUser}
+              />
             )}
 
             {isLoading && (
@@ -162,21 +156,18 @@ function ProfileUserModal() {
               (isEditableDataUser ? (
                 <Modal.Confirm
                   type="submit"
-                  disabled={isLoadingUpdateUser}
+                  disabled={updateUserMutation.isPending}
                   confirmAction={formProfileUser.handleSubmit(async (data) => {
+                    console.log("Dados formatados:", data);
                     try {
-                      setIsLoadingUpdateUser(true);
-                      updateUserMutation.mutate(data);
-                      console.log("Dados enviados", data);
+                      await updateUserMutation.mutateAsync(data);
                       toggleEditableDataUser();
                     } catch (error) {
                       console.error("Erro ao atualizar usuário", error);
-                    } finally {
-                      setIsLoadingUpdateUser(false);
                     }
                   })}
                 >
-                  {isLoadingUpdateUser ? (
+                  {updateUserMutation.isPending ? (
                     <>
                       Salvando alterações...
                       <LoadingSpin />

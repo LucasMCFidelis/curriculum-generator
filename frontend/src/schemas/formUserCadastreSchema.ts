@@ -1,5 +1,15 @@
 import z from "zod";
 
+const optionalUrlField = (message: string) =>
+  z
+    .string()
+    .max(255, "URL muito longa")
+    .transform((val) => (val === "" ? undefined : val))
+    .optional()
+    .refine((val) => !val || z.string().url().safeParse(val).success, {
+      message,
+    });
+
 export const formUserCadastreSchema = z.object({
   userName: z
     .string()
@@ -9,22 +19,10 @@ export const formUserCadastreSchema = z.object({
     .string()
     .email("Email inválido")
     .max(150, "Email deve conter no máximo 150 caracteres"),
-  userCity: z.string().optional(),
-  userPortfolio: z
-    .string()
-    .url("Portfolio deve ser uma url valida")
-    .max(255, "URL do portfólio muito longa")
-    .optional(),
-  userGitHub: z
-    .string()
-    .url("GitHub deve ser uma url valida")
-    .max(255, "URL do GitHub muito longa")
-    .optional(),
-  userLinkedIn: z
-    .string()
-    .url("LinkedIn deve ser uma url valida")
-    .max(255, "URL do LinkedIn muito longa")
-    .optional(),
+  userCity: z.string().max(50, "A cidade deve ter no máximo 50 caracteres").optional(),
+  userPortfolio: optionalUrlField("Portfolio deve ser uma url valida"),
+  userGitHub: optionalUrlField("GitHub deve ser uma url valida"),
+  userLinkedIn: optionalUrlField("LinkedIn deve ser uma url valida"),
   userResume: z.string().max(400, "Texto do resumo muito longo").optional(),
   userPassword: z
     .string()
