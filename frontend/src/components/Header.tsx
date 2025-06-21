@@ -1,6 +1,5 @@
 import {
   ArrowRightIcon,
-  ClipboardSignature,
   LogIn,
   LogOut,
   Plus,
@@ -112,9 +111,6 @@ function Header() {
           <>
             <Button onClick={openLoginModal}>
               Login <LogIn />
-            </Button>
-            <Button onClick={() => openModal("cadastreUser")}>
-              Cadastrar <ClipboardSignature />
             </Button>
           </>
         )}

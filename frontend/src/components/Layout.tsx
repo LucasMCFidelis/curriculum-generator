@@ -4,7 +4,7 @@ import Header from "./Header";
 import LoginModal from "./LoginModal";
 import ProfileUserModal from "./ProfileUserModal";
 import ConfirmDeleteAccountModal from "./ConfirmDeleteAccountModal";
-import CadastreUserModal from "./cadastreUserModal";
+import CadastreUserModal from "./CadastreUserModal";
 
 type LayoutProps = {
   children: ReactNode;
@@ -15,7 +15,7 @@ function Layout({ children }: LayoutProps) {
     <>
       <div className="flex flex-col gap-5 min-h-screen px-4 py-8">
         <Header />
-        <div className="flex-1">{children}</div>
+        {children}
         <Footer />
         <LoginModal />
         <CadastreUserModal />
