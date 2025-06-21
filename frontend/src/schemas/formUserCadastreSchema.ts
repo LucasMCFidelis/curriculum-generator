@@ -4,9 +4,8 @@ const optionalUrlField = (message: string) =>
   z
     .string()
     .max(255, "URL muito longa")
-    .transform((val) => (val === "" ? undefined : val))
     .optional()
-    .refine((val) => !val || z.string().url().safeParse(val).success, {
+    .refine((val) => val === "" || z.string().url().safeParse(val).success, {
       message,
     });
 
@@ -19,7 +18,10 @@ export const formUserCadastreSchema = z.object({
     .string()
     .email("Email inválido")
     .max(150, "Email deve conter no máximo 150 caracteres"),
-  userCity: z.string().max(50, "A cidade deve ter no máximo 50 caracteres").optional(),
+  userCity: z
+    .string()
+    .max(50, "A cidade deve ter no máximo 50 caracteres")
+    .optional(),
   userPortfolio: optionalUrlField("Portfolio deve ser uma url valida"),
   userGitHub: optionalUrlField("GitHub deve ser uma url valida"),
   userLinkedIn: optionalUrlField("LinkedIn deve ser uma url valida"),

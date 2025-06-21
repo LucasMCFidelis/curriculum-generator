@@ -73,20 +73,14 @@ function ProfileUserModal() {
   }, [currentUser, userComplete]);
 
   const updateUserMutation = useMutation({
-    mutationFn: async (updatedUser: Partial<User>) => {
-      await api.put(`/users?userId=${currentUser?.userId}`, updatedUser);
+    mutationFn: async (updatedDataUser: Partial<User>) => {
+      const updatedUser = await api.put(`/users?userId=${currentUser?.userId}`, updatedDataUser);
       console.log("updated",updatedUser);
       
-      return updatedUser;
+      return updatedUser.data.updatedUser;
     },
     onSuccess: (updatedUser) => {
-      queryClient.setQueryData<User>(["user"], (oldUser) => {
-        if (!oldUser) return undefined;
-        return {
-          ...oldUser,
-          ...updatedUser,
-        };
-      });
+      queryClient.setQueryData<User>(["user"], updatedUser);
     },
     onError: (error) => {
       let errorMessage;
