@@ -127,18 +127,7 @@ export class UserService {
     try {
       userUpdated = await prisma.user.update({
         where: { userId },
-        data: {
-          ...(data.userName && { userName: data.userName }),
-          ...(data.userEmail &&
-            data.userEmail !== userForUpdate.userEmail && {
-              userEmail: data.userEmail,
-            }),
-          ...(data.userCity && { userCity: data.userCity }),
-          ...(data.userPortfolio && { userPortfolio: data.userPortfolio }),
-          ...(data.userGitHub && { userGitHub: data.userGitHub }),
-          ...(data.userLinkedIn && { userLinkedIn: data.userLinkedIn }),
-          ...(data.userResume && { userResume: data.userResume }),
-        },
+        data: data,
       });
     } catch (error) {
       throw {

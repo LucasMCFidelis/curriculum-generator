@@ -21,6 +21,16 @@ export const userPasswordSchema = z.object({
     }),
 });
 
+const optionalUrlField = (message: string) =>
+  z
+    .string()
+    .max(255, "URL muito longa")
+    .optional()
+    .transform((val)=> val === undefined ? "" : val)
+    .refine((val) => val === "" || z.string().url().safeParse(val).success, {
+      message,
+    });
+
 export const createUserSchema = z.object({
   userName: z
     .string()
@@ -28,32 +38,17 @@ export const createUserSchema = z.object({
     .max(150, "O nome deve ter no máximo 150 caracteres"),
   userEmail: userEmailSchema.shape.userEmail,
   userPassword: userPasswordSchema.shape.userPassword,
-  userCity: z
-    .string()
-    .max(50, "A cidade deve ter no máximo 50 caracteres")
-    .optional(),
-  userPortfolio: z
-    .string()
-    .url("Portfolio deve ser uma url valida")
-    .max(255, "URL do portfólio muito longa")
-    .optional(),
-  userGitHub: z
-    .string()
-    .url("GitHub deve ser uma url valida")
-    .max(255, "URL do GitHub muito longa")
-    .optional(),
-  userLinkedIn: z
-    .string()
-    .url("LinkedIn deve ser uma url valida")
-    .max(255, "URL do LinkedIn muito longa")
-    .optional(),
+  userCity: z.string().optional(),
+  userPortfolio: optionalUrlField("Portfolio deve ser uma url valida"),
+  userGitHub: optionalUrlField("GitHub deve ser uma url valida"),
+  userLinkedIn: optionalUrlField("LinkedIn deve ser uma url valida"),
   userResume: z.string().max(400, "Texto do resumo muito longo").optional(),
 });
 
 export const updateUserSchema = z.object({
   userName: createUserSchema.shape.userName.optional(),
   userEmail: userEmailSchema.shape.userEmail.optional(),
-  userCity: createUserSchema.shape.userCity.optional(),
+  userCity: createUserSchema.shape.userCity,
   userPortfolio: createUserSchema.shape.userPortfolio,
   userGitHub: createUserSchema.shape.userGitHub,
   userLinkedIn: createUserSchema.shape.userLinkedIn,
