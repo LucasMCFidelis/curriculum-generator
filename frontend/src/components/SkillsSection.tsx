@@ -1,8 +1,4 @@
-import { api } from "@/api";
-import { useAuth } from "@/hooks/useAuth";
 import { Button } from "./ui/button";
-import { useQuery } from "@tanstack/react-query";
-import type { Skill } from "@/types/Skill";
 import {
   Card,
   CardAction,
@@ -13,50 +9,19 @@ import {
   CardTitle,
 } from "./ui/card";
 import { PenBox, Plus, Trash2 } from "lucide-react";
-import LoadingSpin from "./LoadingSpin";
 import { useModal } from "@/contexts/ModalContext";
+import { useSkills } from "@/contexts/SkillContext";
 
 function SkillsSection() {
-  const { currentUser } = useAuth();
+  const { skillsUser } = useSkills();
   const { openModal } = useModal();
-
-  const {
-    data: skillsUser,
-    isLoading,
-    isError,
-    refetch,
-  } = useQuery<Skill[], Error>({
-    queryKey: ["skills"],
-    queryFn: async () => {
-      const response = await api.get(
-        `/users?userId=${currentUser?.userId}&userSkills=true`
-      );
-
-      return response.data.userSkills;
-    },
-  });
 
   return (
     <section>
       <h2>Habilidades</h2>
-
-      {isError && (
-        <>
-          <p className="text-destructive">Erro</p>
-          <Button onClick={() => refetch()}>Recarregar Habilidades</Button>
-        </>
-      )}
-
-      {isLoading && (
-        <>
-          <p>Carregando Habilidades</p>
-          <LoadingSpin />
-        </>
-      )}
-
-      {!isError && !isLoading && (
+      {skillsUser && (
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-          {skillsUser?.map((skill) => (
+          {skillsUser.map((skill) => (
             <Card key={skill.skillId}>
               <CardHeader className="grid grid-rows-1 items-center">
                 <CardTitle className="grid items-center justify-between w-3/4 grid-cols-[100px_10px_100px]">
