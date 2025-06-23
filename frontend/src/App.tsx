@@ -25,7 +25,7 @@ function App() {
             <div className="flex flex-col flex-1 justify-center items-center lg:flex-row-reverse lg:justify-between gap-5">
               <img src={imageHomeCV} className="size-9/12 lg:size-1/2" />
               <div className="flex flex-col gap-4 lg:size-2/5">
-                <h2 className="text-lg md:text-2xl uppercase font-bold">
+                <h2>
                   Gerencie seu currículo com facilidade
                 </h2>
                 <p className="text-justify">

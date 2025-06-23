@@ -88,7 +88,7 @@ function Header() {
           <MenubarContent>
             <div className="flex justify-start items-center gap-2 p-2 ">
               <UserCircle2 size={30} />
-              <h2 className="text-center font-bold">{currentUser?.userName}</h2>
+              <h3>{currentUser?.userName}</h3>
             </div>
             <MenubarItem onClick={() => openModal("profileUser")}>
               Perfil{" "}
@@ -113,7 +113,7 @@ function Header() {
 
   return (
     <header className="flex items-center justify-between">
-      <h2 className="font-bold text-lg">CurriculumHub</h2>
+      <h2>CurriculumHub</h2>
 
       <Menubar className="border-none shadow-none">
         <nav className="hidden sm:flex justify-center items-center gap-3">

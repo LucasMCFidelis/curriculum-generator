@@ -99,7 +99,7 @@ function ProfileUserModal() {
       {currentModal === "profileUser" && (
         <Modal.Root>
           <div className="flex justify-between items-center">
-            <h2 className="text-lg md:text-xl font-bold">Perfil</h2>
+            <h2>Perfil</h2>
             <Modal.Close
               closeAction={() => {
                 resetFormProfileUser();

@@ -44,7 +44,7 @@ function ConfirmDeleteAccountModal() {
     <>
       {currentModal === "ConfirmDeleteAccount" && (
         <Modal.Root>
-          <h2 className="text-lg md:text-xl font-bold">
+          <h2>
             Confirmar exclusão de conta
           </h2>
           <Modal.Body>

@@ -24,7 +24,7 @@ function LoginModal() {
       {currentModal === "loginUser" && (
         <Modal.Root>
           <div className="flex justify-between items-center">
-            <h2 className="text-lg md:text-xl font-bold">Login</h2>
+            <h2>Login</h2>
             <Modal.Close closeAction={closeLoginModal}>
               <X />
             </Modal.Close>

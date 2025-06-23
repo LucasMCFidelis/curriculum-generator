@@ -61,7 +61,7 @@ function CadastreUserModal() {
       {currentModal === "cadastreUser" && (
         <Modal.Root>
           <div className="flex justify-between items-center">
-            <h2 className="text-lg md:text-xl font-bold">Cadastro</h2>
+            <h2>Cadastro</h2>
             <Modal.Close closeAction={closeModal}>
               <X />
             </Modal.Close>
