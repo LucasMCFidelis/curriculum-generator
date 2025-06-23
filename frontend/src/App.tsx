@@ -4,6 +4,7 @@ import { Button } from "./components/ui/button";
 import { ClipboardSignature } from "lucide-react";
 import { useAuth } from "./hooks/useAuth";
 import imageHomeCV from "./assets/homeCV.svg";
+import SkillsSection from "./components/SkillsSection";
 
 function App() {
   const { openModal } = useModal();
@@ -16,6 +17,7 @@ function App() {
           <>
             <div className="flex-1">
               <h1>Usuário: {currentUser?.userName}</h1>
+              <SkillsSection/>
             </div>
           </>
         ) : (
