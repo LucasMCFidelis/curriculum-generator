@@ -5,7 +5,6 @@ import { ClipboardSignature } from "lucide-react";
 import { useAuth } from "./hooks/useAuth";
 import imageHomeCV from "./assets/homeCV.svg";
 import SkillsSection from "./components/SkillsSection";
-import { SkillProvider } from "./contexts/SkillContext";
 
 function App() {
   const { openModal } = useModal();
@@ -18,9 +17,7 @@ function App() {
           <>
             <div className="flex-1">
               <h1>Usuário: {currentUser?.userName}</h1>
-              <SkillProvider>
                 <SkillsSection />
-              </SkillProvider>
             </div>
           </>
         ) : (
@@ -37,7 +34,7 @@ function App() {
                 <Button
                   onClick={() => openModal("cadastreUser")}
                   className="w-full"
-                >
+                  >
                   Cadastrar <ClipboardSignature />
                 </Button>
               </div>

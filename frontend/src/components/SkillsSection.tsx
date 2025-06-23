@@ -11,15 +11,34 @@ import {
 import { PenBox, Plus, Trash2 } from "lucide-react";
 import { useModal } from "@/contexts/ModalContext";
 import { useSkills } from "@/contexts/SkillContext";
+import LoadingSpin from "./LoadingSpin";
 
 function SkillsSection() {
-  const { skillsUser } = useSkills();
+  const { skillsUser, isLoadingSkills, isErrorSkills, refetchSkills } =
+    useSkills();
   const { openModal } = useModal();
 
   return (
     <section>
       <h2>Habilidades</h2>
-      {skillsUser && (
+
+      {isErrorSkills && (
+        <div className="flex flex-col gap-2 items-center justify-center">
+          <p className="text-destructive">Erro</p>
+          <Button className="w-full sm:w-fit" onClick={() => refetchSkills()}>
+            Recarregar Habilidades
+          </Button>
+        </div>
+      )}
+
+      {isLoadingSkills && (
+        <div className="flex gap-3 items-center justify-center">
+          <p>Carregando Habilidades</p>
+          <LoadingSpin />
+        </div>
+      )}
+
+      {!isLoadingSkills && !isErrorSkills && skillsUser && (
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {skillsUser.map((skill) => (
             <Card key={skill.skillId}>

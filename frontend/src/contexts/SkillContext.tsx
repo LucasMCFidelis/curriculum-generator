@@ -1,6 +1,4 @@
 import { api } from "@/api";
-import LoadingSpin from "@/components/LoadingSpin";
-import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import type { Skill } from "@/types/Skill";
 import { useQuery } from "@tanstack/react-query";
@@ -16,7 +14,10 @@ type SkillContextType = {
   currentSkill: Skill | null;
   setCurrentSkill: (skill: Skill | null) => void;
   skillsUser?: Skill[];
-  skillsTypes?: string[];
+  isLoadingSkills: boolean;
+  isErrorSkills: boolean;
+  refetchSkills: () => void;
+  skillsTypes: string[];
 };
 
 const SkillContext = createContext({} as SkillContextType);
@@ -27,9 +28,9 @@ export function SkillProvider({ children }: { children: ReactNode }) {
 
   const {
     data: skillsUser,
-    isLoading,
-    isError,
-    refetch,
+    isLoading: isLoadingSkills,
+    isError: isErrorSkills,
+    refetch: refetchSkills,
   } = useQuery<Skill[], Error>({
     queryKey: ["skills"],
     queryFn: async () => {
@@ -47,24 +48,17 @@ export function SkillProvider({ children }: { children: ReactNode }) {
 
   return (
     <SkillContext.Provider
-      value={{ currentSkill, setCurrentSkill, skillsUser, skillsTypes }}
+      value={{
+        currentSkill,
+        setCurrentSkill,
+        skillsUser,
+        isLoadingSkills,
+        isErrorSkills,
+        refetchSkills,
+        skillsTypes,
+      }}
     >
       {children}
-      {isError && (
-        <div className="flex flex-col gap-2 items-center justify-center">
-          <p className="text-destructive">Erro</p>
-          <Button className="w-full sm:w-fit" onClick={() => refetch()}>
-            Recarregar Habilidades
-          </Button>
-        </div>
-      )}
-
-      {isLoading && (
-        <div className="flex gap-3 items-center justify-center">
-          <p>Carregando Habilidades</p>
-          <LoadingSpin />
-        </div>
-      )}
     </SkillContext.Provider>
   );
 }
