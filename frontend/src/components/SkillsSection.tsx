@@ -49,7 +49,7 @@ function SkillsSection() {
           ))}
           <Card
             className="cursor-pointer"
-            onClick={() => openModal("profileUser")}
+            onClick={() => openModal("createSkill")}
           >
             <CardHeader className="grid grid-cols-[1fr_50px] items-center">
               <CardTitle>
