@@ -124,6 +124,6 @@
     @apply text-lg md:text-2xl uppercase font-bold
   }
   h3 {
-    @apply text-lg capitalize font-semibold
+    @apply text-base capitalize font-semibold
   }
 }
