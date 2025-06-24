@@ -1,7 +1,14 @@
 import { api } from "@/api";
 import { useAuth } from "@/hooks/useAuth";
+import type { formSkillCreateDTO } from "@/schemas/formSkillCreate";
 import type { Skill } from "@/types/Skill";
-import { useQuery } from "@tanstack/react-query";
+import {
+  useMutation,
+  useQuery,
+  useQueryClient,
+  type UseMutationResult,
+} from "@tanstack/react-query";
+import { isAxiosError } from "axios";
 import {
   createContext,
   useContext,
@@ -18,6 +25,8 @@ type SkillContextType = {
   isErrorSkills: boolean;
   refetchSkills: () => void;
   skillsTypes: string[];
+  cadastreSkillMutation: UseMutationResult<Skill, Error, formSkillCreateDTO>;
+  errorMessage: string;
 };
 
 const SkillContext = createContext({} as SkillContextType);
@@ -25,6 +34,8 @@ const SkillContext = createContext({} as SkillContextType);
 export function SkillProvider({ children }: { children: ReactNode }) {
   const { currentUser } = useAuth();
   const [currentSkill, setCurrentSkill] = useState<Skill | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const queryClient = useQueryClient();
 
   const {
     data: skillsUser,
@@ -46,6 +57,37 @@ export function SkillProvider({ children }: { children: ReactNode }) {
     return [...new Set(skillsUser?.map((skill) => skill.skillType))];
   }, [skillsUser]);
 
+  const cadastreSkillMutation = useMutation<Skill, Error, formSkillCreateDTO>({
+    mutationFn: async (data: formSkillCreateDTO) => {
+      const skillResponse = await api.post(
+        `/skills?userId=${currentUser?.userId}`,
+        data.skillTypeCustom
+          ? {
+              skillTitle: data.skillTitle,
+              skillDescription: data.skillDescription,
+              skillType: data.skillTypeCustom,
+            }
+          : data
+      );
+      return skillResponse.data;
+    },
+    onSuccess: (newSkill) => {
+      queryClient.setQueryData<Skill[]>(["skills"], (oldSkills) => [
+        ...(oldSkills || []),
+        newSkill,
+      ]);
+    },
+    onError: (error) => {
+      console.error(error);
+      if (isAxiosError(error)) {
+        setErrorMessage(error.response?.data.message);
+      } else {
+        setErrorMessage("Erro ao criar habilidade, tente novamente!");
+      }
+      console.log(errorMessage);
+    },
+  });
+
   return (
     <SkillContext.Provider
       value={{
@@ -56,6 +98,8 @@ export function SkillProvider({ children }: { children: ReactNode }) {
         isErrorSkills,
         refetchSkills,
         skillsTypes,
+        errorMessage,
+        cadastreSkillMutation,
       }}
     >
       {children}

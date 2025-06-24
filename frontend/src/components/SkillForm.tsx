@@ -1,4 +1,3 @@
-import type { Skill } from "@/types/Skill";
 import type { Path, UseFormReturn } from "react-hook-form";
 import {
   Form,
@@ -13,21 +12,17 @@ import { Textarea } from "./ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger } from "./ui/select";
 import { SelectValue } from "@radix-ui/react-select";
 import { useSkills } from "@/contexts/SkillContext";
+import type { formSkillCreateDTO } from "@/schemas/formSkillCreate";
 
-interface SkillFormProps<
-  T extends Partial<Omit<Skill, "skillCreatedAt">> & {
-    skillTypeCustom?: string;
-  }
-> {
+interface SkillFormProps<T extends Partial<formSkillCreateDTO>> {
   form: UseFormReturn<T>;
   isEditable?: boolean;
 }
 
-function SkillForm<
-  T extends Partial<Omit<Skill, "skillCreatedAt">> & {
-    skillTypeCustom?: string;
-  }
->({ form, isEditable = true }: SkillFormProps<T>) {
+function SkillForm<T extends Partial<formSkillCreateDTO>>({
+  form,
+  isEditable = true,
+}: SkillFormProps<T>) {
   const { skillsTypes } = useSkills();
 
   return (

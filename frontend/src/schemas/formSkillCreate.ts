@@ -1,5 +1,10 @@
 import z from "zod";
 
+const skillTypeSchema = z
+  .string()
+  .min(1, "O tipo é obrigatório.")
+  .max(100, "O tipo deve ter no máximo 100 caracteres.");
+
 export const formSkillCreate = z.object({
   skillTitle: z
     .string()
@@ -9,10 +14,8 @@ export const formSkillCreate = z.object({
     .string()
     .max(250, "A descrição deve ter no máximo 250 caracteres.")
     .optional(),
-  skillType: z
-    .string()
-    .min(1, "O tipo é obrigatório.")
-    .max(100, "O tipo deve ter no máximo 100 caracteres."),
+  skillType: skillTypeSchema,
+  skillTypeCustom: skillTypeSchema.optional(),
 });
 
 export type formSkillCreateDTO = z.infer<typeof formSkillCreate>;
