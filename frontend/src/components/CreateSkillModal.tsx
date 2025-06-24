@@ -22,7 +22,7 @@ function CreateSkillModal() {
     if (cadastreSkillMutation.isSuccess) {
       closeModal();
     }
-  }, [cadastreSkillMutation.isSuccess, closeModal]);
+  }, [cadastreSkillMutation.isSuccess]);
 
   return (
     <>
