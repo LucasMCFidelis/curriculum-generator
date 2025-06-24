@@ -14,8 +14,13 @@ import { useSkills } from "@/contexts/SkillContext";
 import LoadingSpin from "./LoadingSpin";
 
 function SkillsSection() {
-  const { skillsUser, isLoadingSkills, isErrorSkills, refetchSkills } =
-    useSkills();
+  const {
+    skillsUser,
+    isLoadingSkills,
+    isErrorSkills,
+    refetchSkills,
+    setCurrentSkill,
+  } = useSkills();
   const { openModal } = useModal();
 
   return (
@@ -52,7 +57,13 @@ function SkillsSection() {
                   <Button variant={"ghost"}>
                     <PenBox />
                   </Button>
-                  <Button variant={"ghost"}>
+                  <Button
+                    variant={"ghost"}
+                    onClick={() => {
+                      setCurrentSkill(skill);
+                      openModal("confirmDeleteSkill");
+                    }}
+                  >
                     <Trash2 className="text-destructive" />
                   </Button>
                 </CardAction>

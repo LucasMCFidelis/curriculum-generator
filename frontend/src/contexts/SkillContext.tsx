@@ -26,6 +26,7 @@ type SkillContextType = {
   refetchSkills: () => void;
   skillsTypes: string[];
   cadastreSkillMutation: UseMutationResult<Skill, Error, formSkillCreateDTO>;
+  deleteSkillMutation: UseMutationResult<void, Error, string>;
   errorMessage: string;
 };
 
@@ -84,7 +85,27 @@ export function SkillProvider({ children }: { children: ReactNode }) {
       } else {
         setErrorMessage("Erro ao criar habilidade, tente novamente!");
       }
-      console.log(errorMessage);
+    },
+  });
+
+  const deleteSkillMutation = useMutation({
+    mutationFn: async (skillId: string) => {
+      await api.delete(
+        `/skills?userId=${currentUser?.userId}&skillId=${skillId}`
+      );
+    },
+    onSuccess: (_, skillId) => {
+      queryClient.setQueryData<Skill[]>(["skills"], (oldSkills) => {
+        return oldSkills?.filter((skill) => skill.skillId !== skillId) || [];
+      });
+    },
+    onError: (error) => {
+      console.error(error);
+      if (isAxiosError(error)) {
+        setErrorMessage(error.response?.data.message);
+      } else {
+        setErrorMessage("Erro ao deletar habilidade, tente novamente!");
+      }
     },
   });
 
@@ -100,6 +121,7 @@ export function SkillProvider({ children }: { children: ReactNode }) {
         skillsTypes,
         errorMessage,
         cadastreSkillMutation,
+        deleteSkillMutation,
       }}
     >
       {children}
