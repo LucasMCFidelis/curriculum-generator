@@ -17,18 +17,18 @@ import type { formSkillCreateDTO } from "@/schemas/formSkillCreate";
 interface SkillFormProps<T extends Partial<formSkillCreateDTO>> {
   form: UseFormReturn<T>;
   isEditable?: boolean;
-  key?: React.Key;
+  formKey?: React.Key;
 }
 
 function SkillForm<T extends Partial<formSkillCreateDTO>>({
   form,
   isEditable = true,
-  key,
+  formKey,
 }: SkillFormProps<T>) {
   const { skillsTypes } = useSkills();
 
   return (
-    <Form key={key} {...form}>
+    <Form key={formKey} {...form}>
       <form className="space-y-4">
         <FormField
           control={form.control}

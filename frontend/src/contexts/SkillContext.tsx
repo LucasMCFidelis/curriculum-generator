@@ -1,6 +1,7 @@
 import { api } from "@/api";
 import { useAuth } from "@/hooks/useAuth";
 import type { formSkillCreateDTO } from "@/schemas/formSkillCreate";
+import type { formSkillUpdateDTO } from "@/schemas/formSkillUpdate";
 import type { Skill } from "@/types/Skill";
 import {
   useMutation,
@@ -16,6 +17,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import { useModal } from "./ModalContext";
 
 type SkillContextType = {
   currentSkill: Skill | null;
@@ -27,6 +29,7 @@ type SkillContextType = {
   skillsTypes: string[];
   cadastreSkillMutation: UseMutationResult<Skill, Error, formSkillCreateDTO>;
   deleteSkillMutation: UseMutationResult<void, Error, string>;
+  updateSkillMutation: UseMutationResult<Skill, Error, formSkillUpdateDTO>;
   errorMessage: string;
 };
 
@@ -34,6 +37,7 @@ const SkillContext = createContext({} as SkillContextType);
 
 export function SkillProvider({ children }: { children: ReactNode }) {
   const { currentUser } = useAuth();
+  const { closeModal } = useModal();
   const [currentSkill, setCurrentSkill] = useState<Skill | null>(null);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const queryClient = useQueryClient();
@@ -109,6 +113,43 @@ export function SkillProvider({ children }: { children: ReactNode }) {
     },
   });
 
+  const updateSkillMutation = useMutation<Skill, Error, formSkillUpdateDTO>({
+    mutationFn: async (data: formSkillUpdateDTO) => {
+      const skillResponse = await api.put(
+        `/skills?userId=${currentUser?.userId}&skillId=${currentSkill?.skillId}`,
+        data.skillTypeCustom
+          ? {
+              skillTitle: data.skillTitle,
+              skillDescription: data.skillDescription,
+              skillType: data.skillTypeCustom,
+            }
+          : data
+      );
+      return skillResponse.data.skillUpdated;
+    },
+    onSuccess: (updatedSkill) => {
+      queryClient.setQueryData<Skill[]>(["skills"], (oldSkills) => {
+        return (
+          oldSkills?.map((skill) =>
+            skill.skillId === updatedSkill.skillId ? updatedSkill : skill
+          ) || []
+        );
+      });
+    },
+    onError: (error) => {
+      console.error(error);
+      if (isAxiosError(error)) {
+        setErrorMessage(error.response?.data.message);
+      } else {
+        setErrorMessage("Erro ao atualizar habilidade, tente novamente!");
+      }
+    },
+    onSettled: () => {
+      setCurrentSkill(null);
+      closeModal();
+    },
+  });
+
   return (
     <SkillContext.Provider
       value={{
@@ -122,6 +163,7 @@ export function SkillProvider({ children }: { children: ReactNode }) {
         errorMessage,
         cadastreSkillMutation,
         deleteSkillMutation,
+        updateSkillMutation,
       }}
     >
       {children}

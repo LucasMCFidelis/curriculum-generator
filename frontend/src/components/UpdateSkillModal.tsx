@@ -10,27 +10,26 @@ import {
   type formSkillUpdateDTO,
 } from "@/schemas/formSkillUpdate";
 import { useEffect, useState } from "react";
+import LoadingSpin from "./LoadingSpin";
 
 function UpdateSkillModal() {
   const { currentModal, closeModal } = useModal();
-  const { currentSkill } = useSkills();
+  const { currentSkill, updateSkillMutation } = useSkills();
   const [formKey, setFormKey] = useState<number>(0);
 
   const formUpdate = useForm<formSkillUpdateDTO>({
     resolver: zodResolver(formSkillUpdate),
-    defaultValues: {},
   });
 
   useEffect(() => {
     console.log("currentSkill", currentSkill);
     if (currentSkill) {
-      formUpdate.setValue("skillTitle", currentSkill.skillTitle);
-      formUpdate.setValue(
-        "skillDescription",
-        currentSkill.skillDescription ?? ""
-      );
-      formUpdate.setValue("skillType", currentSkill.skillType);
-      formUpdate.setValue("skillTypeCustom", "");
+      formUpdate.reset({
+        skillTitle: currentSkill.skillTitle,
+        skillDescription: currentSkill.skillDescription ?? "",
+        skillType: currentSkill.skillType,
+        skillTypeCustom: "",
+      });
     }
   }, [currentSkill]);
 
@@ -56,13 +55,22 @@ function UpdateSkillModal() {
             </Modal.Close>
           </div>
           <Modal.Body>
-            <SkillForm key={formKey} form={formUpdate} />
+            <SkillForm formKey={formKey} form={formUpdate} />
             <Modal.Confirm
-              confirmAction={formUpdate.handleSubmit((data) =>
-                console.log(data)
-              )}
+              disabled={updateSkillMutation.isPending}
+              confirmAction={() => {
+                updateSkillMutation.mutate(formUpdate.getValues());
+              }}
             >
-              Salvar <Save />
+              {updateSkillMutation.isPending ? (
+                <>
+                  Salvando Alterações <LoadingSpin />
+                </>
+              ) : (
+                <>
+                  Salvar <Save />
+                </>
+              )}
             </Modal.Confirm>
           </Modal.Body>
         </Modal.Root>
