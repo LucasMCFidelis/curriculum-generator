@@ -30,7 +30,12 @@ function CreateSkillModal() {
         <Modal.Root>
           <div className="flex justify-between items-center">
             <h2>Cadastrar Habilidade</h2>
-            <Modal.Close closeAction={() => closeModal()}>
+            <Modal.Close
+              closeAction={() => {
+                formCreateSkill.reset();
+                closeModal();
+              }}
+            >
               <X />
             </Modal.Close>
           </div>
