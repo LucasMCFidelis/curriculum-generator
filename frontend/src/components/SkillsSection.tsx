@@ -54,7 +54,11 @@ function SkillsSection() {
                   <h3 className="justify-self-center">{skill.skillType}</h3>
                 </CardTitle>
                 <CardAction>
-                  <Button variant={"ghost"}>
+                  <Button variant={"ghost"}
+                  onClick={() =>{
+                    setCurrentSkill(skill)
+                    openModal("updateSkill")
+                  }}>
                     <PenBox />
                   </Button>
                   <Button

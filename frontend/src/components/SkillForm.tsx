@@ -1,4 +1,4 @@
-import type { Path, UseFormReturn } from "react-hook-form";
+import { type Path, type UseFormReturn } from "react-hook-form";
 import {
   Form,
   FormControl,
@@ -17,27 +17,29 @@ import type { formSkillCreateDTO } from "@/schemas/formSkillCreate";
 interface SkillFormProps<T extends Partial<formSkillCreateDTO>> {
   form: UseFormReturn<T>;
   isEditable?: boolean;
+  key?: React.Key;
 }
 
 function SkillForm<T extends Partial<formSkillCreateDTO>>({
   form,
   isEditable = true,
+  key,
 }: SkillFormProps<T>) {
   const { skillsTypes } = useSkills();
 
   return (
-    <Form {...form}>
+    <Form key={key} {...form}>
       <form className="space-y-4">
         <FormField
           control={form.control}
           name={"skillTitle" as Path<T>}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Titulo</FormLabel>
+              <FormLabel>Título</FormLabel>
               <FormControl>
                 <Input
                   {...field}
-                  placeholder="Titulo..."
+                  placeholder="Título..."
                   disabled={!isEditable}
                 />
               </FormControl>
@@ -68,25 +70,25 @@ function SkillForm<T extends Partial<formSkillCreateDTO>>({
           render={({ field }) => (
             <FormItem>
               <FormLabel>Tipo</FormLabel>
-              <FormControl>
-                <Select
-                  value={field.value}
-                  onValueChange={(value) => field.onChange(value)}
-                  disabled={!isEditable}
-                >
+              <Select
+                onValueChange={field.onChange}
+                defaultValue={field.value}
+                value={field.value}
+              >
+                <FormControl>
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Selecione um tipo" />
                   </SelectTrigger>
-                  <SelectContent>
-                    {skillsTypes?.map((type, index) => (
-                      <SelectItem key={index} value={type}>
-                        {type}
-                      </SelectItem>
-                    ))}
-                    <SelectItem value="Outro">Outro tipo</SelectItem>
-                  </SelectContent>
-                </Select>
-              </FormControl>
+                </FormControl>
+                <SelectContent>
+                  {skillsTypes.map((type, index) => (
+                    <SelectItem key={index} value={type}>
+                      {type}
+                    </SelectItem>
+                  ))}
+                  <SelectItem value="Outro">Outro tipo</SelectItem>
+                </SelectContent>
+              </Select>
               <FormMessage />
             </FormItem>
           )}

@@ -7,6 +7,7 @@ import ConfirmDeleteAccountModal from "./ConfirmDeleteAccountModal";
 import CadastreUserModal from "./CadastreUserModal";
 import CreateSkillModal from "./CreateSkillModal";
 import ConfirmDeleteSkillModal from "./ConfirmDeleteSkill";
+import UpdateSkillModal from "./UpdateSkillModal";
 
 type LayoutProps = {
   children: ReactNode;
@@ -24,6 +25,7 @@ function Layout({ children }: LayoutProps) {
         <ProfileUserModal />
         <ConfirmDeleteAccountModal />
         <CreateSkillModal/>
+        <UpdateSkillModal />
         <ConfirmDeleteSkillModal/>
       </div>
     </>
