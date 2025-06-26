@@ -19,6 +19,12 @@ function CreateSkillModal() {
   });
 
   useEffect(() => {
+    if (currentModal === "createSkill") {
+      formCreateSkill.reset();
+    }
+  }, [currentModal]);
+
+  useEffect(() => {
     if (cadastreSkillMutation.isSuccess) {
       closeModal();
     }
