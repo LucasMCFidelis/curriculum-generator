@@ -23,38 +23,14 @@ import { useAuth } from "@/hooks/useAuth";
 import { useModal } from "@/contexts/ModalContext";
 import { useMemo, useState } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
-
-const sections = [
-  {
-    label: "Habilidades",
-    icon: <Plus />,
-    onCreate: () => console.log("Abrir modal: cadastrar habilidade"),
-    onSearch: () => console.log("Abrir modal: buscar habilidade"),
-  },
-  {
-    label: "Experiências",
-    icon: <Plus />,
-    onCreate: () => console.log("Abrir modal: cadastrar experiência"),
-    onSearch: () => console.log("Abrir modal: buscar experiência"),
-  },
-  {
-    label: "Projetos",
-    icon: <Plus />,
-    onCreate: () => console.log("Abrir modal: cadastrar projeto"),
-    onSearch: () => console.log("Abrir modal: buscar projeto"),
-  },
-  {
-    label: "Currículos",
-    icon: <Plus />,
-    onCreate: () => console.log("Abrir modal: cadastrar currículo"),
-    onSearch: () => console.log("Abrir modal: buscar currículo"),
-  },
-];
+import { SectionList } from "../utils/SectionList";
+import { handleNavigation } from "@/utils/handleNavigation";
 
 function Header() {
   const [isSheetOpen, setIsSheetOpen] = useState<boolean>(false);
   const { currentUser, openLoginModal, logoutUser } = useAuth();
   const { openModal } = useModal();
+  const sections = SectionList();
 
   const menuItems = useMemo(() => {
     return sections.map((section) => (
@@ -67,7 +43,14 @@ function Header() {
               <Plus />
             </MenubarShortcut>
           </MenubarItem>
-          <MenubarItem onClick={section.onSearch}>
+          <MenubarItem
+            onClick={() => {
+              setIsSheetOpen(false);
+              setTimeout(() => {
+                handleNavigation(section.sectionId);
+              }, 300);
+            }}
+          >
             Buscar{" "}
             <MenubarShortcut>
               <Search />
@@ -76,7 +59,7 @@ function Header() {
         </MenubarContent>
       </MenubarMenu>
     ));
-  }, []);
+  }, [sections]);
 
   const menuProfileUser = useMemo(() => {
     return (

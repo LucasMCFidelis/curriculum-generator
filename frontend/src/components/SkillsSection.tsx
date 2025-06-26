@@ -61,7 +61,7 @@ function SkillsSection() {
   }, [skillsUser, searchValue, skillTypeSelected]);
 
   return (
-    <section className="space-y-4">
+    <section id="skillSection" className="space-y-4">
       <h2>Habilidades</h2>
 
       {isErrorSkills && (

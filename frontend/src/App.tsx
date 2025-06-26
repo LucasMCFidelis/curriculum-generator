@@ -17,7 +17,7 @@ function App() {
           <>
             <div className="flex-1">
               <h1>Usuário: {currentUser?.userName}</h1>
-                <SkillsSection />
+              <SkillsSection />
             </div>
           </>
         ) : (
@@ -34,7 +34,7 @@ function App() {
                 <Button
                   onClick={() => openModal("cadastreUser")}
                   className="w-full"
-                  >
+                >
                   Cadastrar <ClipboardSignature />
                 </Button>
               </div>
