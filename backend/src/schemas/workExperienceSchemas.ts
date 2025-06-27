@@ -1,5 +1,29 @@
-import { z } from "zod";
+import { RefinementCtx, z } from "zod";
 import { userIdSchema } from "./userSchemas";
+
+function validateWorkExperience(data: any, ctx: RefinementCtx) {
+  if (data.workExperienceFinished && !data.workExperienceEndDate) {
+    ctx.addIssue({
+      code: "custom",
+      path: ["workExperienceEndDate"],
+      message:
+        "Data de término é obrigatória quando a experiência já foi finalizada.",
+    });
+  }
+
+  if (data.workExperienceEndDate && data.workExperienceStartDate) {
+    const startDate = new Date(data.workExperienceStartDate);
+    const endDate = new Date(data.workExperienceEndDate);
+
+    if (startDate > endDate) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["workExperienceEndDate"],
+        message: "Data de término não pode ser anterior à de início.",
+      });
+    }
+  }
+}
 
 export const workExperienceIdSchema = z.object({
   workExperienceId: z
@@ -7,7 +31,7 @@ export const workExperienceIdSchema = z.object({
     .uuid("workExperienceId deve ser um id válido no padrão uuid"),
 });
 
-export const createWorkExperienceSchema = z.object({
+const baseWorkExperienceSchema = z.object({
   workExperiencePosition: z
     .string()
     .min(1, "O cargo é obrigatório.")
@@ -31,6 +55,10 @@ export const createWorkExperienceSchema = z.object({
   workExperienceUserId: userIdSchema.shape.userId,
 });
 
+export const createWorkExperienceSchema = baseWorkExperienceSchema.superRefine(
+  validateWorkExperience
+);
+
 export const findWorkExperienceSchema = z.object({
   userId: userIdSchema.shape.userId,
   workExperiencePosition: z.string().optional(),
@@ -38,19 +66,21 @@ export const findWorkExperienceSchema = z.object({
   workExperienceFinished: z.boolean().optional(),
 });
 
-export const updateWorkExperienceSchema = z.object({
-  workExperiencePosition:
-    createWorkExperienceSchema.shape.workExperiencePosition.optional(),
-  workExperienceDescription:
-    createWorkExperienceSchema.shape.workExperienceDescription,
-  workExperienceCompany:
-    createWorkExperienceSchema.shape.workExperienceCompany.optional(),
-  workExperienceFinished:
-    createWorkExperienceSchema.shape.workExperienceFinished.optional(),
-  workExperienceStartDate:
-    createWorkExperienceSchema.shape.workExperienceStartDate.optional(),
-  workExperienceEndDate: createWorkExperienceSchema.shape.workExperienceEndDate,
-});
+export const updateWorkExperienceSchema = z
+  .object({
+    workExperiencePosition:
+      baseWorkExperienceSchema.shape.workExperiencePosition.optional(),
+    workExperienceDescription:
+      baseWorkExperienceSchema.shape.workExperienceDescription,
+    workExperienceCompany:
+      baseWorkExperienceSchema.shape.workExperienceCompany.optional(),
+    workExperienceFinished:
+      baseWorkExperienceSchema.shape.workExperienceFinished.optional(),
+    workExperienceStartDate:
+      baseWorkExperienceSchema.shape.workExperienceStartDate.optional(),
+    workExperienceEndDate: baseWorkExperienceSchema.shape.workExperienceEndDate,
+  })
+  .superRefine(validateWorkExperience);
 
 export type CreateWorkExperienceDTO = z.infer<
   typeof createWorkExperienceSchema
