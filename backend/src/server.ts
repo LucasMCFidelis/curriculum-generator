@@ -3,6 +3,7 @@ import { userRoutes } from "./routes/userRoutes";
 import authPlugin from "./plugin/auth";
 import { skillRoutes } from "./routes/skillRoutes";
 import cors from "@fastify/cors";
+import { workExperienceRoutes } from "./routes/workExperienceRoutes";
 
 const server = fastify();
 
@@ -21,6 +22,7 @@ server.get("/", async () => {
 server.register(authPlugin);
 server.register(userRoutes, { prefix: "/users" });
 server.register(skillRoutes, { prefix: "/skills" });
+server.register(workExperienceRoutes, {prefix: "work-experience"})
 
 server
   .listen({ port: PORT, host: HOST })
