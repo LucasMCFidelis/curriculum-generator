@@ -20,4 +20,9 @@ export async function workExperienceRoutes(server: FastifyInstance) {
     { preHandler: AuthMiddleware.authenticateAndVerifyOwnership },
     workExperienceController.get
   );
+  server.delete(
+    "/",
+    { preHandler: AuthMiddleware.authenticateAndVerifyOwnership },
+    workExperienceController.delete
+  );
 }
