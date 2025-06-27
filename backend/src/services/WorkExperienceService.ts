@@ -4,6 +4,7 @@ import {
   createWorkExperienceSchema,
   FindWorkExperienceDTO,
   findWorkExperienceSchema,
+  updateWorkExperienceSchema,
   workExperienceIdSchema,
 } from "../schemas/workExperienceSchemas";
 import { UserService } from "./UserService";
@@ -116,19 +117,48 @@ export class WorkExperienceService {
   }
 
   async deleteWorkExperience(userId: string, workExperienceId: string) {
-    await this.getWorkExperience(userId, workExperienceId)
+    await this.getWorkExperience(userId, workExperienceId);
 
-    let workExperienceDeleted
+    let workExperienceDeleted;
     try {
-      workExperienceDeleted = prisma.workExperience.delete({where:{workExperienceUserId: userId, workExperienceId}})
+      workExperienceDeleted = prisma.workExperience.delete({
+        where: { workExperienceUserId: userId, workExperienceId },
+      });
     } catch (error) {
-      throw{
+      throw {
         status: 500,
         error: "Erro no servidor",
-        message: "Erro ao deletar work experience"
-      }
+        message: "Erro ao deletar work experience",
+      };
     }
 
-    return workExperienceDeleted
+    return workExperienceDeleted;
+  }
+
+  async updateWorkExperience(
+    userId: string,
+    workExperienceId: string,
+    data: Partial<CreateWorkExperienceDTO>
+  ) {
+    const [dataValidated, _] = await Promise.all([
+      updateWorkExperienceSchema.parseAsync(data),
+      this.getWorkExperience(userId, workExperienceId),
+    ]);
+
+    let workExperienceUpdated;
+    try {
+      workExperienceUpdated = await prisma.workExperience.update({
+        where: { workExperienceUserId: userId, workExperienceId },
+        data: dataValidated,
+      });
+    } catch (error) {
+      throw {
+        status: 500,
+        error: "Erro no servidor",
+        message: "Erro ao atualizar work experience",
+      };
+    }
+
+    return workExperienceUpdated;
   }
 }
