@@ -2,7 +2,9 @@ import { z } from "zod";
 import { userIdSchema } from "./userSchemas";
 
 export const workExperienceIdSchema = z.object({
-  workExperienceId: z.string().uuid("workExperienceId deve ser um id válido no padrão uuid"),
+  workExperienceId: z
+    .string()
+    .uuid("workExperienceId deve ser um id válido no padrão uuid"),
 });
 
 export const createWorkExperienceSchema = z.object({
@@ -34,6 +36,20 @@ export const findWorkExperienceSchema = z.object({
   workExperiencePosition: z.string().optional(),
   workExperienceCompany: z.string().optional(),
   workExperienceFinished: z.boolean().optional(),
+});
+
+export const updateWorkExperienceSchema = z.object({
+  workExperiencePosition:
+    createWorkExperienceSchema.shape.workExperiencePosition.optional(),
+  workExperienceDescription:
+    createWorkExperienceSchema.shape.workExperienceDescription,
+  workExperienceCompany:
+    createWorkExperienceSchema.shape.workExperienceCompany.optional(),
+  workExperienceFinished:
+    createWorkExperienceSchema.shape.workExperienceFinished.optional(),
+  workExperienceStartDate:
+    createWorkExperienceSchema.shape.workExperienceStartDate.optional(),
+  workExperienceEndDate: createWorkExperienceSchema.shape.workExperienceEndDate,
 });
 
 export type CreateWorkExperienceDTO = z.infer<
