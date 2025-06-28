@@ -6,6 +6,7 @@ import { AuthProvider } from "./contexts/AuthContext.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ModalProvider } from "./contexts/ModalContext.tsx";
 import { SkillProvider } from "./contexts/SkillContext.tsx";
+import { WorkExperienceProvider } from "./contexts/WorkExperienceContext.tsx";
 
 const queryClient = new QueryClient();
 
@@ -15,7 +16,9 @@ createRoot(document.getElementById("root")!).render(
       <ModalProvider>
         <AuthProvider>
           <SkillProvider>
-            <App />
+            <WorkExperienceProvider>
+              <App />
+            </WorkExperienceProvider>
           </SkillProvider>
         </AuthProvider>
       </ModalProvider>
