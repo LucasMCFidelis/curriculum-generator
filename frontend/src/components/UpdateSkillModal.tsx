@@ -43,7 +43,7 @@ function UpdateSkillModal() {
     <>
       {currentModal === "updateSkill" && currentSkill && (
         <Modal.Root>
-          <div className="flex justify-between items-center">
+          <Modal.Header>
             <h2>Atualizar Habilidade</h2>
             <Modal.Close
               closeAction={() => {
@@ -53,7 +53,7 @@ function UpdateSkillModal() {
             >
               <X />
             </Modal.Close>
-          </div>
+          </Modal.Header>
           <Modal.Body>
             <SkillForm formKey={formKey} form={formUpdate} />
             <Modal.Confirm

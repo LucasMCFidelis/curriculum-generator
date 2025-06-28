@@ -34,7 +34,7 @@ function CreateSkillModal() {
     <>
       {currentModal === "createSkill" && (
         <Modal.Root>
-          <div className="flex justify-between items-center">
+          <Modal.Header>
             <h2>Cadastrar Habilidade</h2>
             <Modal.Close
               closeAction={() => {
@@ -44,7 +44,7 @@ function CreateSkillModal() {
             >
               <X />
             </Modal.Close>
-          </div>
+          </Modal.Header>
           <Modal.Body>
             <SkillForm form={formCreateSkill} />
 

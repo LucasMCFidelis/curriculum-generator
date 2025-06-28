@@ -44,9 +44,11 @@ function ConfirmDeleteAccountModal() {
     <>
       {currentModal === "ConfirmDeleteAccount" && (
         <Modal.Root>
-          <h2>
-            Confirmar exclusão de conta
-          </h2>
+          <Modal.Header>
+            <h2>
+              Confirmar exclusão de conta
+            </h2>
+          </Modal.Header>
           <Modal.Body>
             <div className="grid md:grid-cols-2 gap-4">
               <div className="col-span-full flex flex-col gap-2">

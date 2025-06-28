@@ -98,7 +98,7 @@ function ProfileUserModal() {
     <>
       {currentModal === "profileUser" && (
         <Modal.Root>
-          <div className="flex justify-between items-center">
+          <Modal.Header>
             <h2>Perfil</h2>
             <Modal.Close
               closeAction={() => {
@@ -110,7 +110,7 @@ function ProfileUserModal() {
             >
               <X />
             </Modal.Close>
-          </div>
+          </Modal.Header>
           <Modal.Body>
             {userComplete && (
               <UserForm

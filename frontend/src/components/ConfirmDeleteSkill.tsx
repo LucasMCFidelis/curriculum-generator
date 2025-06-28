@@ -19,13 +19,15 @@ function ConfirmDeleteSkillModal() {
     <>
       {currentModal === "confirmDeleteSkill" && currentSkill && (
         <Modal.Root>
-          <h3>
-            Confirmar exclusão da Habilidade{" "}
-            <strong className="text-destructive">
-              {currentSkill?.skillTitle}
-            </strong>{" "}
-            ?
-          </h3>
+          <Modal.Header>
+            <h3>
+              Confirmar exclusão da Habilidade{" "}
+              <strong className="text-destructive">
+                {currentSkill?.skillTitle}
+              </strong>{" "}
+              ?
+            </h3>
+          </Modal.Header>
           <Modal.Body>
             <div className="grid md:grid-cols-2 gap-4">
               <Modal.Close

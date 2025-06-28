@@ -23,12 +23,12 @@ function LoginModal() {
     <>
       {currentModal === "loginUser" && (
         <Modal.Root>
-          <div className="flex justify-between items-center">
+          <Modal.Header>
             <h2>Login</h2>
             <Modal.Close closeAction={closeLoginModal}>
               <X />
             </Modal.Close>
-          </div>
+          </Modal.Header>
           <Modal.Body>
             <Form {...form}>
               <form className="space-y-4">
