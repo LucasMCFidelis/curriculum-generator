@@ -11,6 +11,8 @@ import {
 import { PenBox, Trash2 } from "lucide-react";
 import { Button } from "./ui/button";
 import LoadingSpin from "./LoadingSpin";
+import { DateDisplay } from "./DateDisplay";
+import { getFormattedDuration } from "@/utils/getFormattedDuration";
 
 function WorkExperienceSection() {
   const {
@@ -81,28 +83,37 @@ function WorkExperienceSection() {
                     </p>
                     <p>
                       <strong>Período: </strong>
-                      {new Date(
-                        workExperience.workExperienceStartDate
-                      ).toLocaleDateString("pt-Br")}{" "}
+                      <DateDisplay
+                        date={workExperience.workExperienceStartDate}
+                      />{" "}
                       -{" "}
                       {workExperience.workExperienceFinished &&
-                      workExperience.workExperienceEndDate
-                        ? new Date(
-                            workExperience.workExperienceEndDate
-                          ).toLocaleDateString("pt-Br")
-                        : "Até o momento"}
+                      workExperience.workExperienceEndDate ? (
+                        <DateDisplay
+                          date={workExperience.workExperienceEndDate}
+                        />
+                      ) : (
+                        "Até o momento"
+                      )}
                     </p>
                     <p>
                       <strong>Duração: </strong>
-                      XX meses
+                      {getFormattedDuration(
+                        workExperience.workExperienceStartDate,
+                        workExperience.workExperienceFinished
+                          ? workExperience.workExperienceEndDate
+                          : undefined
+                      )}
                     </p>
                   </CardDescription>
                 </CardContent>
                 <CardFooter>
-                  Criada em:{" "}
-                  {new Date(
-                    workExperience.workExperienceCreatedAt
-                  ).toLocaleDateString("pt-Br")}
+                  <p>
+                    Criada em:{" "}
+                    <DateDisplay
+                      date={workExperience.workExperienceCreatedAt}
+                    />
+                  </p>
                 </CardFooter>
               </Card>
             ))}

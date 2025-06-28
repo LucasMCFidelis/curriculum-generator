@@ -8,6 +8,13 @@ import SkillsSection from "./components/SkillsSection";
 import WorkExperienceSection from "./components/WorkExperienceSection";
 import { Separator } from "./components/ui/separator";
 
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+import "dayjs/locale/pt-br";
+
+dayjs.extend(relativeTime);
+dayjs.locale("pt-br");
+
 function App() {
   const { openModal } = useModal();
   const { currentUser } = useAuth();

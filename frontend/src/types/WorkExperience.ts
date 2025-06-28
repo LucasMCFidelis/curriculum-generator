@@ -4,9 +4,9 @@ export type WorkExperience = {
   workExperienceDescription?: string;
   workExperienceCompany: string;
   workExperienceFinished?: boolean;
-  workExperienceStartDate: Date;
-  workExperienceEndDate?: Date;
-  workExperienceCreatedAt: Date;
+  workExperienceStartDate: string;
+  workExperienceEndDate?: string;
+  workExperienceCreatedAt: string;
 
   workExperienceUserId: string;
 };
