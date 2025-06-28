@@ -5,6 +5,8 @@ import { ClipboardSignature } from "lucide-react";
 import { useAuth } from "./hooks/useAuth";
 import imageHomeCV from "./assets/homeCV.svg";
 import SkillsSection from "./components/SkillsSection";
+import WorkExperienceSection from "./components/WorkExperienceSection";
+import { Separator } from "./components/ui/separator";
 
 function App() {
   const { openModal } = useModal();
@@ -15,9 +17,11 @@ function App() {
       <Layout>
         {currentUser ? (
           <>
-            <div className="flex-1">
+            <div className="flex-1 space-y-2 md:space-y-8">
               <h1>Usuário: {currentUser?.userName}</h1>
               <SkillsSection />
+              <Separator/>
+              <WorkExperienceSection />
             </div>
           </>
         ) : (

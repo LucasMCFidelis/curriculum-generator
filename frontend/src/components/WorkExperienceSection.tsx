@@ -1,0 +1,115 @@
+import { useWorkExperiences } from "@/hooks/useWorkExperiences";
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "./ui/card";
+import { PenBox, Trash2 } from "lucide-react";
+import { Button } from "./ui/button";
+import LoadingSpin from "./LoadingSpin";
+
+function WorkExperienceSection() {
+  const {
+    workExperiencesUser,
+    isLoadingWorkExperiencesUser,
+    isErrorWorkExperiencesUser,
+    refetchWorkExperiencesUser,
+  } = useWorkExperiences();
+
+  return (
+    <section id="workExperienceSection" className="space-y-4">
+      <h2>Experiências Profissionais</h2>
+
+      {isLoadingWorkExperiencesUser && (
+        <div className="flex gap-2 justify-center items-center">
+          <p>Carregando Experiências Profissionais...</p>
+          <LoadingSpin />
+        </div>
+      )}
+
+      {isErrorWorkExperiencesUser && (
+        <div className="flex flex-col gap-2 justify-center items-center">
+          <p className="text-destructive">
+            Erro ao carregar Experiências profissionais
+          </p>
+          <Button
+            className="w-full sm:w-fit"
+            onClick={() => refetchWorkExperiencesUser()}
+          >
+            Recarregar Experiências Profissionais
+          </Button>
+        </div>
+      )}
+
+      {!isLoadingWorkExperiencesUser &&
+        !isErrorWorkExperiencesUser &&
+        workExperiencesUser && (
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            {workExperiencesUser.map((workExperience) => (
+              <Card key={workExperience.workExperienceId}>
+                <CardHeader className="grid grid-rows-1 items-center">
+                  <CardTitle>{workExperience.workExperiencePosition}</CardTitle>
+                  <CardAction>
+                    <Button
+                      variant={"ghost"}
+                      onClick={() => {
+                        console.log("teste");
+                      }}
+                    >
+                      <PenBox />
+                    </Button>
+                    <Button
+                      variant={"ghost"}
+                      onClick={() => {
+                        console.log("teste");
+                      }}
+                    >
+                      <Trash2 className="text-destructive" />
+                    </Button>
+                  </CardAction>
+                </CardHeader>
+                <CardContent className="flex-1">
+                  <CardDescription className="space-y-2">
+                    <p>{workExperience.workExperienceDescription}</p>
+                    <p>
+                      <strong>Empresa: </strong>
+                      {workExperience.workExperienceCompany}
+                    </p>
+                    <p>
+                      <strong>Período: </strong>
+                      {new Date(
+                        workExperience.workExperienceStartDate
+                      ).toLocaleDateString("pt-Br")}{" "}
+                      -{" "}
+                      {workExperience.workExperienceFinished &&
+                      workExperience.workExperienceEndDate
+                        ? new Date(
+                            workExperience.workExperienceEndDate
+                          ).toLocaleDateString("pt-Br")
+                        : "Até o momento"}
+                    </p>
+                    <p>
+                      <strong>Duração: </strong>
+                      XX meses
+                    </p>
+                  </CardDescription>
+                </CardContent>
+                <CardFooter>
+                  Criada em:{" "}
+                  {new Date(
+                    workExperience.workExperienceCreatedAt
+                  ).toLocaleDateString("pt-Br")}
+                </CardFooter>
+              </Card>
+            ))}
+          </div>
+        )}
+    </section>
+  );
+}
+
+export default WorkExperienceSection;

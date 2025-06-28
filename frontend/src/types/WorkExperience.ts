@@ -1,4 +1,5 @@
 export type WorkExperience = {
+  workExperienceId: string;
   workExperiencePosition: string;
   workExperienceDescription?: string;
   workExperienceCompany: string;
