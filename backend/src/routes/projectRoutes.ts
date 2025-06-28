@@ -10,4 +10,9 @@ export async function projectRoutes(server: FastifyInstance) {
     { preHandler: AuthMiddleware.authenticateAndVerifyOwnership },
     projectController.create
   );
+  server.get(
+    "/",
+    { preHandler: AuthMiddleware.authenticateAndVerifyOwnership },
+    projectController.get
+  );
 }

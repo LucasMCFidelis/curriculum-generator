@@ -3,6 +3,10 @@ import { optionalUrlField } from "./optionalUrlFieldSchema";
 import { userIdSchema } from "./userSchemas";
 import { validateDatesZod } from "../utils/validateDatesZod";
 
+export const projectIdSchema = z.object({
+  projectId: z.string().uuid("projectId deve ser um id válido no padrão uuid"),
+});
+
 const baseProjectSchema = z.object({
   projectTitle: z
     .string()
