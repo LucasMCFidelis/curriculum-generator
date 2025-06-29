@@ -22,6 +22,7 @@ function WorkExperienceSection() {
     isErrorWorkExperiencesUser,
     refetchWorkExperiencesUser,
     errorMessage,
+    setCurrentWorkExperience,
   } = useWorkExperiences();
   const { openModal } = useModal();
 
@@ -68,7 +69,8 @@ function WorkExperienceSection() {
                     <Button
                       variant={"ghost"}
                       onClick={() => {
-                        console.log("teste");
+                        setCurrentWorkExperience(workExperience);
+                        openModal("confirmDeleteWorkExperience");
                       }}
                     >
                       <Trash2 className="text-destructive" />

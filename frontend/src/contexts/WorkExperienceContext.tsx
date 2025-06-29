@@ -24,6 +24,7 @@ type WorkExperienceContextType = {
     Error,
     formWorkExperienceCreateDTO
   >;
+  deleteWorkExperienceMutation: UseMutationResult<void, Error, string>;
   errorMessage: string;
   setErrorMessage: (value: string) => void;
 };
@@ -105,6 +106,37 @@ export function WorkExperienceProvider({ children }: { children: ReactNode }) {
     },
   });
 
+  const deleteWorkExperienceMutation = useMutation({
+    mutationFn: async (workExperienceId: string) => {
+      await api.delete(
+        `/work-experience?userId=${currentUser?.userId}&workExperienceId=${workExperienceId}`
+      );
+    },
+    onSuccess: (_, workExperienceId) => {
+      queryClient.setQueryData<WorkExperience[]>(
+        ["workExperiences"],
+        (oldWorkExperiences) => {
+          return (
+            oldWorkExperiences?.filter(
+              (workExperience) =>
+                workExperience.workExperienceId !== workExperienceId
+            ) || []
+          );
+        }
+      );
+      closeModal()
+    },
+    onError: (error) => {
+      if (isAxiosError(error)) {
+        setErrorMessage(error.response?.data.message);
+      } else {
+        setErrorMessage(
+          "Erro ao deletar experiência profissional, tente novamente!"
+        );
+      }
+    },
+  });
+
   return (
     <WorkExperienceContext.Provider
       value={{
@@ -117,6 +149,7 @@ export function WorkExperienceProvider({ children }: { children: ReactNode }) {
         errorMessage,
         setErrorMessage,
         cadastreWorkExperience,
+        deleteWorkExperienceMutation,
       }}
     >
       {children}
