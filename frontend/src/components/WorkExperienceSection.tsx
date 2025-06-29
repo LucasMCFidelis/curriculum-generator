@@ -8,11 +8,12 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
-import { PenBox, Trash2 } from "lucide-react";
+import { PenBox, Plus, Trash2 } from "lucide-react";
 import { Button } from "./ui/button";
 import LoadingSpin from "./LoadingSpin";
 import { DateDisplay } from "./DateDisplay";
 import { getFormattedDuration } from "@/utils/getFormattedDuration";
+import { useModal } from "@/contexts/ModalContext";
 
 function WorkExperienceSection() {
   const {
@@ -20,7 +21,9 @@ function WorkExperienceSection() {
     isLoadingWorkExperiencesUser,
     isErrorWorkExperiencesUser,
     refetchWorkExperiencesUser,
+    errorMessage,
   } = useWorkExperiences();
+  const { openModal } = useModal();
 
   return (
     <section id="workExperienceSection" className="space-y-4">
@@ -35,9 +38,7 @@ function WorkExperienceSection() {
 
       {isErrorWorkExperiencesUser && (
         <div className="flex flex-col gap-2 justify-center items-center">
-          <p className="text-destructive">
-            Erro ao carregar Experiências profissionais
-          </p>
+          <p className="text-destructive">{errorMessage}</p>
           <Button
             className="w-full sm:w-fit"
             onClick={() => refetchWorkExperiencesUser()}
@@ -117,6 +118,22 @@ function WorkExperienceSection() {
                 </CardFooter>
               </Card>
             ))}
+            <Card
+              className="cursor-pointer"
+              onClick={() => openModal("createWorkExperience")}
+            >
+              <CardHeader className="grid grid-cols-[1fr_50px] items-center">
+                <CardTitle>
+                  <h3>Cadastrar nova Experiência Profissional</h3>
+                </CardTitle>
+                <Plus className="justify-self-end" />
+              </CardHeader>
+              <CardContent className="flex-1">
+                <CardDescription>
+                  Criar uma nova experiência profissional
+                </CardDescription>
+              </CardContent>
+            </Card>
           </div>
         )}
     </section>
