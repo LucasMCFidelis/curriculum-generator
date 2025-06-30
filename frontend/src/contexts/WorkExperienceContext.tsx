@@ -11,6 +11,7 @@ import {
 import { isAxiosError } from "axios";
 import { createContext, useState, type ReactNode } from "react";
 import { useModal } from "./ModalContext";
+import { handleAxiosFormError } from "@/utils/handleAxiosFormError";
 
 type WorkExperienceContextType = {
   currentWorkExperience: WorkExperience | null;
@@ -88,21 +89,12 @@ export function WorkExperienceProvider({ children }: { children: ReactNode }) {
       closeModal();
     },
     onError: (error) => {
-      console.log(error);
-
-      if (isAxiosError(error)) {
-        const fields = error.response?.data.fields;
-        if (fields && Array.isArray(fields)) {
-          const messages = fields.map((f) => f.message).join("\n");
-          setErrorMessage(messages);
-        } else {
-          setErrorMessage(error.response?.data.message);
-        }
-      } else {
-        setErrorMessage(
-          "Erro ao criar experiência profissional, tente novamente!"
-        );
-      }
+      handleAxiosFormError({
+        error,
+        setError: setErrorMessage,
+        genericMessage:
+          "Erro ao criar experiência profissional, tente novamente!",
+      });
     },
   });
 
@@ -124,16 +116,17 @@ export function WorkExperienceProvider({ children }: { children: ReactNode }) {
           );
         }
       );
-      closeModal()
+      closeModal();
     },
     onError: (error) => {
-      if (isAxiosError(error)) {
-        setErrorMessage(error.response?.data.message);
-      } else {
-        setErrorMessage(
-          "Erro ao deletar experiência profissional, tente novamente!"
-        );
-      }
+      handleAxiosFormError({
+        error,
+        setError: setErrorMessage,
+        genericMessage:
+          "Erro ao deletar experiência profissional, tente novamente!",
+      });
+    },
+  });
     },
   });
 
