@@ -9,10 +9,13 @@ import {
 } from "@/schemas/formWorkExperienceUpdate";
 import WorkExperienceForm from "./WorkExperienceForm";
 import { useEffect } from "react";
+import LoadingSpin from "./LoadingSpin";
+import { Save } from "lucide-react";
 
 export function UpdateWorkExperienceModal() {
   const { currentModal, closeModal } = useModal();
-  const { currentWorkExperience } = useWorkExperiences();
+  const { currentWorkExperience, updateWorkExperienceMutation, errorMessage } =
+    useWorkExperiences();
 
   const formUpdate = useForm<formWorkExperienceUpdateDTO>({
     resolver: zodResolver(formWorkExperienceUpdateSchema),
@@ -25,7 +28,7 @@ export function UpdateWorkExperienceModal() {
       formUpdate.reset({
         workExperiencePosition: currentWorkExperience?.workExperiencePosition,
         workExperienceDescription:
-          currentWorkExperience?.workExperienceDescription,
+          currentWorkExperience?.workExperienceDescription || "",
         workExperienceCompany: currentWorkExperience?.workExperienceCompany,
         workExperienceFinished: currentWorkExperience?.workExperienceFinished,
         workExperienceStartDate: currentWorkExperience?.workExperienceStartDate
@@ -45,6 +48,7 @@ export function UpdateWorkExperienceModal() {
           <Modal.Header>
             <h2>Atualizar Experiência Profissional</h2>
             <Modal.Close
+              disabled={updateWorkExperienceMutation.isPending}
               closeAction={() => {
                 formUpdate.reset();
                 closeModal();
@@ -53,13 +57,28 @@ export function UpdateWorkExperienceModal() {
           </Modal.Header>
           <Modal.Body>
             <WorkExperienceForm form={formUpdate} />
+
+            {updateWorkExperienceMutation.isError && (
+              <p className="text-destructive">{errorMessage}</p>
+            )}
+
             <Modal.Confirm
+              disabled={updateWorkExperienceMutation.isPending}
               confirmAction={formUpdate.handleSubmit((data) => {
-                console.log(data);
+                updateWorkExperienceMutation.mutate(data);
               })}
               className="mt-4"
             >
-              Salvar Alterações
+              {updateWorkExperienceMutation.isPending ? (
+                <>
+                  Salvando alterações <LoadingSpin />
+                </>
+              ) : (
+                <>
+                  Salvar Alterações
+                  <Save />
+                </>
+              )}
             </Modal.Confirm>
           </Modal.Body>
         </Modal.Root>

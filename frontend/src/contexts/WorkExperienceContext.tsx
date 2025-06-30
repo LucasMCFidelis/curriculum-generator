@@ -11,6 +11,7 @@ import {
 import { isAxiosError } from "axios";
 import { createContext, useState, type ReactNode } from "react";
 import { useModal } from "./ModalContext";
+import type { formWorkExperienceUpdateDTO } from "@/schemas/formWorkExperienceUpdate";
 import { handleAxiosFormError } from "@/utils/handleAxiosFormError";
 
 type WorkExperienceContextType = {
@@ -26,6 +27,11 @@ type WorkExperienceContextType = {
     formWorkExperienceCreateDTO
   >;
   deleteWorkExperienceMutation: UseMutationResult<void, Error, string>;
+  updateWorkExperienceMutation: UseMutationResult<
+    WorkExperience,
+    Error,
+    formWorkExperienceUpdateDTO
+  >;
   errorMessage: string;
   setErrorMessage: (value: string) => void;
 };
@@ -127,6 +133,44 @@ export function WorkExperienceProvider({ children }: { children: ReactNode }) {
       });
     },
   });
+
+  const updateWorkExperienceMutation = useMutation<
+    WorkExperience,
+    Error,
+    formWorkExperienceUpdateDTO
+  >({
+    mutationFn: async (data: formWorkExperienceUpdateDTO) => {
+      const updateResponse = await api.put(
+        `/work-experience?userId=${currentUser?.userId}&workExperienceId=${currentWorkExperience?.workExperienceId}`,
+        data
+      );
+      console.log(updateResponse.data);
+
+      return updateResponse.data.workExperienceUpdated;
+    },
+    onSuccess: (updatedWorkExperience) => {
+      queryClient.setQueryData<WorkExperience[]>(
+        ["workExperiences"],
+        (oldWorkExperiences) => {
+          return (
+            oldWorkExperiences?.map((workExperience) =>
+              workExperience.workExperienceId ===
+              updatedWorkExperience.workExperienceId
+                ? updatedWorkExperience
+                : workExperience
+            ) || []
+          );
+        }
+      );
+      closeModal();
+    },
+    onError: (error) => {
+      handleAxiosFormError({
+        error,
+        setError: setErrorMessage,
+        genericMessage:
+          "Erro ao atualizar experiência profissional, tente novamente!",
+      });
     },
   });
 
@@ -143,6 +187,7 @@ export function WorkExperienceProvider({ children }: { children: ReactNode }) {
         setErrorMessage,
         cadastreWorkExperience,
         deleteWorkExperienceMutation,
+        updateWorkExperienceMutation,
       }}
     >
       {children}
