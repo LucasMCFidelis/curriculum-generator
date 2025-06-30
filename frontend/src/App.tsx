@@ -10,9 +10,11 @@ import { Separator } from "./components/ui/separator";
 
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import isBetween from "dayjs/plugin/isBetween";
 import "dayjs/locale/pt-br";
 
 dayjs.extend(relativeTime);
+dayjs.extend(isBetween)
 dayjs.locale("pt-br");
 
 function App() {
