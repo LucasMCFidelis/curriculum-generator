@@ -61,7 +61,8 @@ function WorkExperienceSection() {
                     <Button
                       variant={"ghost"}
                       onClick={() => {
-                        console.log("teste");
+                        setCurrentWorkExperience(workExperience);
+                        openModal("updateWorkExperience");
                       }}
                     >
                       <PenBox />

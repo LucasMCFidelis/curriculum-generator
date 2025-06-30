@@ -17,13 +17,16 @@ import { CalendarDays } from "lucide-react";
 import { Calendar } from "./ui/calendar";
 import { cn } from "@/lib/utils";
 import { DateDisplay } from "./DateDisplay";
+import type { formWorkExperienceUpdateDTO } from "@/schemas/formWorkExperienceUpdate";
 
 interface WorkExperienceFormProps {
-  form: UseFormReturn<formWorkExperienceCreateDTO>;
+  form: UseFormReturn<
+    formWorkExperienceCreateDTO | formWorkExperienceUpdateDTO
+  >;
   isEditable?: boolean;
 }
 
-function WorkExperienceForm({ form, isEditable }: WorkExperienceFormProps) {
+function WorkExperienceForm({ form, isEditable = true }: WorkExperienceFormProps) {
   return (
     <Form {...form}>
       <form className="space-y-4">
@@ -171,7 +174,7 @@ function WorkExperienceForm({ form, isEditable }: WorkExperienceFormProps) {
                       onSelect={field.onChange}
                       disabled={(date) => {
                         const startDate = form.watch("workExperienceStartDate");
-                        return date < startDate;
+                        return startDate ? date < startDate : false;
                       }}
                       captionLayout="dropdown"
                     />

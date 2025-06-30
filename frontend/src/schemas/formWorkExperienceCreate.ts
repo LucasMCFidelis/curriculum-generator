@@ -13,7 +13,7 @@ export const formWorkExperienceCreate = z.object({
     .string()
     .min(1, "A empresa é obrigatória.")
     .max(50, "O nome da empresa deve ter no máximo 50 caracteres."),
-  workExperienceFinished: z.boolean().default(false),
+  workExperienceFinished: z.boolean(),
   workExperienceStartDate: z.coerce.date({
     required_error: "A data de início é obrigatória.",
     invalid_type_error: "Data de início inválida.",
