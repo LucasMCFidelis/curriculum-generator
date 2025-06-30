@@ -28,6 +28,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { cn } from "@/lib/utils";
 import { Label } from "./ui/label";
 import { isDateInRange } from "@/utils/isDateInRange";
+import { handleNavigation } from "@/utils/handleNavigation";
 
 function WorkExperienceSection() {
   const {
@@ -112,7 +113,10 @@ function WorkExperienceSection() {
                 className="col-span-2"
               />
 
-              <div className="space-y-2 col-span-2 sm:col-auto">
+              <div
+                id="filterRangeDateWE"
+                className="space-y-2 col-span-2 sm:col-auto"
+              >
                 <Label>Selecione um intervalo de datas</Label>
                 <Popover>
                   <PopoverTrigger asChild>
@@ -122,6 +126,7 @@ function WorkExperienceSection() {
                         "justify-between h-fit md:h-auto text-left font-normal w-full",
                         !dateRange && "text-muted-foreground"
                       )}
+                      onClick={() => handleNavigation("filterRangeDateWE")}
                     >
                       {dateRange ? (
                         <div className="flex flex-wrap gap-x-2">
