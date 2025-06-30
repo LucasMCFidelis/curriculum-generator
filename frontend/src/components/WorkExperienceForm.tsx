@@ -26,7 +26,10 @@ interface WorkExperienceFormProps {
   isEditable?: boolean;
 }
 
-function WorkExperienceForm({ form, isEditable = true }: WorkExperienceFormProps) {
+function WorkExperienceForm({
+  form,
+  isEditable = true,
+}: WorkExperienceFormProps) {
   return (
     <Form {...form}>
       <form className="space-y-4">
@@ -174,7 +177,10 @@ function WorkExperienceForm({ form, isEditable = true }: WorkExperienceFormProps
                       onSelect={field.onChange}
                       disabled={(date) => {
                         const startDate = form.watch("workExperienceStartDate");
-                        return startDate ? date < startDate : false;
+                        return (
+                          (startDate ? date < startDate : false) ||
+                          date > new Date()
+                        );
                       }}
                       captionLayout="dropdown"
                     />
