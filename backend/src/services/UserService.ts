@@ -1,3 +1,4 @@
+import { ErrorCustomer } from "../ErrorCustomer";
 import { prisma } from "../lib/prisma";
 import {
   CreateUserDTO,
@@ -23,19 +24,19 @@ export class UserService {
         select: { userEmail: true },
       });
     } catch (error) {
-      throw {
-        status: 500,
-        error: "Erro no servidor",
-        message: "Erro ao verificar existência do usuário",
-      };
+      throw new ErrorCustomer(
+        500,
+        "Erro no servidor",
+        "Erro ao verificar existência do usuário"
+      );
     }
 
     if (existingUser) {
-      throw {
-        status: 409,
-        error: "Erro de conflito",
-        message: "Este email já está cadastrado",
-      };
+      throw new ErrorCustomer(
+        409,
+        "Erro de Conflito",
+        "Este email já está cadastrado"
+      );
     }
   }
 
@@ -66,11 +67,11 @@ export class UserService {
       userEmail = userEmail.toLowerCase();
       await userEmailSchema.parseAsync({ userEmail });
     } else {
-      throw {
-        status: 400,
-        error: "Erro de validação",
-        message: "Informe um userId ou userEmail para a busca",
-      };
+      throw new ErrorCustomer(
+        400,
+        "Erro de validação",
+        "Informe um userId ou userEmail para a busca"
+      );
     }
 
     let user;
@@ -80,19 +81,19 @@ export class UserService {
         include,
       });
     } catch (error) {
-      throw {
-        status: 500,
-        error: "Erro no servidor",
-        message: "Erro ao buscar usuário",
-      };
+      throw new ErrorCustomer(
+        500,
+        "Erro no servidor",
+        "Erro ao buscar usuário"
+      );
     }
 
     if (!user) {
-      throw {
-        status: 404,
-        error: "Erro Not Found",
-        message: "Nenhum usuário encontrado com o userId e userEmail fornecido",
-      };
+      throw new ErrorCustomer(
+        404,
+        "Erro Not Found",
+        "Nenhum usuário encontrado com o userId e userEmail fornecido"
+      );
     }
 
     return user;
@@ -104,11 +105,11 @@ export class UserService {
     try {
       await prisma.user.delete({ where: { userId: userDeleted.userId } });
     } catch (error) {
-      throw {
-        status: 500,
-        error: "Erro no servidor",
-        message: "Erro ao deletar usuário",
-      };
+      throw new ErrorCustomer(
+        500,
+        "Erro no servidor",
+        "Erro ao deletar usuário"
+      );
     }
 
     return userDeleted;
@@ -130,20 +131,20 @@ export class UserService {
         data: data,
       });
     } catch (error) {
-      throw {
-        status: 500,
-        error: "Erro no servidor",
-        message: "Erro ao atualizar usuário",
-      };
+      throw new ErrorCustomer(
+        500,
+        "Erro no servidor",
+        "Erro ao atualizar usuário"
+      );
     }
 
     return userUpdated;
   }
 
   async loginUser(data: LoginUserDTO) {
-    const [,user ] = await Promise.all([
+    const [, user] = await Promise.all([
       loginUserSchema.parseAsync(data),
-      this.getUserByIdOrEmail(undefined, data.userEmail)
+      this.getUserByIdOrEmail(undefined, data.userEmail),
     ]);
 
     await comparePassword(data.userPassword, user.userPassword);

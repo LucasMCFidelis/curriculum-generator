@@ -1,13 +1,8 @@
 import { FastifyReply } from "fastify";
 import { ZodError } from "zod";
+import { ErrorCustomer } from "../ErrorCustomer";
 
-type CustomError = {
-  status?: number;
-  error?: string;
-  message?: string;
-};
-
-export function errorHandler(error: unknown, reply: FastifyReply) {
+export function errorHandler(error: unknown | ErrorCustomer, reply: FastifyReply) {
   if (error instanceof ZodError) {
     const formattedErrors = error.errors.map((err) => ({
       field: err.path.join("."),
@@ -20,12 +15,10 @@ export function errorHandler(error: unknown, reply: FastifyReply) {
     });
   }
   
-  if (typeof error === "object" && error !== null && "status" in error) {
-    const typedError = error as CustomError;
-
-    return reply.status(typedError.status ?? 500).send({
-      error: typedError.error ?? "Erro desconhecido",
-      message: typedError.message ?? "Algo deu errado",
+  if (error instanceof ErrorCustomer) {
+    return reply.status(error.status).send({
+      error: error.error ?? "Erro desconhecido",
+      message: error.message ?? "Algo deu errado",
     });
   }
 
