@@ -2,7 +2,7 @@ import { isAxiosError } from "axios";
 
 interface handleAxiosFormErrorProps {
   setError: (value: string) => void;
-  error: Error;
+  error: Error | unknown;
   genericMessage?: string;
 }
 

@@ -8,7 +8,6 @@ import {
   useQueryClient,
   type UseMutationResult,
 } from "@tanstack/react-query";
-import { isAxiosError } from "axios";
 import { createContext, useState, type ReactNode } from "react";
 import { useModal } from "./ModalContext";
 import type { formWorkExperienceUpdateDTO } from "@/schemas/formWorkExperienceUpdate";
@@ -63,11 +62,11 @@ export function WorkExperienceProvider({ children }: { children: ReactNode }) {
         );
         return response.data;
       } catch (error) {
-        if (isAxiosError(error)) {
-          setErrorMessage(error.response?.data.message);
-        } else {
-          setErrorMessage("Erro ao carregar Experiências profissionais");
-        }
+        handleAxiosFormError({
+          error,
+          setError: setErrorMessage,
+          genericMessage: "Erro ao carregar Experiências profissionais",
+        });
       }
     },
   });

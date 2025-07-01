@@ -50,11 +50,18 @@ export function SkillProvider({ children }: { children: ReactNode }) {
   } = useQuery<Skill[], Error>({
     queryKey: ["skills"],
     queryFn: async () => {
-      const response = await api.get(
-        `/users?userId=${currentUser?.userId}&userSkills=true`
-      );
-
-      return response.data.userSkills;
+      try {
+        const response = await api.get(
+          `/users?userId=${currentUser?.userId}&userSkills=true`
+        );
+        return response.data.userSkills;
+      } catch (error) {
+        handleAxiosFormError({
+          error,
+          setError: setErrorMessage,
+          genericMessage: "Erro ao carregar Habilidades",
+        });
+      }
     },
   });
 
