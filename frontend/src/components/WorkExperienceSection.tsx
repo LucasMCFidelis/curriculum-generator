@@ -29,6 +29,7 @@ import { cn } from "@/lib/utils";
 import { Label } from "./ui/label";
 import { isDateInRange } from "@/utils/isDateInRange";
 import { handleNavigation } from "@/utils/handleNavigation";
+import { normalizeString } from "@/utils/normalizeString";
 
 function WorkExperienceSection() {
   const {
@@ -47,18 +48,21 @@ function WorkExperienceSection() {
   const filteredWorkExperiences = useMemo(() => {
     if (!workExperiencesUser) return [];
 
+    const searchWorkExperienceNormalized =
+      normalizeString(searchWorkExperience);
+
     return workExperiencesUser.filter((workExperience) => {
       const matchesSearch =
-        workExperience.workExperiencePosition
-          .toLowerCase()
-          .includes(searchWorkExperience.toLowerCase()) ||
-        workExperience.workExperienceCompany
-          .toLowerCase()
-          .includes(searchWorkExperience.toLowerCase()) ||
+        normalizeString(workExperience.workExperiencePosition).includes(
+          searchWorkExperienceNormalized
+        ) ||
+        normalizeString(workExperience.workExperienceCompany).includes(
+          searchWorkExperienceNormalized
+        ) ||
         (workExperience.workExperienceDescription &&
-          workExperience.workExperienceDescription
-            .toLowerCase()
-            .includes(searchWorkExperience.toLowerCase()));
+          normalizeString(workExperience.workExperienceDescription).includes(
+            searchWorkExperienceNormalized
+          ));
 
       const matchesStartOrEnd =
         isDateInRange(workExperience.workExperienceStartDate, dateRange) ||
