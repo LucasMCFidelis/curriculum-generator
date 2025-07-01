@@ -89,4 +89,27 @@ export class ProjectService {
 
     return projects;
   }
+
+  async deleteProject({
+    userId,
+    projectId,
+  }: {
+    userId: string;
+    projectId: string;
+  }) {
+    await this.getProject({ userId, projectId });
+
+    let projectDeleted;
+    try {
+      projectDeleted = await prisma.project.delete({ where: { projectId } });
+    } catch (error) {
+      throw new ErrorCustomer(
+        500,
+        "Erro no servidor",
+        "Erro ao deletar projeto"
+      );
+    }
+
+    return projectDeleted;
+  }
 }

@@ -57,4 +57,23 @@ export class ProjectController extends BaseCrud {
       errorHandler(error, reply);
     }
   }
+
+  public async delete(
+    request: FastifyRequest<{
+      Querystring: { userId: string; projectId: string };
+    }>,
+    reply: FastifyReply
+  ) {
+    try {
+      const projectDeleted = await projectService.deleteProject({
+        userId: request.query.userId,
+        projectId: request.query.projectId,
+      });
+      return reply.status(200).send({
+        message: `Projeto ${projectDeleted.projectTitle} deletado com sucesso`,
+      });
+    } catch (error) {
+      errorHandler(error, reply);
+    }
+  }
 }
