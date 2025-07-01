@@ -102,6 +102,7 @@ export function SkillProvider({ children }: { children: ReactNode }) {
       queryClient.setQueryData<Skill[]>(["skills"], (oldSkills) => {
         return oldSkills?.filter((skill) => skill.skillId !== skillId) || [];
       });
+      closeModal()
     },
     onError: (error) => {
       console.error(error);

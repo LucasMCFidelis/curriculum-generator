@@ -6,7 +6,7 @@ import ProfileUserModal from "./ProfileUserModal";
 import ConfirmDeleteAccountModal from "./ConfirmDeleteAccountModal";
 import CadastreUserModal from "./CadastreUserModal";
 import CreateSkillModal from "./CreateSkillModal";
-import ConfirmDeleteSkillModal from "./ConfirmDeleteSkill";
+import ConfirmDeleteSkillModal from "./ConfirmDeleteSkillModal";
 import UpdateSkillModal from "./UpdateSkillModal";
 import CreateWorkExperienceModal from "./CreateWorkExperienceModal";
 import ConfirmDeleteWorkExperienceModal from "./ConfirmDeleteWorkExperienceModal";
