@@ -37,8 +37,8 @@ export class ProjectService {
     projectId: string;
   }) {
     await Promise.all([
-      projectIdSchema.parseAsync({projectId}),
-      
+      projectIdSchema.parseAsync({ projectId }),
+
       userService.getUserByIdOrEmail(userId),
     ]);
 
@@ -64,5 +64,26 @@ export class ProjectService {
     }
 
     return projectFind;
+  }
+
+  async listProjects({
+    userId,
+  }: {
+    userId: string;
+  }) {
+    await Promise.all([userService.getUserByIdOrEmail(userId)]);
+
+    let projects;
+    try {
+      projects = await prisma.project.findMany({
+        where: { projectUserId: userId },
+      });
+    } catch (error) {
+      throw {
+        status: 500,
+        error: "Erro no servidor",
+        message: "Erro ao buscar projetos",
+      };
+    }
   }
 }

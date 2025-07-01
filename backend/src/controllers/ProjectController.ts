@@ -41,4 +41,20 @@ export class ProjectController extends BaseCrud {
       errorHandler(error, reply);
     }
   }
+
+  public async list(
+    request: FastifyRequest<{
+      Querystring: { userId: string };
+    }>,
+    reply: FastifyReply
+  ) {
+    try {
+      const projectFind = await projectService.listProjects({
+        userId: request.query.userId,
+      });
+      return reply.status(200).send(projectFind);
+    } catch (error) {
+      errorHandler(error, reply);
+    }
+  }
 }
