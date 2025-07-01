@@ -17,6 +17,8 @@ import { SelectValue } from "@radix-ui/react-select";
 import SearchInput from "./SearchInput";
 import { Label } from "./ui/label";
 import { useMemo, useState } from "react";
+import { normalizeString } from "@/utils/normalizeString";
+import { DateDisplay } from "./DateDisplay";
 
 function SkillsSection() {
   const {
@@ -43,13 +45,17 @@ function SkillsSection() {
 
   const filteredSkills = useMemo(() => {
     if (!skillsUser) return [];
+
+    const searchValueNormalized = normalizeString(searchValue);
+
     return skillsUser.filter((skill) => {
       const matchesSearch =
-        skill.skillTitle.toLowerCase().includes(searchValue.toLowerCase()) ||
-        skill.skillType.toLowerCase().includes(searchValue.toLowerCase()) ||
-        skill.skillDescription
-          ?.toLowerCase()
-          .includes(searchValue.toLowerCase());
+        normalizeString(skill.skillTitle).includes(searchValueNormalized) ||
+        normalizeString(skill.skillType).includes(searchValueNormalized) ||
+        (skill.skillDescription &&
+          normalizeString(skill.skillDescription).includes(
+            searchValueNormalized
+          ));
 
       const matchesType =
         !skillTypeSelected ||
@@ -148,8 +154,9 @@ function SkillsSection() {
                   <CardDescription>{skill.skillDescription}</CardDescription>
                 </CardContent>
                 <CardFooter>
-                  Criada em:{" "}
-                  {new Date(skill.skillCreatedAt).toLocaleDateString("pt-BR")}
+                  <p>
+                    Criada em: <DateDisplay date={skill.skillCreatedAt} />
+                  </p>
                 </CardFooter>
               </Card>
             ))}
