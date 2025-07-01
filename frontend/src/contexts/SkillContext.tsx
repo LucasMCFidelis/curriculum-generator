@@ -9,7 +9,6 @@ import {
   useQueryClient,
   type UseMutationResult,
 } from "@tanstack/react-query";
-import { isAxiosError } from "axios";
 import {
   createContext,
   useContext,
@@ -18,6 +17,7 @@ import {
   type ReactNode,
 } from "react";
 import { useModal } from "./ModalContext";
+import { handleAxiosFormError } from "@/utils/handleAxiosFormError";
 
 type SkillContextType = {
   currentSkill: Skill | null;
@@ -83,12 +83,11 @@ export function SkillProvider({ children }: { children: ReactNode }) {
       ]);
     },
     onError: (error) => {
-      console.error(error);
-      if (isAxiosError(error)) {
-        setErrorMessage(error.response?.data.message);
-      } else {
-        setErrorMessage("Erro ao criar habilidade, tente novamente!");
-      }
+      handleAxiosFormError({
+        error,
+        setError: setErrorMessage,
+        genericMessage: "Erro ao criar habilidade, tente novamente!",
+      });
     },
   });
 
@@ -102,15 +101,14 @@ export function SkillProvider({ children }: { children: ReactNode }) {
       queryClient.setQueryData<Skill[]>(["skills"], (oldSkills) => {
         return oldSkills?.filter((skill) => skill.skillId !== skillId) || [];
       });
-      closeModal()
+      closeModal();
     },
     onError: (error) => {
-      console.error(error);
-      if (isAxiosError(error)) {
-        setErrorMessage(error.response?.data.message);
-      } else {
-        setErrorMessage("Erro ao deletar habilidade, tente novamente!");
-      }
+      handleAxiosFormError({
+        error,
+        setError: setErrorMessage,
+        genericMessage: "Erro ao deletar habilidade, tente novamente!",
+      });
     },
   });
 
@@ -138,12 +136,11 @@ export function SkillProvider({ children }: { children: ReactNode }) {
       });
     },
     onError: (error) => {
-      console.error(error);
-      if (isAxiosError(error)) {
-        setErrorMessage(error.response?.data.message);
-      } else {
-        setErrorMessage("Erro ao atualizar habilidade, tente novamente!");
-      }
+      handleAxiosFormError({
+        error,
+        setError: setErrorMessage,
+        genericMessage: "Erro ao atualizar habilidade, tente novamente!",
+      });
     },
     onSettled: () => {
       setCurrentSkill(null);
