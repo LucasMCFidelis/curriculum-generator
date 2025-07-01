@@ -1,3 +1,4 @@
+import { ErrorCustomer } from "../ErrorCustomer";
 import { prisma } from "../lib/prisma";
 import {
   CreateWorkExperienceDTO,
@@ -24,11 +25,11 @@ export class WorkExperienceService {
         data: dataValidated,
       });
     } catch (error) {
-      throw {
-        status: 500,
-        error: "Erro no servidor",
-        message: "Erro ao criar work experience",
-      };
+      throw new ErrorCustomer(
+        500,
+        "Erro no servidor",
+        "Erro ao criar work experience"
+      );
     }
 
     return newWorkExperience;
@@ -68,19 +69,19 @@ export class WorkExperienceService {
         },
       });
     } catch (error) {
-      throw {
-        status: 500,
-        error: "Erro no servidor",
-        message: "Erro ao listar work experiences",
-      };
+      throw new ErrorCustomer(
+        500,
+        "Erro no servidor",
+        "Erro ao listar work experiences"
+      );
     }
 
     if (workExperiences.length === 0) {
-      throw {
-        status: 404,
-        error: "Erro Not Found",
-        message: "Nenhuma work experience encontrada com os filtros informados",
-      };
+      throw new ErrorCustomer(
+        404,
+        "Erro Not Found",
+        "Nenhuma work experience encontrada com os filtros informados"
+      );
     }
 
     return workExperiences;
@@ -98,19 +99,19 @@ export class WorkExperienceService {
         where: { workExperienceUserId: userId, workExperienceId },
       });
     } catch (error) {
-      throw {
-        status: 500,
-        error: "Erro no servidor",
-        message: "Erro ao buscar work experience",
-      };
+      throw new ErrorCustomer(
+        500,
+        "Erro no servidor",
+        "Erro ao buscar work experience"
+      );
     }
 
     if (!workExperience) {
-      throw {
-        status: 404,
-        error: "Erro Not Found",
-        message: "Nenhuma work experience encontrada com o id informado",
-      };
+      throw new ErrorCustomer(
+        404,
+        "Erro Not Found",
+        "Nenhuma work experience encontrada com o id informado"
+      );
     }
 
     return workExperience;
@@ -125,11 +126,11 @@ export class WorkExperienceService {
         where: { workExperienceUserId: userId, workExperienceId },
       });
     } catch (error) {
-      throw {
-        status: 500,
-        error: "Erro no servidor",
-        message: "Erro ao deletar work experience",
-      };
+      throw new ErrorCustomer(
+        500,
+        "Erro no servidor",
+        "Erro ao deletar work experience"
+      );
     }
 
     return workExperienceDeleted;
@@ -152,11 +153,11 @@ export class WorkExperienceService {
         data: dataValidated,
       });
     } catch (error) {
-      throw {
-        status: 500,
-        error: "Erro no servidor",
-        message: "Erro ao atualizar work experience",
-      };
+      throw new ErrorCustomer(
+        500,
+        "Erro no servidor",
+        "Erro ao atualizar work experience"
+      );
     }
 
     return workExperienceUpdated;
