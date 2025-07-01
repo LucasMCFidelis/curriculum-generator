@@ -5,6 +5,17 @@ import { ClipboardSignature } from "lucide-react";
 import { useAuth } from "./hooks/useAuth";
 import imageHomeCV from "./assets/homeCV.svg";
 import SkillsSection from "./components/SkillsSection";
+import WorkExperienceSection from "./components/WorkExperienceSection";
+import { Separator } from "./components/ui/separator";
+
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+import isBetween from "dayjs/plugin/isBetween";
+import "dayjs/locale/pt-br";
+
+dayjs.extend(relativeTime);
+dayjs.extend(isBetween)
+dayjs.locale("pt-br");
 
 function App() {
   const { openModal } = useModal();
@@ -15,9 +26,11 @@ function App() {
       <Layout>
         {currentUser ? (
           <>
-            <div className="flex-1">
+            <div className="flex-1 space-y-2 md:space-y-8">
               <h1>Usuário: {currentUser?.userName}</h1>
               <SkillsSection />
+              <Separator/>
+              <WorkExperienceSection />
             </div>
           </>
         ) : (

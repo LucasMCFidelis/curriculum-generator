@@ -86,7 +86,6 @@ function SkillsSection() {
             <SearchInput
               value={searchValue}
               setValue={setSearchValue}
-              onSearch={(value) => console.log(value)}
               className="col-span-2"
             />
             <div className="space-y-2">

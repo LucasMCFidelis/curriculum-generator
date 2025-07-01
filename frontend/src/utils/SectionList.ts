@@ -10,9 +10,10 @@ export function SectionList() {
       onCreate: () => openModal("createSkill"),
     },
     {
-      label: "Experiências",
-      sectionId: "experienceSection",
-      onCreate: () => console.log("Abrir modal: cadastrar experiência"),
+      label: "Experiências Profissionais",
+      sectionId: "workExperienceSection",
+      onCreate: () =>
+        console.log("Abrir modal: cadastrar experiência profissional"),
     },
     {
       label: "Projetos",

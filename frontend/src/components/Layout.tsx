@@ -8,6 +8,9 @@ import CadastreUserModal from "./CadastreUserModal";
 import CreateSkillModal from "./CreateSkillModal";
 import ConfirmDeleteSkillModal from "./ConfirmDeleteSkill";
 import UpdateSkillModal from "./UpdateSkillModal";
+import CreateWorkExperienceModal from "./CreateWorkExperienceModal";
+import ConfirmDeleteWorkExperienceModal from "./ConfirmDeleteWorkExperienceModal";
+import { UpdateWorkExperienceModal } from "./UpdateWorkExperienceModal";
 
 type LayoutProps = {
   children: ReactNode;
@@ -27,6 +30,9 @@ function Layout({ children }: LayoutProps) {
         <CreateSkillModal/>
         <UpdateSkillModal />
         <ConfirmDeleteSkillModal/>
+        <CreateWorkExperienceModal/>
+        <UpdateWorkExperienceModal/>
+        <ConfirmDeleteWorkExperienceModal/>
       </div>
     </>
   );
