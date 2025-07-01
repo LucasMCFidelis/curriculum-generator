@@ -49,10 +49,10 @@ export class ProjectController extends BaseCrud {
     reply: FastifyReply
   ) {
     try {
-      const projectFind = await projectService.listProjects({
+      const projects = await projectService.listProjects({
         userId: request.query.userId,
       });
-      return reply.status(200).send(projectFind);
+      return reply.status(200).send(projects);
     } catch (error) {
       errorHandler(error, reply);
     }

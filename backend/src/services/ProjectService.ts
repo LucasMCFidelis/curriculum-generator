@@ -1,3 +1,4 @@
+import { ErrorCustomer } from "../ErrorCustomer";
 import { prisma } from "../lib/prisma";
 import {
   CreateProjectDTO,
@@ -19,11 +20,7 @@ export class ProjectService {
     try {
       newProject = await prisma.project.create({ data: dataValidated });
     } catch (error) {
-      throw {
-        status: 500,
-        error: "Erro no servidor",
-        message: "Erro ao criar projeto",
-      };
+      throw new ErrorCustomer(500, "Erro no servidor", "Erro ao criar projeto");
     }
 
     return newProject;
@@ -48,29 +45,25 @@ export class ProjectService {
         where: { projectUserId: userId, projectId },
       });
     } catch (error) {
-      throw {
-        status: 500,
-        error: "Erro no servidor",
-        message: "Erro ao buscar projeto",
-      };
+      throw new ErrorCustomer(
+        500,
+        "Erro no servidor",
+        "Erro ao buscar projeto"
+      );
     }
 
     if (!projectFind) {
-      throw {
-        status: 404,
-        error: "Erro Not Found",
-        message: "Nenhum projeto encontrado com o id informado",
-      };
+      throw new ErrorCustomer(
+        404,
+        "Erro Not Found",
+        "Nenhum projeto encontrado com o id informado"
+      );
     }
 
     return projectFind;
   }
 
-  async listProjects({
-    userId,
-  }: {
-    userId: string;
-  }) {
+  async listProjects({ userId }: { userId: string }) {
     await Promise.all([userService.getUserByIdOrEmail(userId)]);
 
     let projects;
@@ -79,11 +72,21 @@ export class ProjectService {
         where: { projectUserId: userId },
       });
     } catch (error) {
-      throw {
-        status: 500,
-        error: "Erro no servidor",
-        message: "Erro ao buscar projetos",
-      };
+      throw new ErrorCustomer(
+        500,
+        "Erro no servidor",
+        "Erro ao buscar projetos"
+      );
     }
+
+    if (projects.length === 0) {
+      throw new ErrorCustomer(
+        404,
+        "Erro Not Found",
+        "Nenhum Projeto encontrado com as informações fornecidas"
+      );
+    }
+
+    return projects;
   }
 }
