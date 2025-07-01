@@ -16,7 +16,6 @@ import {
   Trash2,
 } from "lucide-react";
 import { Button } from "./ui/button";
-import LoadingSpin from "./LoadingSpin";
 import { DateDisplay } from "./DateDisplay";
 import { getFormattedDuration } from "@/utils/getFormattedDuration";
 import { useModal } from "@/contexts/ModalContext";
@@ -30,6 +29,7 @@ import { Label } from "./ui/label";
 import { isDateInRange } from "@/utils/isDateInRange";
 import { handleNavigation } from "@/utils/handleNavigation";
 import { normalizeString } from "@/utils/normalizeString";
+import { Feedback } from "./feedback";
 
 function WorkExperienceSection() {
   const {
@@ -87,22 +87,21 @@ function WorkExperienceSection() {
       <h2>Experiências Profissionais</h2>
 
       {isLoadingWorkExperiencesUser && (
-        <div className="flex gap-2 justify-center items-center">
-          <p>Carregando Experiências Profissionais...</p>
-          <LoadingSpin />
-        </div>
+        <Feedback.Root>
+          <Feedback.Loading message="Carregando Experiências Profissionais" />
+        </Feedback.Root>
       )}
 
       {isErrorWorkExperiencesUser && (
-        <div className="flex flex-col gap-2 justify-center items-center">
-          <p className="text-destructive">{errorMessage}</p>
+        <Feedback.Root>
+          <Feedback.Error message={errorMessage} />
           <Button
             className="w-full sm:w-fit"
             onClick={() => refetchWorkExperiencesUser()}
           >
             Recarregar Experiências Profissionais
           </Button>
-        </div>
+        </Feedback.Root>
       )}
 
       {!isLoadingWorkExperiencesUser &&

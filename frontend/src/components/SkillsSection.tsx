@@ -11,7 +11,6 @@ import {
 import { PenBox, Plus, RefreshCwIcon, Trash2 } from "lucide-react";
 import { useModal } from "@/contexts/ModalContext";
 import { useSkills } from "@/contexts/SkillContext";
-import LoadingSpin from "./LoadingSpin";
 import { Select, SelectContent, SelectItem, SelectTrigger } from "./ui/select";
 import { SelectValue } from "@radix-ui/react-select";
 import SearchInput from "./SearchInput";
@@ -19,6 +18,7 @@ import { Label } from "./ui/label";
 import { useMemo, useState } from "react";
 import { normalizeString } from "@/utils/normalizeString";
 import { DateDisplay } from "./DateDisplay";
+import { Feedback } from "./feedback";
 
 function SkillsSection() {
   const {
@@ -28,6 +28,7 @@ function SkillsSection() {
     refetchSkills,
     setCurrentSkill,
     skillsTypes,
+    errorMessage,
   } = useSkills();
   const { openModal } = useModal();
 
@@ -71,19 +72,18 @@ function SkillsSection() {
       <h2>Habilidades</h2>
 
       {isErrorSkills && (
-        <div className="flex flex-col gap-2 items-center justify-center">
-          <p className="text-destructive">Erro</p>
+        <Feedback.Root>
+          <Feedback.Error message={errorMessage} />
           <Button className="w-full sm:w-fit" onClick={() => refetchSkills()}>
             Recarregar Habilidades
           </Button>
-        </div>
+        </Feedback.Root>
       )}
 
       {isLoadingSkills && (
-        <div className="flex gap-3 items-center justify-center">
-          <p>Carregando Habilidades</p>
-          <LoadingSpin />
-        </div>
+        <Feedback.Root>
+          <Feedback.Loading message="Carregando Habilidades" />
+        </Feedback.Root>
       )}
 
       {!isLoadingSkills && !isErrorSkills && skillsUser && (
