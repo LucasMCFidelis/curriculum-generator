@@ -4,6 +4,8 @@ import {
   CreateProjectDTO,
   createProjectSchema,
   projectIdSchema,
+  UpdateProjectDTO,
+  updateProjectSchema,
 } from "../schemas/projectSchemas";
 import { UserService } from "./UserService";
 
@@ -111,5 +113,45 @@ export class ProjectService {
     }
 
     return projectDeleted;
+  }
+
+  async updateProject({
+    userId,
+    projectId,
+    data,
+  }: {
+    userId: string;
+    projectId: string;
+    data: UpdateProjectDTO;
+  }) {
+    const project = await this.getProject({ userId, projectId });
+    const dataValidated = await updateProjectSchema.parseAsync({
+      ...project,
+      ...data,
+      ...(!data.projectFinished && { projectEndDate: undefined }),
+    });
+
+    let projectUpdated;
+    try {
+      projectUpdated = await prisma.project.update({
+        where: { projectId },
+        data: {
+          ...dataValidated,
+          projectEndDate: dataValidated.projectFinished
+            ? dataValidated.projectEndDate
+            : null,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+
+      throw new ErrorCustomer(
+        500,
+        "Erro no servidor",
+        "Erro ao atualizar projeto"
+      );
+    }
+
+    return projectUpdated;
   }
 }

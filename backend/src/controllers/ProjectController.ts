@@ -1,7 +1,7 @@
 import { FastifyRequest, FastifyReply } from "fastify";
 import { BaseCrud } from "../BaseCrud";
 import { ProjectService } from "../services/ProjectService";
-import { CreateProjectDTO } from "../schemas/projectSchemas";
+import { CreateProjectDTO, UpdateProjectDTO } from "../schemas/projectSchemas";
 import { errorHandler } from "../utils/errorHandler";
 
 const projectService = new ProjectService();
@@ -71,6 +71,27 @@ export class ProjectController extends BaseCrud {
       });
       return reply.status(200).send({
         message: `Projeto ${projectDeleted.projectTitle} deletado com sucesso`,
+      });
+    } catch (error) {
+      errorHandler(error, reply);
+    }
+  }
+
+  public async update(
+    request: FastifyRequest<{
+      Querystring: { userId: string; projectId: string };
+      Body: UpdateProjectDTO;
+    }>,
+    reply: FastifyReply
+  ) {
+    try {
+      const projectUpdated = await projectService.updateProject({
+        userId: request.query.userId,
+        projectId: request.query.projectId,
+        data: request.body
+      });
+      return reply.status(200).send({
+        message: `Projeto ${projectUpdated.projectTitle} deletado com sucesso`, projectUpdated
       });
     } catch (error) {
       errorHandler(error, reply);

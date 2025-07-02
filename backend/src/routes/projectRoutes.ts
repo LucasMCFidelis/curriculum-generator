@@ -25,4 +25,9 @@ export async function projectRoutes(server: FastifyInstance) {
     { preHandler: AuthMiddleware.authenticateAndVerifyOwnership },
     projectController.delete
   );
+  server.put(
+    "/",
+    { preHandler: AuthMiddleware.authenticateAndVerifyOwnership },
+    projectController.update
+  );
 }
