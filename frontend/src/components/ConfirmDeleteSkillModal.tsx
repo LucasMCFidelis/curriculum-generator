@@ -1,5 +1,5 @@
 import { useModal } from "@/contexts/ModalContext";
-import { useSkills } from "@/contexts/SkillContext";
+import { useSkills } from "@/hooks/useSkills";
 import ConfirmDeleteItemModal from "./ConfirmDeleteItem";
 
 function ConfirmDeleteSkillModal() {

@@ -6,7 +6,7 @@ import { formSkillCreate } from "@/schemas/formSkillCreate";
 import type { formSkillCreateDTO } from "@/schemas/formSkillCreate";
 import { useModal } from "@/contexts/ModalContext";
 import { Save, X } from "lucide-react";
-import { useSkills } from "@/contexts/SkillContext";
+import { useSkills } from "@/hooks/useSkills";
 import LoadingSpin from "./LoadingSpin";
 import { useEffect } from "react";
 

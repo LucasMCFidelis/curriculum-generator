@@ -9,13 +9,7 @@ import {
   useQueryClient,
   type UseMutationResult,
 } from "@tanstack/react-query";
-import {
-  createContext,
-  useContext,
-  useMemo,
-  useState,
-  type ReactNode,
-} from "react";
+import { createContext, useMemo, useState, type ReactNode } from "react";
 import { useModal } from "./ModalContext";
 import { handleAxiosFormError } from "@/utils/handleAxiosFormError";
 
@@ -33,7 +27,7 @@ type SkillContextType = {
   errorMessage: string;
 };
 
-const SkillContext = createContext({} as SkillContextType);
+export const SkillContext = createContext({} as SkillContextType);
 
 export function SkillProvider({ children }: { children: ReactNode }) {
   const { currentUser } = useAuth();
@@ -175,5 +169,3 @@ export function SkillProvider({ children }: { children: ReactNode }) {
     </SkillContext.Provider>
   );
 }
-
-export const useSkills = () => useContext(SkillContext);

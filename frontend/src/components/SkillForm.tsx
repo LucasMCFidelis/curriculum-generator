@@ -11,7 +11,7 @@ import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger } from "./ui/select";
 import { SelectValue } from "@radix-ui/react-select";
-import { useSkills } from "@/contexts/SkillContext";
+import { useSkills } from "@/hooks/useSkills";
 import type { formSkillCreateDTO } from "@/schemas/formSkillCreate";
 
 interface SkillFormProps<T extends Partial<formSkillCreateDTO>> {

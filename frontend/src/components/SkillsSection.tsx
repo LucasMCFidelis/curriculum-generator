@@ -10,7 +10,7 @@ import {
 } from "./ui/card";
 import { PenBox, Plus, RefreshCwIcon, Trash2 } from "lucide-react";
 import { useModal } from "@/contexts/ModalContext";
-import { useSkills } from "@/contexts/SkillContext";
+import { useSkills } from "@/hooks/useSkills";
 import { Select, SelectContent, SelectItem, SelectTrigger } from "./ui/select";
 import { SelectValue } from "@radix-ui/react-select";
 import SearchInput from "./SearchInput";

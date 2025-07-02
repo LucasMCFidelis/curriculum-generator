@@ -1,7 +1,7 @@
 import { useModal } from "@/contexts/ModalContext";
 import Modal from "./modal";
 import { Save, X } from "lucide-react";
-import { useSkills } from "@/contexts/SkillContext";
+import { useSkills } from "@/hooks/useSkills";
 import SkillForm from "./SkillForm";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
