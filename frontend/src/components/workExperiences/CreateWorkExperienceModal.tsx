@@ -6,17 +6,17 @@ import { LoadingSpin } from "../LoadingSpin";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  formWorkExperienceCreate,
-  type formWorkExperienceCreateDTO,
-} from "@/schemas/formWorkExperienceCreate";
+  workExperienceCreateSchema,
+  type WorkExperienceCreateSchemaDTO,
+} from "@/schemas/workExperienceCreateSchema";
 import { WorkExperienceForm } from "./WorkExperienceForm";
 
 export function CreateWorkExperienceModal() {
   const { currentModal, closeModal } = useModal();
   const { cadastreWorkExperience, errorMessage } = useWorkExperiences();
 
-  const formCreateWorkExperience = useForm<formWorkExperienceCreateDTO>({
-    resolver: zodResolver(formWorkExperienceCreate),
+  const formCreateWorkExperience = useForm<WorkExperienceCreateSchemaDTO>({
+    resolver: zodResolver(workExperienceCreateSchema),
     defaultValues: { workExperienceFinished: false },
   });
 

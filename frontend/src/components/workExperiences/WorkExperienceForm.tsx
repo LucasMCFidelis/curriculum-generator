@@ -1,4 +1,4 @@
-import type { formWorkExperienceCreateDTO } from "@/schemas/formWorkExperienceCreate";
+import type { WorkExperienceCreateSchemaDTO } from "@/schemas/workExperienceCreateSchema";
 import type { UseFormReturn } from "react-hook-form";
 import {
   Form,
@@ -17,11 +17,11 @@ import { CalendarDays } from "lucide-react";
 import { Calendar } from "../ui/calendar";
 import { cn } from "@/lib/utils";
 import { DateDisplay } from "../DateDisplay";
-import type { formWorkExperienceUpdateDTO } from "@/schemas/formWorkExperienceUpdate";
+import type { WorkExperienceUpdateSchemaDTO } from "@/schemas/formWorkExperienceUpdate";
 
 interface WorkExperienceFormProps {
   form: UseFormReturn<
-    formWorkExperienceCreateDTO | formWorkExperienceUpdateDTO
+    WorkExperienceCreateSchemaDTO | WorkExperienceUpdateSchemaDTO
   >;
   isEditable?: boolean;
 }

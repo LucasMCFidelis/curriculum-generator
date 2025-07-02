@@ -3,8 +3,8 @@ import { Modal } from "../modal";
 import { Plus, X } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { formUserCadastreSchema } from "@/schemas/formUserCadastreSchema";
-import type { formUserCadastreSchemaDTO } from "@/schemas/formUserCadastreSchema";
+import { userCadastreSchema } from "@/schemas/userCadastreSchema";
+import type { UserCadastreSchemaDTO } from "@/schemas/userCadastreSchema";
 import { UserForm } from "./UserForm";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { User } from "@/types/User";
@@ -20,8 +20,8 @@ export function CadastreUserModal() {
   const [errorMessage, setErrorMessage] = useState<string>("");
   const queryClient = useQueryClient();
 
-  const formCadastreUser = useForm<formUserCadastreSchemaDTO>({
-    resolver: zodResolver(formUserCadastreSchema),
+  const formCadastreUser = useForm<UserCadastreSchemaDTO>({
+    resolver: zodResolver(userCadastreSchema),
     defaultValues: {
       userName: "",
       userEmail: "",
@@ -30,7 +30,7 @@ export function CadastreUserModal() {
   });
 
   const cadastreUserMutation = useMutation({
-    mutationFn: async (data: formUserCadastreSchemaDTO) => {
+    mutationFn: async (data: UserCadastreSchemaDTO) => {
       const userResponse = await api.post("/users", data);
       return userResponse.data;
     },

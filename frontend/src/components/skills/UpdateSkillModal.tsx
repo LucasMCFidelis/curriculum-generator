@@ -6,9 +6,9 @@ import { SkillForm } from "./SkillForm";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  formSkillUpdate,
-  type formSkillUpdateDTO,
-} from "@/schemas/formSkillUpdate";
+  skillUpdateSchema,
+  type SkillUpdateSchemaDTO,
+} from "@/schemas/skillUpdateSchema";
 import { useEffect, useState } from "react";
 import { LoadingSpin } from "../LoadingSpin";
 
@@ -17,8 +17,8 @@ export function UpdateSkillModal() {
   const { currentSkill, updateSkillMutation } = useSkills();
   const [formKey, setFormKey] = useState<number>(0);
 
-  const formUpdate = useForm<formSkillUpdateDTO>({
-    resolver: zodResolver(formSkillUpdate),
+  const formUpdate = useForm<SkillUpdateSchemaDTO>({
+    resolver: zodResolver(skillUpdateSchema),
   });
 
   useEffect(() => {

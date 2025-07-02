@@ -4,8 +4,8 @@ import { Modal } from "../modal";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  formWorkExperienceUpdateSchema,
-  type formWorkExperienceUpdateDTO,
+  workExperienceUpdateSchema,
+  type WorkExperienceUpdateSchemaDTO,
 } from "@/schemas/formWorkExperienceUpdate";
 import { WorkExperienceForm } from "./WorkExperienceForm";
 import { useEffect } from "react";
@@ -17,8 +17,8 @@ export function UpdateWorkExperienceModal() {
   const { currentWorkExperience, updateWorkExperienceMutation, errorMessage } =
     useWorkExperiences();
 
-  const formUpdate = useForm<formWorkExperienceUpdateDTO>({
-    resolver: zodResolver(formWorkExperienceUpdateSchema),
+  const formUpdate = useForm<WorkExperienceUpdateSchemaDTO>({
+    resolver: zodResolver(workExperienceUpdateSchema),
   });
 
   useEffect(() => {

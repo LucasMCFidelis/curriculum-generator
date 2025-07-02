@@ -12,15 +12,15 @@ import { Textarea } from "../ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger } from "../ui/select";
 import { SelectValue } from "@radix-ui/react-select";
 import { useSkills } from "@/hooks/useSkills";
-import type { formSkillCreateDTO } from "@/schemas/formSkillCreate";
+import type { SkillCreateSchemaDTO } from "@/schemas/skillCreateSchema";
 
-interface SkillFormProps<T extends Partial<formSkillCreateDTO>> {
+interface SkillFormProps<T extends Partial<SkillCreateSchemaDTO>> {
   form: UseFormReturn<T>;
   isEditable?: boolean;
   formKey?: React.Key;
 }
 
-export function SkillForm<T extends Partial<formSkillCreateDTO>>({
+export function SkillForm<T extends Partial<SkillCreateSchemaDTO>>({
   form,
   isEditable = true,
   formKey,

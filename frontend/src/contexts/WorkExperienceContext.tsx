@@ -1,6 +1,6 @@
 import { api } from "@/api";
 import { useAuth } from "@/hooks/useAuth";
-import type { formWorkExperienceCreateDTO } from "@/schemas/formWorkExperienceCreate";
+import type { WorkExperienceCreateSchemaDTO } from "@/schemas/workExperienceCreateSchema";
 import type { WorkExperience } from "@/types/WorkExperience";
 import {
   useMutation,
@@ -10,7 +10,7 @@ import {
 } from "@tanstack/react-query";
 import { createContext, useState, type ReactNode } from "react";
 import { useModal } from "./ModalContext";
-import type { formWorkExperienceUpdateDTO } from "@/schemas/formWorkExperienceUpdate";
+import type { WorkExperienceUpdateSchemaDTO } from "@/schemas/formWorkExperienceUpdate";
 import { handleAxiosFormError } from "@/utils/handleAxiosFormError";
 
 type WorkExperienceContextType = {
@@ -23,13 +23,13 @@ type WorkExperienceContextType = {
   cadastreWorkExperience: UseMutationResult<
     WorkExperience,
     Error,
-    formWorkExperienceCreateDTO
+    WorkExperienceCreateSchemaDTO
   >;
   deleteWorkExperienceMutation: UseMutationResult<void, Error, string>;
   updateWorkExperienceMutation: UseMutationResult<
     WorkExperience,
     Error,
-    formWorkExperienceUpdateDTO
+    WorkExperienceUpdateSchemaDTO
   >;
   errorMessage: string;
   setErrorMessage: (value: string) => void;
@@ -74,9 +74,9 @@ export function WorkExperienceProvider({ children }: { children: ReactNode }) {
   const cadastreWorkExperience = useMutation<
     WorkExperience,
     Error,
-    formWorkExperienceCreateDTO
+    WorkExperienceCreateSchemaDTO
   >({
-    mutationFn: async (data: formWorkExperienceCreateDTO) => {
+    mutationFn: async (data: WorkExperienceCreateSchemaDTO) => {
       const workExperienceResponse = await api.post(
         `/work-experience?userId=${currentUser?.userId}`,
         data
@@ -136,9 +136,9 @@ export function WorkExperienceProvider({ children }: { children: ReactNode }) {
   const updateWorkExperienceMutation = useMutation<
     WorkExperience,
     Error,
-    formWorkExperienceUpdateDTO
+    WorkExperienceUpdateSchemaDTO
   >({
-    mutationFn: async (data: formWorkExperienceUpdateDTO) => {
+    mutationFn: async (data: WorkExperienceUpdateSchemaDTO) => {
       const updateResponse = await api.put(
         `/work-experience?userId=${currentUser?.userId}&workExperienceId=${currentWorkExperience?.workExperienceId}`,
         data

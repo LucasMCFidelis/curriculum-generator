@@ -1,7 +1,7 @@
 import { api } from "@/api";
 import { useAuth } from "@/hooks/useAuth";
-import type { formSkillCreateDTO } from "@/schemas/formSkillCreate";
-import type { formSkillUpdateDTO } from "@/schemas/formSkillUpdate";
+import type { SkillCreateSchemaDTO } from "@/schemas/skillCreateSchema";
+import type { SkillUpdateSchemaDTO } from "@/schemas/skillUpdateSchema";
 import type { Skill } from "@/types/Skill";
 import {
   useMutation,
@@ -21,9 +21,9 @@ type SkillContextType = {
   isErrorSkills: boolean;
   refetchSkills: () => void;
   skillsTypes: string[];
-  cadastreSkillMutation: UseMutationResult<Skill, Error, formSkillCreateDTO>;
+  cadastreSkillMutation: UseMutationResult<Skill, Error, SkillCreateSchemaDTO>;
   deleteSkillMutation: UseMutationResult<void, Error, string>;
-  updateSkillMutation: UseMutationResult<Skill, Error, formSkillUpdateDTO>;
+  updateSkillMutation: UseMutationResult<Skill, Error, SkillUpdateSchemaDTO>;
   errorMessage: string;
 };
 
@@ -63,8 +63,8 @@ export function SkillProvider({ children }: { children: ReactNode }) {
     return [...new Set(skillsUser?.map((skill) => skill.skillType))];
   }, [skillsUser]);
 
-  const cadastreSkillMutation = useMutation<Skill, Error, formSkillCreateDTO>({
-    mutationFn: async (data: formSkillCreateDTO) => {
+  const cadastreSkillMutation = useMutation<Skill, Error, SkillCreateSchemaDTO>({
+    mutationFn: async (data: SkillCreateSchemaDTO) => {
       const skillResponse = await api.post(
         `/skills?userId=${currentUser?.userId}`,
         data.skillTypeCustom
@@ -113,8 +113,8 @@ export function SkillProvider({ children }: { children: ReactNode }) {
     },
   });
 
-  const updateSkillMutation = useMutation<Skill, Error, formSkillUpdateDTO>({
-    mutationFn: async (data: formSkillUpdateDTO) => {
+  const updateSkillMutation = useMutation<Skill, Error, SkillUpdateSchemaDTO>({
+    mutationFn: async (data: SkillUpdateSchemaDTO) => {
       const skillResponse = await api.put(
         `/skills?userId=${currentUser?.userId}&skillId=${currentSkill?.skillId}`,
         data.skillTypeCustom

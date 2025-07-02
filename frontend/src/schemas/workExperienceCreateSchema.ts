@@ -1,6 +1,6 @@
 import z from "zod";
 
-export const formWorkExperienceCreate = z.object({
+export const workExperienceCreateSchema = z.object({
   workExperiencePosition: z
     .string()
     .min(1, "O cargo é obrigatório.")
@@ -23,6 +23,6 @@ export const formWorkExperienceCreate = z.object({
     .optional(),
 });
 
-export type formWorkExperienceCreateDTO = z.infer<
-  typeof formWorkExperienceCreate
+export type WorkExperienceCreateSchemaDTO = z.infer<
+  typeof workExperienceCreateSchema
 >;

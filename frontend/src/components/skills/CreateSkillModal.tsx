@@ -2,8 +2,8 @@ import { useForm } from "react-hook-form";
 import { Modal } from "../modal";
 import { SkillForm } from "./SkillForm";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { formSkillCreate } from "@/schemas/formSkillCreate";
-import type { formSkillCreateDTO } from "@/schemas/formSkillCreate";
+import { skillCreateSchema } from "@/schemas/skillCreateSchema";
+import type { SkillCreateSchemaDTO } from "@/schemas/skillCreateSchema";
 import { useModal } from "@/contexts/ModalContext";
 import { Save, X } from "lucide-react";
 import { useSkills } from "@/hooks/useSkills";
@@ -14,8 +14,8 @@ export function CreateSkillModal() {
   const { currentModal, closeModal } = useModal();
   const { errorMessage, cadastreSkillMutation } = useSkills();
 
-  const formCreateSkill = useForm<formSkillCreateDTO>({
-    resolver: zodResolver(formSkillCreate),
+  const formCreateSkill = useForm<SkillCreateSchemaDTO>({
+    resolver: zodResolver(skillCreateSchema),
   });
 
   useEffect(() => {

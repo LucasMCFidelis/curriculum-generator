@@ -7,8 +7,8 @@ import { api } from "@/api";
 import { useForm } from "react-hook-form";
 import type { User } from "@/types/User";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { formUserUpdateSchema } from "@/schemas/formUserUpdateSchema";
-import type { formUserUpdateSchemaDTO } from "@/schemas/formUserUpdateSchema";
+import { userUpdateSchema } from "@/schemas/userUpdateSchema";
+import type { UserUpdateSchemaDTO } from "@/schemas/userUpdateSchema";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { LoadingSpin } from "../LoadingSpin";
 import { isAxiosError } from "axios";
@@ -41,8 +41,8 @@ export function ProfileUserModal() {
     setIsEditableDataUser((prev) => !prev);
   }
 
-  const formProfileUser = useForm<formUserUpdateSchemaDTO>({
-    resolver: zodResolver(formUserUpdateSchema),
+  const formProfileUser = useForm<UserUpdateSchemaDTO>({
+    resolver: zodResolver(userUpdateSchema),
   });
 
   function resetFormProfileUser() {
