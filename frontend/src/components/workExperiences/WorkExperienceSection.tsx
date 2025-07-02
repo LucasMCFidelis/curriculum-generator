@@ -7,7 +7,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "./ui/card";
+} from "../ui/card";
 import {
   CalendarDays,
   PenBox,
@@ -15,23 +15,23 @@ import {
   RefreshCwIcon,
   Trash2,
 } from "lucide-react";
-import { Button } from "./ui/button";
-import { DateDisplay } from "./DateDisplay";
+import { Button } from "../ui/button";
+import { DateDisplay } from "../DateDisplay";
 import { getFormattedDuration } from "@/utils/getFormattedDuration";
 import { useModal } from "@/contexts/ModalContext";
-import SearchInput from "./SearchInput";
+import { SearchInput } from "../SearchInput";
 import { useMemo, useState } from "react";
 import type { DateRange } from "react-day-picker";
-import { Calendar } from "./ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { Calendar } from "../ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { cn } from "@/lib/utils";
-import { Label } from "./ui/label";
+import { Label } from "../ui/label";
 import { isDateInRange } from "@/utils/isDateInRange";
 import { handleNavigation } from "@/utils/handleNavigation";
 import { normalizeString } from "@/utils/normalizeString";
-import { Feedback } from "./feedback";
+import { Feedback } from "../feedback";
 
-function WorkExperienceSection() {
+export function WorkExperienceSection() {
   const {
     workExperiencesUser,
     isLoadingWorkExperiencesUser,
@@ -263,5 +263,3 @@ function WorkExperienceSection() {
     </section>
   );
 }
-
-export default WorkExperienceSection;

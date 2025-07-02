@@ -1,15 +1,15 @@
 import { useModal } from "@/contexts/ModalContext";
 import { useWorkExperiences } from "@/hooks/useWorkExperiences";
-import Modal from "./modal";
+import { Modal } from "../modal";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   formWorkExperienceUpdateSchema,
   type formWorkExperienceUpdateDTO,
 } from "@/schemas/formWorkExperienceUpdate";
-import WorkExperienceForm from "./WorkExperienceForm";
+import { WorkExperienceForm } from "./WorkExperienceForm";
 import { useEffect } from "react";
-import LoadingSpin from "./LoadingSpin";
+import { LoadingSpin } from "../LoadingSpin";
 import { Save } from "lucide-react";
 
 export function UpdateWorkExperienceModal() {

@@ -7,16 +7,16 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "./ui/form";
-import { Input } from "./ui/input";
-import { Textarea } from "./ui/textarea";
-import { Checkbox } from "./ui/checkbox";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { Button } from "./ui/button";
+} from "../ui/form";
+import { Input } from "../ui/input";
+import { Textarea } from "../ui/textarea";
+import { Checkbox } from "../ui/checkbox";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { Button } from "../ui/button";
 import { CalendarDays } from "lucide-react";
-import { Calendar } from "./ui/calendar";
+import { Calendar } from "../ui/calendar";
 import { cn } from "@/lib/utils";
-import { DateDisplay } from "./DateDisplay";
+import { DateDisplay } from "../DateDisplay";
 import type { formWorkExperienceUpdateDTO } from "@/schemas/formWorkExperienceUpdate";
 
 interface WorkExperienceFormProps {
@@ -26,7 +26,7 @@ interface WorkExperienceFormProps {
   isEditable?: boolean;
 }
 
-function WorkExperienceForm({
+export function WorkExperienceForm({
   form,
   isEditable = true,
 }: WorkExperienceFormProps) {
@@ -195,5 +195,3 @@ function WorkExperienceForm({
     </Form>
   );
 }
-
-export default WorkExperienceForm;

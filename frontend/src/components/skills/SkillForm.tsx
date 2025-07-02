@@ -6,10 +6,10 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "./ui/form";
-import { Input } from "./ui/input";
-import { Textarea } from "./ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger } from "./ui/select";
+} from "../ui/form";
+import { Input } from "../ui/input";
+import { Textarea } from "../ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger } from "../ui/select";
 import { SelectValue } from "@radix-ui/react-select";
 import { useSkills } from "@/hooks/useSkills";
 import type { formSkillCreateDTO } from "@/schemas/formSkillCreate";
@@ -20,7 +20,7 @@ interface SkillFormProps<T extends Partial<formSkillCreateDTO>> {
   formKey?: React.Key;
 }
 
-function SkillForm<T extends Partial<formSkillCreateDTO>>({
+export function SkillForm<T extends Partial<formSkillCreateDTO>>({
   form,
   isEditable = true,
   formKey,
@@ -117,5 +117,3 @@ function SkillForm<T extends Partial<formSkillCreateDTO>>({
     </Form>
   );
 }
-
-export default SkillForm;

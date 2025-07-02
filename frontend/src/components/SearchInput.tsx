@@ -10,7 +10,7 @@ interface SearchInputProps extends InputHTMLAttributes<HTMLInputElement> {
   setValue: (value: string) => void;
 }
 
-function SearchInput({
+export function SearchInput({
   placeholder = "Buscar",
   value,
   setValue,
@@ -39,5 +39,3 @@ function SearchInput({
     </div>
   );
 }
-
-export default SearchInput;

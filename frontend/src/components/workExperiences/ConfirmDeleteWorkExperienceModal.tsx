@@ -1,8 +1,8 @@
 import { useModal } from "@/contexts/ModalContext";
-import ConfirmDeleteItemModal from "./ConfirmDeleteItem";
+import { ConfirmDeleteItemModal } from "../ConfirmDeleteItem";
 import { useWorkExperiences } from "@/hooks/useWorkExperiences";
 
-export default function ConfirmDeleteWorkExperienceModal() {
+export function ConfirmDeleteWorkExperienceModal() {
   const { currentModal } = useModal();
   const { currentWorkExperience, deleteWorkExperienceMutation } =
     useWorkExperiences();

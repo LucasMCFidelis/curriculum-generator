@@ -1,7 +1,7 @@
 import { Github, Linkedin } from "lucide-react";
 import { Button } from "./ui/button";
 
-function Footer() {
+export function Footer() {
   return (
     <footer className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
       <div>
@@ -53,5 +53,3 @@ function Footer() {
     </footer>
   );
 }
-
-export default Footer;

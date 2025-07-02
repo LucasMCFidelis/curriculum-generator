@@ -1,11 +1,11 @@
-import ModalAction from "./ModalAction";
-import ModalBody from "./ModalBody";
-import ModalClose from "./ModalClose";
-import ModalConfirm from "./ModalConfirm";
-import ModalHeader from "./ModalHeader";
-import ModalRoot from "./ModalRoot";
+import { ModalAction } from "./ModalAction";
+import { ModalBody } from "./ModalBody";
+import { ModalClose } from "./ModalClose";
+import { ModalConfirm } from "./ModalConfirm";
+import { ModalHeader } from "./ModalHeader";
+import { ModalRoot } from "./ModalRoot";
 
-const Modal = {
+export const Modal = {
   Root: ModalRoot,
   Body: ModalBody,
   Header: ModalHeader,
@@ -13,5 +13,3 @@ const Modal = {
   Close: ModalClose,
   Confirm: ModalConfirm,
 };
-
-export default Modal;

@@ -1,5 +1,5 @@
 import { useModal } from "@/contexts/ModalContext";
-import Modal from "./modal";
+import { Modal } from "../modal";
 import { Edit, Save, X } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useEffect, useState } from "react";
@@ -10,11 +10,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { formUserUpdateSchema } from "@/schemas/formUserUpdateSchema";
 import type { formUserUpdateSchemaDTO } from "@/schemas/formUserUpdateSchema";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import LoadingSpin from "./LoadingSpin";
+import { LoadingSpin } from "../LoadingSpin";
 import { isAxiosError } from "axios";
-import UserForm from "./UserForm";
+import { UserForm } from "./UserForm";
 
-function ProfileUserModal() {
+export function ProfileUserModal() {
   const { currentUser } = useAuth();
   const { currentModal, closeModal } = useModal();
   const [isEditableDataUser, setIsEditableDataUser] = useState<boolean>(false);
@@ -74,9 +74,12 @@ function ProfileUserModal() {
 
   const updateUserMutation = useMutation({
     mutationFn: async (updatedDataUser: Partial<User>) => {
-      const updatedUser = await api.put(`/users?userId=${currentUser?.userId}`, updatedDataUser);
-      console.log("updated",updatedUser);
-      
+      const updatedUser = await api.put(
+        `/users?userId=${currentUser?.userId}`,
+        updatedDataUser
+      );
+      console.log("updated", updatedUser);
+
       return updatedUser.data.updatedUser;
     },
     onSuccess: (updatedUser) => {
@@ -188,5 +191,3 @@ function ProfileUserModal() {
     </>
   );
 }
-
-export default ProfileUserModal;

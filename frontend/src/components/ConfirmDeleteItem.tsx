@@ -1,7 +1,7 @@
 import { useModal } from "@/contexts/ModalContext";
-import Modal from "./modal";
+import { Modal } from "./modal";
 import { Trash2, X } from "lucide-react";
-import LoadingSpin from "./LoadingSpin";
+import { LoadingSpin } from "./LoadingSpin";
 import type { UseMutationResult } from "@tanstack/react-query";
 
 interface ConfirmDeleteItemModalProps {
@@ -11,7 +11,7 @@ interface ConfirmDeleteItemModalProps {
   deleteMutation: UseMutationResult<void, Error, string>;
 }
 
-function ConfirmDeleteItemModal({
+export function ConfirmDeleteItemModal({
   itemType,
   itemId,
   itemTitle,
@@ -54,5 +54,3 @@ function ConfirmDeleteItemModal({
     </Modal.Root>
   );
 }
-
-export default ConfirmDeleteItemModal;

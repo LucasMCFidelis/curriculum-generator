@@ -1,8 +1,8 @@
 import { useModal } from "@/contexts/ModalContext";
-import Modal from "./modal";
+import { Modal } from "../modal";
 import { Save, X } from "lucide-react";
 import { useSkills } from "@/hooks/useSkills";
-import SkillForm from "./SkillForm";
+import { SkillForm } from "./SkillForm";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -10,9 +10,9 @@ import {
   type formSkillUpdateDTO,
 } from "@/schemas/formSkillUpdate";
 import { useEffect, useState } from "react";
-import LoadingSpin from "./LoadingSpin";
+import { LoadingSpin } from "../LoadingSpin";
 
-function UpdateSkillModal() {
+export function UpdateSkillModal() {
   const { currentModal, closeModal } = useModal();
   const { currentSkill, updateSkillMutation } = useSkills();
   const [formKey, setFormKey] = useState<number>(0);
@@ -78,5 +78,3 @@ function UpdateSkillModal() {
     </>
   );
 }
-
-export default UpdateSkillModal;

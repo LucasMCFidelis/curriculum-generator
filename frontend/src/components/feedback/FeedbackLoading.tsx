@@ -1,5 +1,5 @@
 import type { InterfaceFeedbackProps } from "@/types/InterfaceFeedbackProps";
-import LoadingSpin from "../LoadingSpin";
+import { LoadingSpin } from "../LoadingSpin";
 
 export function FeedbackLoading({
   message = "Carregando",

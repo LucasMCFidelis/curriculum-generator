@@ -1,16 +1,16 @@
 import { useForm } from "react-hook-form";
-import Modal from "./modal";
-import SkillForm from "./SkillForm";
+import { Modal } from "../modal";
+import { SkillForm } from "./SkillForm";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { formSkillCreate } from "@/schemas/formSkillCreate";
 import type { formSkillCreateDTO } from "@/schemas/formSkillCreate";
 import { useModal } from "@/contexts/ModalContext";
 import { Save, X } from "lucide-react";
 import { useSkills } from "@/hooks/useSkills";
-import LoadingSpin from "./LoadingSpin";
+import { LoadingSpin } from "../LoadingSpin";
 import { useEffect } from "react";
 
-function CreateSkillModal() {
+export function CreateSkillModal() {
   const { currentModal, closeModal } = useModal();
   const { errorMessage, cadastreSkillMutation } = useSkills();
 
@@ -77,5 +77,3 @@ function CreateSkillModal() {
     </>
   );
 }
-
-export default CreateSkillModal;

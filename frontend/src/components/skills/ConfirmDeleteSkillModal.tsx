@@ -1,8 +1,8 @@
 import { useModal } from "@/contexts/ModalContext";
 import { useSkills } from "@/hooks/useSkills";
-import ConfirmDeleteItemModal from "./ConfirmDeleteItem";
+import { ConfirmDeleteItemModal } from "../ConfirmDeleteItem";
 
-function ConfirmDeleteSkillModal() {
+export function ConfirmDeleteSkillModal() {
   const { currentModal } = useModal();
   const { currentSkill, deleteSkillMutation } = useSkills();
 
@@ -19,5 +19,3 @@ function ConfirmDeleteSkillModal() {
     </>
   );
 }
-
-export default ConfirmDeleteSkillModal;

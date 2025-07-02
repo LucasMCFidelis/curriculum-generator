@@ -1,4 +1,4 @@
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import {
   Card,
   CardAction,
@@ -7,20 +7,20 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "./ui/card";
+} from "../ui/card";
 import { PenBox, Plus, RefreshCwIcon, Trash2 } from "lucide-react";
 import { useModal } from "@/contexts/ModalContext";
 import { useSkills } from "@/hooks/useSkills";
-import { Select, SelectContent, SelectItem, SelectTrigger } from "./ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger } from "../ui/select";
 import { SelectValue } from "@radix-ui/react-select";
-import SearchInput from "./SearchInput";
-import { Label } from "./ui/label";
+import { SearchInput } from "../SearchInput";
+import { Label } from "../ui/label";
 import { useMemo, useState } from "react";
 import { normalizeString } from "@/utils/normalizeString";
-import { DateDisplay } from "./DateDisplay";
-import { Feedback } from "./feedback";
+import { DateDisplay } from "../DateDisplay";
+import { Feedback } from "../feedback";
 
-function SkillsSection() {
+export function SkillsSection() {
   const {
     skillsUser,
     isLoadingSkills,
@@ -183,4 +183,3 @@ function SkillsSection() {
   );
 }
 
-export default SkillsSection;

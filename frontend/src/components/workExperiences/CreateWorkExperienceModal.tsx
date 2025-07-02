@@ -1,17 +1,17 @@
 import { useModal } from "@/contexts/ModalContext";
-import Modal from "./modal";
+import { Modal } from "../modal";
 import { Save } from "lucide-react";
 import { useWorkExperiences } from "@/hooks/useWorkExperiences";
-import LoadingSpin from "./LoadingSpin";
+import { LoadingSpin } from "../LoadingSpin";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   formWorkExperienceCreate,
   type formWorkExperienceCreateDTO,
 } from "@/schemas/formWorkExperienceCreate";
-import WorkExperienceForm from "./WorkExperienceForm";
+import { WorkExperienceForm } from "./WorkExperienceForm";
 
-function CreateWorkExperienceModal() {
+export function CreateWorkExperienceModal() {
   const { currentModal, closeModal } = useModal();
   const { cadastreWorkExperience, errorMessage } = useWorkExperiences();
 
@@ -64,5 +64,3 @@ function CreateWorkExperienceModal() {
     </>
   );
 }
-
-export default CreateWorkExperienceModal;
