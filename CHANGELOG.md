@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.1](https://github.com/LucasMCFidelis/curriculum-generator/compare/v1.4.0...v1.4.1) (2025-07-03)
+
+
+### ♻️ Refactors
+
+* **work-experience:** ajusta caminho de importação do schema de update ([7b5e8ca](https://github.com/LucasMCFidelis/curriculum-generator/commit/7b5e8ca7abbfeaa988a80d3a0e41538e43dca280))
+
+
+### 🐛 Bug Fixes
+
+* **section-list:** substituir console.log pela abertura do modal de criação de experiência profissional ([3895156](https://github.com/LucasMCFidelis/curriculum-generator/commit/389515634cbf3552620c61461806356bb868e495))
+
 ## [1.4.0](https://github.com/LucasMCFidelis/curriculum-generator/compare/v1.3.0...v1.4.0) (2025-07-03)
 
 
