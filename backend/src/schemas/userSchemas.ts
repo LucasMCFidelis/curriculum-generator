@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { optionalUrlField } from "./optionalUrlFieldSchema";
 
 export const userIdSchema = z.object({
   userId: z.string().uuid("userId deve ser um id válido no padrão uuid"),
@@ -20,16 +21,6 @@ export const userPasswordSchema = z.object({
       message: "A senha deve conter ao menos um caractere especial",
     }),
 });
-
-const optionalUrlField = (message: string) =>
-  z
-    .string()
-    .max(255, "URL muito longa")
-    .optional()
-    .transform((val)=> val === undefined ? "" : val)
-    .refine((val) => val === "" || z.string().url().safeParse(val).success, {
-      message,
-    });
 
 export const createUserSchema = z.object({
   userName: z
