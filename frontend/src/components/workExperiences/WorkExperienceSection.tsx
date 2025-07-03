@@ -175,7 +175,7 @@ export function WorkExperienceSection() {
                 <Card key={workExperience.workExperienceId}>
                   <CardHeader className="grid grid-rows-1 items-center">
                     <CardTitle>
-                      {workExperience.workExperiencePosition}
+                      <h3>{workExperience.workExperiencePosition}</h3>
                     </CardTitle>
                     <CardAction>
                       <Button
