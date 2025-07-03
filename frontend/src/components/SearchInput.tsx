@@ -6,14 +6,12 @@ import { Label } from "./ui/label";
 
 interface SearchInputProps extends InputHTMLAttributes<HTMLInputElement> {
   placeholder?: string;
-  onSearch: (value: string) => void;
   value: string;
   setValue: (value: string) => void;
 }
 
-function SearchInput({
+export function SearchInput({
   placeholder = "Buscar",
-  onSearch,
   value,
   setValue,
   className,
@@ -22,7 +20,6 @@ function SearchInput({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     setValue(newValue);
-    onSearch(newValue);
   };
 
   return (
@@ -42,5 +39,3 @@ function SearchInput({
     </div>
   );
 }
-
-export default SearchInput;

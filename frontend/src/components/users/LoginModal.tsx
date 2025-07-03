@@ -1,5 +1,5 @@
 import { useAuth } from "@/hooks/useAuth";
-import Modal from "./modal";
+import { Modal } from "../modal";
 import {
   Form,
   FormControl,
@@ -7,14 +7,14 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "./ui/form";
-import { Input } from "./ui/input";
+} from "../ui/form";
+import { Input } from "../ui/input";
 import { LogIn, X } from "lucide-react";
 import { useModal } from "@/contexts/ModalContext";
-import LoadingSpin from "./LoadingSpin";
-import FormFieldPassword from "./FormFieldPassword";
+import { LoadingSpin } from "../LoadingSpin";
+import { FormFieldPassword } from "../users/FormFieldPassword";
 
-function LoginModal() {
+export function LoginModal() {
   const { form, loginUser, closeLoginModal, isLoginLoading, isLoginError } =
     useAuth();
   const { currentModal } = useModal();
@@ -23,12 +23,12 @@ function LoginModal() {
     <>
       {currentModal === "loginUser" && (
         <Modal.Root>
-          <div className="flex justify-between items-center">
+          <Modal.Header>
             <h2>Login</h2>
             <Modal.Close closeAction={closeLoginModal}>
               <X />
             </Modal.Close>
-          </div>
+          </Modal.Header>
           <Modal.Body>
             <Form {...form}>
               <form className="space-y-4">
@@ -82,5 +82,3 @@ function LoginModal() {
     </>
   );
 }
-
-export default LoginModal;

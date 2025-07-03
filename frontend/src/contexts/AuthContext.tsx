@@ -1,8 +1,8 @@
-import type { formLoginDTO } from "@/schemas/formLoginSchema";
+import type { LoginSchemaDTO } from "@/schemas/loginSchema";
 import { createContext, useEffect, useState, type ReactNode } from "react";
 import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { formLoginSchema } from "@/schemas/formLoginSchema";
+import { loginSchema } from "@/schemas/loginSchema";
 import { useForm, type UseFormReturn } from "react-hook-form";
 import { useModal } from "./ModalContext";
 import { setUnauthorizedHandler } from "@/utils/authUtils";
@@ -15,7 +15,7 @@ interface AuthProviderProps {
 interface AuthContextType {
   currentUser: CurrentUserData | null;
   setCurrentUser: (data: CurrentUserData | null) => void;
-  loginUser: (data: formLoginDTO) => Promise<void>;
+  loginUser: (data: LoginSchemaDTO) => Promise<void>;
   form: UseFormReturn<{
     userEmail: string;
     userPassword: string;
@@ -47,8 +47,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [isLoginLoading, setIsLoginLoading] = useState<boolean>(false);
   const [isLoginError, setIsLoginError] = useState<string>("");
 
-  const form = useForm<formLoginDTO>({
-    resolver: zodResolver(formLoginSchema),
+  const form = useForm<LoginSchemaDTO>({
+    resolver: zodResolver(loginSchema),
     defaultValues: {
       userEmail: "",
       userPassword: "",
@@ -77,7 +77,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     });
   }, []);
 
-  const loginUser = async (data: formLoginDTO) => {
+  const loginUser = async (data: LoginSchemaDTO) => {
     setIsLoginLoading(true);
     let loginResponse;
     try {

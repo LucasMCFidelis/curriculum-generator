@@ -5,7 +5,7 @@ const skillTypeSchema = z
   .min(1, "O tipo é obrigatório.")
   .max(100, "O tipo deve ter no máximo 100 caracteres.");
 
-export const formSkillCreate = z.object({
+export const skillCreateSchema = z.object({
   skillTitle: z
     .string()
     .min(1, "O título é obrigatório.")
@@ -18,4 +18,4 @@ export const formSkillCreate = z.object({
   skillTypeCustom: skillTypeSchema.optional(),
 });
 
-export type formSkillCreateDTO = z.infer<typeof formSkillCreate>;
+export type SkillCreateSchemaDTO = z.infer<typeof skillCreateSchema>;

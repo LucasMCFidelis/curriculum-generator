@@ -1,24 +1,24 @@
 import { useModal } from "@/contexts/ModalContext";
-import Modal from "./modal";
+import { Modal } from "../modal";
 import { Save, X } from "lucide-react";
-import { useSkills } from "@/contexts/SkillContext";
-import SkillForm from "./SkillForm";
+import { useSkills } from "@/hooks/useSkills";
+import { SkillForm } from "./SkillForm";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  formSkillUpdate,
-  type formSkillUpdateDTO,
-} from "@/schemas/formSkillUpdate";
+  skillUpdateSchema,
+  type SkillUpdateSchemaDTO,
+} from "@/schemas/skillUpdateSchema";
 import { useEffect, useState } from "react";
-import LoadingSpin from "./LoadingSpin";
+import { LoadingSpin } from "../LoadingSpin";
 
-function UpdateSkillModal() {
+export function UpdateSkillModal() {
   const { currentModal, closeModal } = useModal();
   const { currentSkill, updateSkillMutation } = useSkills();
   const [formKey, setFormKey] = useState<number>(0);
 
-  const formUpdate = useForm<formSkillUpdateDTO>({
-    resolver: zodResolver(formSkillUpdate),
+  const formUpdate = useForm<SkillUpdateSchemaDTO>({
+    resolver: zodResolver(skillUpdateSchema),
   });
 
   useEffect(() => {
@@ -43,7 +43,7 @@ function UpdateSkillModal() {
     <>
       {currentModal === "updateSkill" && currentSkill && (
         <Modal.Root>
-          <div className="flex justify-between items-center">
+          <Modal.Header>
             <h2>Atualizar Habilidade</h2>
             <Modal.Close
               closeAction={() => {
@@ -53,7 +53,7 @@ function UpdateSkillModal() {
             >
               <X />
             </Modal.Close>
-          </div>
+          </Modal.Header>
           <Modal.Body>
             <SkillForm formKey={formKey} form={formUpdate} />
             <Modal.Confirm
@@ -78,5 +78,3 @@ function UpdateSkillModal() {
     </>
   );
 }
-
-export default UpdateSkillModal;
