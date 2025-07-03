@@ -124,10 +124,10 @@ export function SkillsSection() {
             {filteredSkills.map((skill) => (
               <Card key={skill.skillId}>
                 <CardHeader className="grid grid-rows-1 items-center">
-                  <CardTitle className="grid items-center justify-between w-3/4 grid-cols-[100px_10px_100px]">
-                    <h3>{skill.skillTitle}</h3>
-                    <h3>-</h3>
-                    <h3 className="justify-self-center">{skill.skillType}</h3>
+                  <CardTitle>
+                    <h3>
+                      {skill.skillTitle} - {skill.skillType}
+                    </h3>
                   </CardTitle>
                   <CardAction>
                     <Button
@@ -182,4 +182,3 @@ export function SkillsSection() {
     </section>
   );
 }
-
