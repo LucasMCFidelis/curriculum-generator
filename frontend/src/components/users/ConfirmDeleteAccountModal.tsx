@@ -1,15 +1,15 @@
 import { useModal } from "@/contexts/ModalContext";
-import Modal from "./modal";
+import { Modal } from "../modal";
 import { Trash2, X } from "lucide-react";
-import { Input } from "./ui/input";
+import { Input } from "../ui/input";
 import { useState } from "react";
 import { api } from "@/api";
 import { useAuth } from "@/hooks/useAuth";
 import { isAxiosError } from "axios";
 
-function ConfirmDeleteAccountModal() {
+export function ConfirmDeleteAccountModal() {
   const { currentModal, closeModal } = useModal();
-  const { currentUser, logoutUser } = useAuth()
+  const { currentUser, logoutUser } = useAuth();
   const [confirmationText, setConfirmationText] = useState<string>("");
   const [error, setError] = useState<string>("");
 
@@ -27,15 +27,15 @@ function ConfirmDeleteAccountModal() {
 
     try {
       console.log("deletar");
-      if (!currentUser) return
-      await api.delete(`/users?userId=${currentUser.userId}`)
+      if (!currentUser) return;
+      await api.delete(`/users?userId=${currentUser.userId}`);
       handleClose();
-      logoutUser()
+      logoutUser();
     } catch (error) {
       console.log(error);
-      
-      if(isAxiosError(error)){
-        setError(error.response?.data.message)
+
+      if (isAxiosError(error)) {
+        setError(error.response?.data.message);
       }
     }
   };
@@ -44,9 +44,9 @@ function ConfirmDeleteAccountModal() {
     <>
       {currentModal === "ConfirmDeleteAccount" && (
         <Modal.Root>
-          <h2>
-            Confirmar exclusão de conta
-          </h2>
+          <Modal.Header>
+            <h2>Confirmar exclusão de conta</h2>
+          </Modal.Header>
           <Modal.Body>
             <div className="grid md:grid-cols-2 gap-4">
               <div className="col-span-full flex flex-col gap-2">
@@ -63,9 +63,7 @@ function ConfirmDeleteAccountModal() {
                   placeholder="Digite aqui..."
                   autoFocus
                 />
-                {error && (
-                  <p className="text-destructive">{error}</p>
-                )}
+                {error && <p className="text-destructive">{error}</p>}
               </div>
               <Modal.Close closeAction={handleClose}>
                 Cancelar
@@ -82,5 +80,3 @@ function ConfirmDeleteAccountModal() {
     </>
   );
 }
-
-export default ConfirmDeleteAccountModal;

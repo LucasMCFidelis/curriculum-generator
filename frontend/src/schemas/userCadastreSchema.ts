@@ -9,7 +9,7 @@ const optionalUrlField = (message: string) =>
       message,
     });
 
-export const formUserCadastreSchema = z.object({
+export const userCadastreSchema = z.object({
   userName: z
     .string()
     .min(3, "O nome precisa ter no mínimo 3 caracteres")
@@ -37,4 +37,4 @@ export const formUserCadastreSchema = z.object({
     }),
 });
 
-export type formUserCadastreSchemaDTO = z.infer<typeof formUserCadastreSchema>;
+export type UserCadastreSchemaDTO = z.infer<typeof userCadastreSchema>;

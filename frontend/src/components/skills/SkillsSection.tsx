@@ -1,4 +1,4 @@
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import {
   Card,
   CardAction,
@@ -7,18 +7,20 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "./ui/card";
+} from "../ui/card";
 import { PenBox, Plus, RefreshCwIcon, Trash2 } from "lucide-react";
 import { useModal } from "@/contexts/ModalContext";
-import { useSkills } from "@/contexts/SkillContext";
-import LoadingSpin from "./LoadingSpin";
-import { Select, SelectContent, SelectItem, SelectTrigger } from "./ui/select";
+import { useSkills } from "@/hooks/useSkills";
+import { Select, SelectContent, SelectItem, SelectTrigger } from "../ui/select";
 import { SelectValue } from "@radix-ui/react-select";
-import SearchInput from "./SearchInput";
-import { Label } from "./ui/label";
+import { SearchInput } from "../SearchInput";
+import { Label } from "../ui/label";
 import { useMemo, useState } from "react";
+import { normalizeString } from "@/utils/normalizeString";
+import { DateDisplay } from "../DateDisplay";
+import { Feedback } from "../feedback";
 
-function SkillsSection() {
+export function SkillsSection() {
   const {
     skillsUser,
     isLoadingSkills,
@@ -26,6 +28,7 @@ function SkillsSection() {
     refetchSkills,
     setCurrentSkill,
     skillsTypes,
+    errorMessage,
   } = useSkills();
   const { openModal } = useModal();
 
@@ -43,13 +46,17 @@ function SkillsSection() {
 
   const filteredSkills = useMemo(() => {
     if (!skillsUser) return [];
+
+    const searchValueNormalized = normalizeString(searchValue);
+
     return skillsUser.filter((skill) => {
       const matchesSearch =
-        skill.skillTitle.toLowerCase().includes(searchValue.toLowerCase()) ||
-        skill.skillType.toLowerCase().includes(searchValue.toLowerCase()) ||
-        skill.skillDescription
-          ?.toLowerCase()
-          .includes(searchValue.toLowerCase());
+        normalizeString(skill.skillTitle).includes(searchValueNormalized) ||
+        normalizeString(skill.skillType).includes(searchValueNormalized) ||
+        (skill.skillDescription &&
+          normalizeString(skill.skillDescription).includes(
+            searchValueNormalized
+          ));
 
       const matchesType =
         !skillTypeSelected ||
@@ -65,19 +72,18 @@ function SkillsSection() {
       <h2>Habilidades</h2>
 
       {isErrorSkills && (
-        <div className="flex flex-col gap-2 items-center justify-center">
-          <p className="text-destructive">Erro</p>
+        <Feedback.Root>
+          <Feedback.Error message={errorMessage} />
           <Button className="w-full sm:w-fit" onClick={() => refetchSkills()}>
             Recarregar Habilidades
           </Button>
-        </div>
+        </Feedback.Root>
       )}
 
       {isLoadingSkills && (
-        <div className="flex gap-3 items-center justify-center">
-          <p>Carregando Habilidades</p>
-          <LoadingSpin />
-        </div>
+        <Feedback.Root>
+          <Feedback.Loading message="Carregando Habilidades" />
+        </Feedback.Root>
       )}
 
       {!isLoadingSkills && !isErrorSkills && skillsUser && (
@@ -86,7 +92,6 @@ function SkillsSection() {
             <SearchInput
               value={searchValue}
               setValue={setSearchValue}
-              onSearch={(value) => console.log(value)}
               className="col-span-2"
             />
             <div className="space-y-2">
@@ -149,8 +154,9 @@ function SkillsSection() {
                   <CardDescription>{skill.skillDescription}</CardDescription>
                 </CardContent>
                 <CardFooter>
-                  Criada em:{" "}
-                  {new Date(skill.skillCreatedAt).toLocaleDateString("pt-BR")}
+                  <p>
+                    Criada em: <DateDisplay date={skill.skillCreatedAt} />
+                  </p>
                 </CardFooter>
               </Card>
             ))}
@@ -177,4 +183,3 @@ function SkillsSection() {
   );
 }
 
-export default SkillsSection;

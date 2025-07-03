@@ -6,10 +6,10 @@ import {
   FormLabel,
   FormControl,
   FormMessage,
-} from "./ui/form";
-import { Input } from "./ui/input";
-import { Textarea } from "./ui/textarea";
-import FormFieldPassword from "./FormFieldPassword";
+} from "../ui/form";
+import { Input } from "../ui/input";
+import { Textarea } from "../ui/textarea";
+import { FormFieldPassword } from "./FormFieldPassword";
 import type { UserFormFields } from "@/types/UserFormFields";
 
 interface UserFormProps<T extends UserFormFields> {
@@ -18,7 +18,7 @@ interface UserFormProps<T extends UserFormFields> {
   inputPassword?: boolean;
 }
 
-function UserForm<T extends UserFormFields>({
+export function UserForm<T extends UserFormFields>({
   form,
   isEditable = true,
   inputPassword = false,
@@ -156,5 +156,3 @@ function UserForm<T extends UserFormFields>({
     </Form>
   );
 }
-
-export default UserForm;

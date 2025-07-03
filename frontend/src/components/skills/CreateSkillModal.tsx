@@ -1,21 +1,21 @@
 import { useForm } from "react-hook-form";
-import Modal from "./modal";
-import SkillForm from "./SkillForm";
+import { Modal } from "../modal";
+import { SkillForm } from "./SkillForm";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { formSkillCreate } from "@/schemas/formSkillCreate";
-import type { formSkillCreateDTO } from "@/schemas/formSkillCreate";
+import { skillCreateSchema } from "@/schemas/skillCreateSchema";
+import type { SkillCreateSchemaDTO } from "@/schemas/skillCreateSchema";
 import { useModal } from "@/contexts/ModalContext";
 import { Save, X } from "lucide-react";
-import { useSkills } from "@/contexts/SkillContext";
-import LoadingSpin from "./LoadingSpin";
+import { useSkills } from "@/hooks/useSkills";
+import { LoadingSpin } from "../LoadingSpin";
 import { useEffect } from "react";
 
-function CreateSkillModal() {
+export function CreateSkillModal() {
   const { currentModal, closeModal } = useModal();
   const { errorMessage, cadastreSkillMutation } = useSkills();
 
-  const formCreateSkill = useForm<formSkillCreateDTO>({
-    resolver: zodResolver(formSkillCreate),
+  const formCreateSkill = useForm<SkillCreateSchemaDTO>({
+    resolver: zodResolver(skillCreateSchema),
   });
 
   useEffect(() => {
@@ -34,7 +34,7 @@ function CreateSkillModal() {
     <>
       {currentModal === "createSkill" && (
         <Modal.Root>
-          <div className="flex justify-between items-center">
+          <Modal.Header>
             <h2>Cadastrar Habilidade</h2>
             <Modal.Close
               closeAction={() => {
@@ -44,7 +44,7 @@ function CreateSkillModal() {
             >
               <X />
             </Modal.Close>
-          </div>
+          </Modal.Header>
           <Modal.Body>
             <SkillForm form={formCreateSkill} />
 
@@ -77,5 +77,3 @@ function CreateSkillModal() {
     </>
   );
 }
-
-export default CreateSkillModal;

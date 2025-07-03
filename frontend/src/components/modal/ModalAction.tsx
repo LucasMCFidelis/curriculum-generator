@@ -8,21 +8,15 @@ interface ModalActionProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
 }
 
-function ModalAction({
+export function ModalAction({
   children,
   actionOnClick,
   variant,
   ...rest
 }: ModalActionProps) {
   return (
-    <Button
-      onClick={actionOnClick}
-      variant={variant}
-      {...rest}
-    >
+    <Button onClick={actionOnClick} variant={variant} {...rest}>
       {children}
     </Button>
   );
 }
-
-export default ModalAction;
