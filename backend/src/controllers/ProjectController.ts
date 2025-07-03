@@ -1,7 +1,11 @@
 import { FastifyRequest, FastifyReply } from "fastify";
 import { BaseCrud } from "../BaseCrud";
 import { ProjectService } from "../services/ProjectService";
-import { CreateProjectDTO, UpdateProjectDTO } from "../schemas/projectSchemas";
+import {
+  CreateProjectDTO,
+  FindProjectsDTO,
+  UpdateProjectDTO,
+} from "../schemas/projectSchemas";
 import { errorHandler } from "../utils/errorHandler";
 
 const projectService = new ProjectService();
@@ -44,13 +48,14 @@ export class ProjectController extends BaseCrud {
 
   public async list(
     request: FastifyRequest<{
-      Querystring: { userId: string };
+      Querystring: { userId: string } & FindProjectsDTO;
     }>,
     reply: FastifyReply
   ) {
     try {
       const projects = await projectService.listProjects({
         userId: request.query.userId,
+        projectTextContains: request.query.projectTextContains,
       });
       return reply.status(200).send(projects);
     } catch (error) {
@@ -88,10 +93,11 @@ export class ProjectController extends BaseCrud {
       const projectUpdated = await projectService.updateProject({
         userId: request.query.userId,
         projectId: request.query.projectId,
-        data: request.body
+        data: request.body,
       });
       return reply.status(200).send({
-        message: `Projeto ${projectUpdated.projectTitle} deletado com sucesso`, projectUpdated
+        message: `Projeto ${projectUpdated.projectTitle} deletado com sucesso`,
+        projectUpdated,
       });
     } catch (error) {
       errorHandler(error, reply);

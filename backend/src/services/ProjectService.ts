@@ -3,6 +3,7 @@ import { prisma } from "../lib/prisma";
 import {
   CreateProjectDTO,
   createProjectSchema,
+  FindProjectsDTO,
   projectIdSchema,
   UpdateProjectDTO,
   updateProjectSchema,
@@ -65,13 +66,34 @@ export class ProjectService {
     return projectFind;
   }
 
-  async listProjects({ userId }: { userId: string }) {
+  async listProjects({
+    userId,
+    projectTextContains,
+  }: { userId: string } & FindProjectsDTO) {
     await Promise.all([userService.getUserByIdOrEmail(userId)]);
 
     let projects;
     try {
       projects = await prisma.project.findMany({
-        where: { projectUserId: userId },
+        where: {
+          projectUserId: userId,
+          ...(projectTextContains && {
+            OR: [
+              {
+                projectTitle: {
+                  contains: projectTextContains,
+                  mode: "insensitive",
+                },
+              },
+              {
+                projectDescription: {
+                  contains: projectTextContains,
+                  mode: "insensitive",
+                },
+              },
+            ],
+          }),
+        },
       });
     } catch (error) {
       throw new ErrorCustomer(

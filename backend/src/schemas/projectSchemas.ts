@@ -61,5 +61,10 @@ export const updateProjectSchema = z
     });
   });
 
+export const findProjectsSchema = z.object({
+  projectTextContains: z.string().optional(),
+});
+
 export type CreateProjectDTO = z.infer<typeof createProjectSchema>;
 export type UpdateProjectDTO = z.infer<typeof updateProjectSchema>;
+export type FindProjectsDTO = z.infer<typeof findProjectsSchema>;
