@@ -12,8 +12,7 @@ export function SectionList() {
     {
       label: "Experiências Profissionais",
       sectionId: "workExperienceSection",
-      onCreate: () =>
-        console.log("Abrir modal: cadastrar experiência profissional"),
+      onCreate: () => openModal("createWorkExperience"),
     },
     {
       label: "Projetos",
