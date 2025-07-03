@@ -1,12 +1,23 @@
-import Layout from "@/components/Layout";
+import { Layout } from "@/components/Layout";
 import { useModal } from "./contexts/ModalContext";
 import { Button } from "./components/ui/button";
 import { ClipboardSignature } from "lucide-react";
 import { useAuth } from "./hooks/useAuth";
 import imageHomeCV from "./assets/homeCV.svg";
-import SkillsSection from "./components/SkillsSection";
+import { SkillsSection } from "./components/skills/SkillsSection";
+import { WorkExperienceSection } from "./components/workExperiences/WorkExperienceSection";
+import { Separator } from "./components/ui/separator";
 
-function App() {
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+import isBetween from "dayjs/plugin/isBetween";
+import "dayjs/locale/pt-br";
+
+dayjs.extend(relativeTime);
+dayjs.extend(isBetween);
+dayjs.locale("pt-br");
+
+export function App() {
   const { openModal } = useModal();
   const { currentUser } = useAuth();
 
@@ -15,9 +26,11 @@ function App() {
       <Layout>
         {currentUser ? (
           <>
-            <div className="flex-1">
+            <div className="flex-1 space-y-2 md:space-y-8">
               <h1>Usuário: {currentUser?.userName}</h1>
               <SkillsSection />
+              <Separator />
+              <WorkExperienceSection />
             </div>
           </>
         ) : (
@@ -45,5 +58,3 @@ function App() {
     </>
   );
 }
-
-export default App;

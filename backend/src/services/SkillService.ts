@@ -1,3 +1,4 @@
+import { ErrorCustomer } from "../ErrorCustomer";
 import { prisma } from "../lib/prisma";
 import {
   CreateSkillDTO,
@@ -49,19 +50,19 @@ export class SkillService {
         },
       });
     } catch (error) {
-      throw {
-        status: 500,
-        error: "Erro no servidor",
-        message: "Erro ao buscar habilidade",
-      };
+      throw new ErrorCustomer(
+        500,
+        "Erro no servidor",
+        "Erro ao buscar habilidade"
+      );
     }
 
     if (skills.length === 0) {
-      throw {
-        status: 404,
-        error: "Erro Not Found",
-        message: "Nenhuma habilidade encontrada com as informações fornecidas",
-      };
+      throw new ErrorCustomer(
+        404,
+        "Erro Not Found",
+        "Nenhuma habilidade encontrada com as informações fornecidas"
+      );
     }
 
     return skills;
@@ -77,19 +78,19 @@ export class SkillService {
     try {
       skill = await prisma.skill.findUnique({ where: { skillId } });
     } catch (error) {
-      throw {
-        status: 500,
-        error: "Erro no servidor",
-        message: "Erro interno ao realizar busca de habilidade",
-      };
+      throw new ErrorCustomer(
+        500,
+        "Erro no servidor",
+        "Erro interno ao realizar busca de habilidade"
+      );
     }
 
     if (!skill) {
-      throw {
-        status: 404,
-        error: "Erro Not Found",
-        message: "Nenhuma habilidade encontrada com a skillId fornecida",
-      };
+      throw new ErrorCustomer(
+        404,
+        "Erro Not Found",
+        "Nenhuma habilidade encontrada com a skillId fornecida"
+      );
     }
 
     return skill;
@@ -121,11 +122,11 @@ export class SkillService {
         },
       });
     } catch (error) {
-      throw {
-        status: 500,
-        error: "Erro no servidor",
-        message: "Erro interno ao realizar atualização de habilidade",
-      };
+      throw new ErrorCustomer(
+        500,
+        "Erro no servidor",
+        "Erro interno ao realizar atualização de habilidade"
+      );
     }
 
     return skillUpdated;
@@ -138,11 +139,11 @@ export class SkillService {
     try {
       skillDeleted = await prisma.skill.delete({ where: { skillId } });
     } catch (error) {
-      throw {
-        status: 500,
-        error: "Erro no servidor",
-        message: "Erro interno ao realizar remoção de habilidade",
-      };
+      throw new ErrorCustomer(
+        500,
+        "Erro no servidor",
+        "Erro interno ao realizar remoção de habilidade"
+      );
     }
 
     return skillDeleted;

@@ -9,7 +9,7 @@ import {
   User,
   UserCircle2,
 } from "lucide-react";
-import ToggleTheme from "./ToggleTheme";
+import { ToggleTheme } from "./ToggleTheme";
 import {
   Menubar,
   MenubarContent,
@@ -26,7 +26,7 @@ import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import { SectionList } from "../utils/SectionList";
 import { handleNavigation } from "@/utils/handleNavigation";
 
-function Header() {
+export function Header() {
   const [isSheetOpen, setIsSheetOpen] = useState<boolean>(false);
   const { currentUser, openLoginModal, logoutUser } = useAuth();
   const { openModal } = useModal();
@@ -142,5 +142,3 @@ function Header() {
     </header>
   );
 }
-
-export default Header;

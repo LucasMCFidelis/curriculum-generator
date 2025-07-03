@@ -1,19 +1,22 @@
 import type { ReactNode } from "react";
-import Footer from "./Footer";
-import Header from "./Header";
-import LoginModal from "./LoginModal";
-import ProfileUserModal from "./ProfileUserModal";
-import ConfirmDeleteAccountModal from "./ConfirmDeleteAccountModal";
-import CadastreUserModal from "./CadastreUserModal";
-import CreateSkillModal from "./CreateSkillModal";
-import ConfirmDeleteSkillModal from "./ConfirmDeleteSkill";
-import UpdateSkillModal from "./UpdateSkillModal";
+import { Footer } from "./Footer";
+import { Header } from "./Header";
+import { LoginModal } from "./users/LoginModal";
+import { ProfileUserModal } from "./users/ProfileUserModal";
+import { ConfirmDeleteAccountModal } from "./users/ConfirmDeleteAccountModal";
+import { CadastreUserModal } from "./users/CadastreUserModal";
+import { CreateSkillModal } from "./skills/CreateSkillModal";
+import { ConfirmDeleteSkillModal } from "./skills/ConfirmDeleteSkillModal";
+import { UpdateSkillModal } from "./skills/UpdateSkillModal";
+import { CreateWorkExperienceModal } from "./workExperiences/CreateWorkExperienceModal";
+import { ConfirmDeleteWorkExperienceModal } from "./workExperiences/ConfirmDeleteWorkExperienceModal";
+import { UpdateWorkExperienceModal } from "./workExperiences/UpdateWorkExperienceModal";
 
 type LayoutProps = {
   children: ReactNode;
 };
 
-function Layout({ children }: LayoutProps) {
+export function Layout({ children }: LayoutProps) {
   return (
     <>
       <div className="flex flex-col gap-5 min-h-screen px-4 py-8">
@@ -24,12 +27,13 @@ function Layout({ children }: LayoutProps) {
         <CadastreUserModal />
         <ProfileUserModal />
         <ConfirmDeleteAccountModal />
-        <CreateSkillModal/>
+        <CreateSkillModal />
         <UpdateSkillModal />
-        <ConfirmDeleteSkillModal/>
+        <ConfirmDeleteSkillModal />
+        <CreateWorkExperienceModal />
+        <UpdateWorkExperienceModal />
+        <ConfirmDeleteWorkExperienceModal />
       </div>
     </>
   );
 }
-
-export default Layout;

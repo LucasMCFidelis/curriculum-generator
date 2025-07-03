@@ -1,27 +1,27 @@
 import { useModal } from "@/contexts/ModalContext";
-import Modal from "./modal";
+import { Modal } from "../modal";
 import { Plus, X } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { formUserCadastreSchema } from "@/schemas/formUserCadastreSchema";
-import type { formUserCadastreSchemaDTO } from "@/schemas/formUserCadastreSchema";
-import UserForm from "./UserForm";
+import { userCadastreSchema } from "@/schemas/userCadastreSchema";
+import type { UserCadastreSchemaDTO } from "@/schemas/userCadastreSchema";
+import { UserForm } from "./UserForm";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { User } from "@/types/User";
 import { api } from "@/api";
 import { useAuth } from "@/hooks/useAuth";
-import LoadingSpin from "./LoadingSpin";
+import { LoadingSpin } from "../LoadingSpin";
 import { useState } from "react";
 import { isAxiosError } from "axios";
 
-function CadastreUserModal() {
+export function CadastreUserModal() {
   const { currentModal, closeModal } = useModal();
   const { setCurrentUser, currentUser } = useAuth();
   const [errorMessage, setErrorMessage] = useState<string>("");
   const queryClient = useQueryClient();
 
-  const formCadastreUser = useForm<formUserCadastreSchemaDTO>({
-    resolver: zodResolver(formUserCadastreSchema),
+  const formCadastreUser = useForm<UserCadastreSchemaDTO>({
+    resolver: zodResolver(userCadastreSchema),
     defaultValues: {
       userName: "",
       userEmail: "",
@@ -30,7 +30,7 @@ function CadastreUserModal() {
   });
 
   const cadastreUserMutation = useMutation({
-    mutationFn: async (data: formUserCadastreSchemaDTO) => {
+    mutationFn: async (data: UserCadastreSchemaDTO) => {
       const userResponse = await api.post("/users", data);
       return userResponse.data;
     },
@@ -48,9 +48,9 @@ function CadastreUserModal() {
     },
     onError: (error) => {
       if (isAxiosError(error)) {
-        setErrorMessage(error.response?.data.message)
+        setErrorMessage(error.response?.data.message);
       } else {
-        setErrorMessage("Erro ao cadastrar usuário, tente novamente!")
+        setErrorMessage("Erro ao cadastrar usuário, tente novamente!");
       }
       console.log(error);
     },
@@ -60,12 +60,12 @@ function CadastreUserModal() {
     <>
       {currentModal === "cadastreUser" && (
         <Modal.Root>
-          <div className="flex justify-between items-center">
+          <Modal.Header>
             <h2>Cadastro</h2>
             <Modal.Close closeAction={closeModal}>
               <X />
             </Modal.Close>
-          </div>
+          </Modal.Header>
           <Modal.Body>
             <UserForm
               form={formCadastreUser}
@@ -98,5 +98,3 @@ function CadastreUserModal() {
     </>
   );
 }
-
-export default CadastreUserModal;

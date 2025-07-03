@@ -2,6 +2,70 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.1](https://github.com/LucasMCFidelis/curriculum-generator/compare/v1.4.0...v1.4.1) (2025-07-03)
+
+
+### ♻️ Refactors
+
+* **work-experience:** ajusta caminho de importação do schema de update ([7b5e8ca](https://github.com/LucasMCFidelis/curriculum-generator/commit/7b5e8ca7abbfeaa988a80d3a0e41538e43dca280))
+
+
+### 🐛 Bug Fixes
+
+* **section-list:** substituir console.log pela abertura do modal de criação de experiência profissional ([3895156](https://github.com/LucasMCFidelis/curriculum-generator/commit/389515634cbf3552620c61461806356bb868e495))
+
+## [1.4.0](https://github.com/LucasMCFidelis/curriculum-generator/compare/v1.3.0...v1.4.0) (2025-07-03)
+
+
+### 🧹 Chores
+
+* **gitignore:** adiciona pasta .vite à lista de arquivos ignorados ([863c399](https://github.com/LucasMCFidelis/curriculum-generator/commit/863c399ff90003b3901f33af2fe4ddbdf70a68a9))
+* **work-experience:** adiciona importação do plugin de autenticação a definição de rotas de workExperience e as cadastra no servidor ([753e701](https://github.com/LucasMCFidelis/curriculum-generator/commit/753e70164e05153d12c072576c4af3be6c6c709b))
+
+
+### ✨ Features
+
+* criar componente Feedback com padrão de composição (Root, Loading, Error) ([01de979](https://github.com/LucasMCFidelis/curriculum-generator/commit/01de9790f0c439e81c2a9eb7814eb4b74a1fa055))
+* **error-handling:** adiciona ErrorCustomer e refatora errorHandler para tratar erros personalizados ([c35230c](https://github.com/LucasMCFidelis/curriculum-generator/commit/c35230cfddd0f39b70656fb909254d72135198ee))
+* **modal:** adicionar ModalHeader para padronizar cabeçalho dos modais e aplicar ajuste nos componentes que utilizam Modal ([446277f](https://github.com/LucasMCFidelis/curriculum-generator/commit/446277fd40a7a030d8cc7425e16feedccfe235ad))
+* **modal:** criar componente genérico ConfirmDeleteItemModal para reutilização em exclusões ([39a9484](https://github.com/LucasMCFidelis/curriculum-generator/commit/39a948464182ca7d8d0ae7655793bfb83345c337))
+* **work-experience:** adiciona estrutura inicial de update com form de validação e modal de edição ([b49d6f9](https://github.com/LucasMCFidelis/curriculum-generator/commit/b49d6f96cbb15c471cae3695ff80176915ccd1ca))
+* **work-experience:** Adiciona funcionalidade de update work-experience ([0ca7525](https://github.com/LucasMCFidelis/curriculum-generator/commit/0ca7525fc7c177e6f547201c4b496f3f70a580e1))
+* **work-experience:** adiciona remoção de work experience ([1252d70](https://github.com/LucasMCFidelis/curriculum-generator/commit/1252d7064624ee0f791983cd3f9030cd70e8b494))
+* **work-experience:** Adiciona rota de delete work-experience ao servidor ([2667a27](https://github.com/LucasMCFidelis/curriculum-generator/commit/2667a27bbe4fa45a1056cb45ed0c88415351b7b1))
+* **work-experience:** Adiciona updateWorkExperienceSchema usando como base o shape de createWorkExperienceSchema ([5e29c00](https://github.com/LucasMCFidelis/curriculum-generator/commit/5e29c0013b68a746d05911cecf18b166665f9ffb))
+* **work-experience:** adiciona validações condicionais com superRefine nos schemas de criação e atualização ([10756e9](https://github.com/LucasMCFidelis/curriculum-generator/commit/10756e9587fb38d66c52bcdcd3526abaf51e3691))
+* **work-experience:** adicionar busca de experiência profissional por id ([ac13e65](https://github.com/LucasMCFidelis/curriculum-generator/commit/ac13e65817b0f4f575926890b0d92562ccff1d68))
+* **work-experience:** adicionar criação de experiência profissional com modal e formulário ([c388d01](https://github.com/LucasMCFidelis/curriculum-generator/commit/c388d01d265034a64d41211a4d65ca87ec1addbf))
+* **work-experience:** adicionar day.js e aplicar formatação de datas na seção WorkExperience ([1130702](https://github.com/LucasMCFidelis/curriculum-generator/commit/11307026e11aeccb53a66c48423ae8324d6f6008))
+* **work-experience:** adicionar funcionalidade de criação de experiência profissional ([b6bf7da](https://github.com/LucasMCFidelis/curriculum-generator/commit/b6bf7da0270425e026180dbd49451e6eca2769d9))
+* **work-experience:** adicionar listagem de experiências profissionais com filtros condicionais ([c404000](https://github.com/LucasMCFidelis/curriculum-generator/commit/c404000359363df1012b1074ec33e78a332f528a))
+* **work-experience:** adicionar opções de filtragem por texto e intervalo de datas ([4d37ef5](https://github.com/LucasMCFidelis/curriculum-generator/commit/4d37ef51838475e237f2b22da56f0d8ace6c17ad))
+* **work-experience:** adicionar seção de experiências profissionais ([aa89e1b](https://github.com/LucasMCFidelis/curriculum-generator/commit/aa89e1b0f8124734e9da44611db2f0fac3c2f68d))
+* **work-experience:** aplicar handleNavigation ao botão de filtro de data usando id 'filterRangeDateWE' ([305da09](https://github.com/LucasMCFidelis/curriculum-generator/commit/305da09b706e00564b10336375e39ab7eb30776e))
+* **work-experience:** criar contexto e hook para gerenciamento das experiências profissionais do usuário ([d178596](https://github.com/LucasMCFidelis/curriculum-generator/commit/d178596df425970fa9bf577391e10b8c8133818e))
+* **work-experience:** criar handler genérico de erro axios e aplicar em mutations de create/delete ([3f2614b](https://github.com/LucasMCFidelis/curriculum-generator/commit/3f2614b4d6737ef023dca2861f8bc70ad5033f53))
+* **work-experience:** criar mutation e modal de confirmação para exclusão de workExperience ([90287fd](https://github.com/LucasMCFidelis/curriculum-generator/commit/90287fdc999855763c511c3d51616212ee4265da))
+* **work-experience:** estruturar arquivos iniciais para desenvolvimento das funcionalidades ([6a7b53c](https://github.com/LucasMCFidelis/curriculum-generator/commit/6a7b53c7cf4463502ebd7765e75e63c33847d29a))
+* **work-experience:** implementar mutation de atualização e conectar com modal de edição para submissão de formulário ([9c253d9](https://github.com/LucasMCFidelis/curriculum-generator/commit/9c253d928688e994dd0fc827a6e9ddf3df011148))
+* **workExperience:** aplicar normalizeString na filtragem para melhorar busca por texto ([f260a80](https://github.com/LucasMCFidelis/curriculum-generator/commit/f260a805764b04f368e57c87a027d2305ee0832c))
+
+
+### ♻️ Refactors
+
+* ajustar handleAxiosFormError para aceitar erro do tipo unknown e aplicar nas useQuery dos contextos ([3f00b90](https://github.com/LucasMCFidelis/curriculum-generator/commit/3f00b9018d3412eec4ffea1b1953bfb0b3ed0a8b))
+* ajustar nomenclatura dos schemas de validação para maior consistência ([f562d0d](https://github.com/LucasMCFidelis/curriculum-generator/commit/f562d0de5ea58165bc88dcbcadacf32a4a188f62))
+* aplicar componente Feedback nas seções de Habilidades e Experiências Profissionais ([d8f9b37](https://github.com/LucasMCFidelis/curriculum-generator/commit/d8f9b37b6df1364f39dfdce8e52859d2466b0915))
+* **error-handling:** substitui throws manuais por instâncias de ErrorCustomer ([dd9c4cc](https://github.com/LucasMCFidelis/curriculum-generator/commit/dd9c4cc49cabad3a5342a05ef962ef004631ef45))
+* remove propriedade onSearch de SearchInput ([6ea6127](https://github.com/LucasMCFidelis/curriculum-generator/commit/6ea6127ceaf8d97b296e88a09d5bb4e8f3a2538f))
+* reorganizar componentes em pastas por domínio e remover exports default para padronização de nomes ([f15219c](https://github.com/LucasMCFidelis/curriculum-generator/commit/f15219cd4384dea7b623854099df2d288e0e62f3))
+* **skills:** ajusta modal de confirmação de exclusão de habilidade para usar como base ConfirmDeleteItemModal ([ad38f7e](https://github.com/LucasMCFidelis/curriculum-generator/commit/ad38f7e5fa596586ffadc56096c471105758e026))
+* **skills:** Ajusta mutations de SkillContext para usar handleAxiosFormError ([c9f1389](https://github.com/LucasMCFidelis/curriculum-generator/commit/c9f1389681f9430d8655a5bf96ce9a2967ebc1f4))
+* **skills:** ajusta para separar o hook useSkills do contexto e adicionar validação para usos fora de um SkillProvider ([ef89786](https://github.com/LucasMCFidelis/curriculum-generator/commit/ef897864bbc3e2c3d3fa3ae303f67e368a3cdee4))
+* **skills:** normaliza filtragem de habilidades com normalizeString e aplica compoonente DateDisplay na exibição da data de criação ([c3796ed](https://github.com/LucasMCFidelis/curriculum-generator/commit/c3796ede5d15640d0542603c1288e7da8a4e87f8))
+* **work-experience:** ajusta formulario desabilitando datas além do dia atual para workExperienceEndDate ([b11f0d6](https://github.com/LucasMCFidelis/curriculum-generator/commit/b11f0d6743262c04c3bd1e190c823d442d95b5ff))
+* **work-experience:** ajusta validação para retorno caso listagem de experiências profissionais esteja vazia ([1214e16](https://github.com/LucasMCFidelis/curriculum-generator/commit/1214e16e3e9c73ece97fa41d0e312281bea588fc))
+
 ## [1.3.0](https://github.com/LucasMCFidelis/curriculum-generator/compare/v1.2.0...v1.3.0) (2025-06-26)
 
 

@@ -1,9 +1,9 @@
 import z from "zod";
-import { formUserCadastreSchema } from "./formUserCadastreSchema";
+import { userCadastreSchema } from "./userCadastreSchema";
 
-const userCadastreShape = formUserCadastreSchema.shape;
+const userCadastreShape = userCadastreSchema.shape;
 
-export const formUserUpdateSchema = z.object({
+export const userUpdateSchema = z.object({
   userName: userCadastreShape.userName.optional(),
   userEmail: userCadastreShape.userEmail.optional(),
   userCity: userCadastreShape.userCity,
@@ -13,4 +13,4 @@ export const formUserUpdateSchema = z.object({
   userResume: userCadastreShape.userResume,
 });
 
-export type formUserUpdateSchemaDTO = z.infer<typeof formUserUpdateSchema>;
+export type UserUpdateSchemaDTO = z.infer<typeof userUpdateSchema>;

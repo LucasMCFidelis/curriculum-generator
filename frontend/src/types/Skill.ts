@@ -3,5 +3,5 @@ export type Skill = {
   skillTitle: string;
   skillType: string;
   skillDescription?: string;
-  skillCreatedAt: Date;
+  skillCreatedAt: string;
 };

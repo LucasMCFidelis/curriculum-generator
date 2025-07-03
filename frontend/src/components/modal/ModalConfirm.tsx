@@ -1,5 +1,5 @@
 import type { ButtonHTMLAttributes, ReactNode } from "react";
-import ModalAction from "./ModalAction";
+import { ModalAction } from "./ModalAction";
 
 interface ModalConfirmProps
   extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "onClick"> {
@@ -7,7 +7,11 @@ interface ModalConfirmProps
   confirmAction: () => void;
 }
 
-function ModalConfirm({ children, confirmAction, ...rest }: ModalConfirmProps) {
+export function ModalConfirm({
+  children,
+  confirmAction,
+  ...rest
+}: ModalConfirmProps) {
   return (
     <ModalAction
       actionOnClick={confirmAction}
@@ -17,5 +21,3 @@ function ModalConfirm({ children, confirmAction, ...rest }: ModalConfirmProps) {
     />
   );
 }
-
-export default ModalConfirm;

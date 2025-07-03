@@ -1,7 +1,7 @@
 import { api } from "@/api";
 import { useAuth } from "@/hooks/useAuth";
-import type { formSkillCreateDTO } from "@/schemas/formSkillCreate";
-import type { formSkillUpdateDTO } from "@/schemas/formSkillUpdate";
+import type { SkillCreateSchemaDTO } from "@/schemas/skillCreateSchema";
+import type { SkillUpdateSchemaDTO } from "@/schemas/skillUpdateSchema";
 import type { Skill } from "@/types/Skill";
 import {
   useMutation,
@@ -9,15 +9,9 @@ import {
   useQueryClient,
   type UseMutationResult,
 } from "@tanstack/react-query";
-import { isAxiosError } from "axios";
-import {
-  createContext,
-  useContext,
-  useMemo,
-  useState,
-  type ReactNode,
-} from "react";
+import { createContext, useMemo, useState, type ReactNode } from "react";
 import { useModal } from "./ModalContext";
+import { handleAxiosFormError } from "@/utils/handleAxiosFormError";
 
 type SkillContextType = {
   currentSkill: Skill | null;
@@ -27,13 +21,13 @@ type SkillContextType = {
   isErrorSkills: boolean;
   refetchSkills: () => void;
   skillsTypes: string[];
-  cadastreSkillMutation: UseMutationResult<Skill, Error, formSkillCreateDTO>;
+  cadastreSkillMutation: UseMutationResult<Skill, Error, SkillCreateSchemaDTO>;
   deleteSkillMutation: UseMutationResult<void, Error, string>;
-  updateSkillMutation: UseMutationResult<Skill, Error, formSkillUpdateDTO>;
+  updateSkillMutation: UseMutationResult<Skill, Error, SkillUpdateSchemaDTO>;
   errorMessage: string;
 };
 
-const SkillContext = createContext({} as SkillContextType);
+export const SkillContext = createContext({} as SkillContextType);
 
 export function SkillProvider({ children }: { children: ReactNode }) {
   const { currentUser } = useAuth();
@@ -50,11 +44,18 @@ export function SkillProvider({ children }: { children: ReactNode }) {
   } = useQuery<Skill[], Error>({
     queryKey: ["skills"],
     queryFn: async () => {
-      const response = await api.get(
-        `/users?userId=${currentUser?.userId}&userSkills=true`
-      );
-
-      return response.data.userSkills;
+      try {
+        const response = await api.get(
+          `/users?userId=${currentUser?.userId}&userSkills=true`
+        );
+        return response.data.userSkills;
+      } catch (error) {
+        handleAxiosFormError({
+          error,
+          setError: setErrorMessage,
+          genericMessage: "Erro ao carregar Habilidades",
+        });
+      }
     },
   });
 
@@ -62,8 +63,8 @@ export function SkillProvider({ children }: { children: ReactNode }) {
     return [...new Set(skillsUser?.map((skill) => skill.skillType))];
   }, [skillsUser]);
 
-  const cadastreSkillMutation = useMutation<Skill, Error, formSkillCreateDTO>({
-    mutationFn: async (data: formSkillCreateDTO) => {
+  const cadastreSkillMutation = useMutation<Skill, Error, SkillCreateSchemaDTO>({
+    mutationFn: async (data: SkillCreateSchemaDTO) => {
       const skillResponse = await api.post(
         `/skills?userId=${currentUser?.userId}`,
         data.skillTypeCustom
@@ -83,12 +84,11 @@ export function SkillProvider({ children }: { children: ReactNode }) {
       ]);
     },
     onError: (error) => {
-      console.error(error);
-      if (isAxiosError(error)) {
-        setErrorMessage(error.response?.data.message);
-      } else {
-        setErrorMessage("Erro ao criar habilidade, tente novamente!");
-      }
+      handleAxiosFormError({
+        error,
+        setError: setErrorMessage,
+        genericMessage: "Erro ao criar habilidade, tente novamente!",
+      });
     },
   });
 
@@ -102,19 +102,19 @@ export function SkillProvider({ children }: { children: ReactNode }) {
       queryClient.setQueryData<Skill[]>(["skills"], (oldSkills) => {
         return oldSkills?.filter((skill) => skill.skillId !== skillId) || [];
       });
+      closeModal();
     },
     onError: (error) => {
-      console.error(error);
-      if (isAxiosError(error)) {
-        setErrorMessage(error.response?.data.message);
-      } else {
-        setErrorMessage("Erro ao deletar habilidade, tente novamente!");
-      }
+      handleAxiosFormError({
+        error,
+        setError: setErrorMessage,
+        genericMessage: "Erro ao deletar habilidade, tente novamente!",
+      });
     },
   });
 
-  const updateSkillMutation = useMutation<Skill, Error, formSkillUpdateDTO>({
-    mutationFn: async (data: formSkillUpdateDTO) => {
+  const updateSkillMutation = useMutation<Skill, Error, SkillUpdateSchemaDTO>({
+    mutationFn: async (data: SkillUpdateSchemaDTO) => {
       const skillResponse = await api.put(
         `/skills?userId=${currentUser?.userId}&skillId=${currentSkill?.skillId}`,
         data.skillTypeCustom
@@ -137,12 +137,11 @@ export function SkillProvider({ children }: { children: ReactNode }) {
       });
     },
     onError: (error) => {
-      console.error(error);
-      if (isAxiosError(error)) {
-        setErrorMessage(error.response?.data.message);
-      } else {
-        setErrorMessage("Erro ao atualizar habilidade, tente novamente!");
-      }
+      handleAxiosFormError({
+        error,
+        setError: setErrorMessage,
+        genericMessage: "Erro ao atualizar habilidade, tente novamente!",
+      });
     },
     onSettled: () => {
       setCurrentSkill(null);
@@ -170,5 +169,3 @@ export function SkillProvider({ children }: { children: ReactNode }) {
     </SkillContext.Provider>
   );
 }
-
-export const useSkills = () => useContext(SkillContext);

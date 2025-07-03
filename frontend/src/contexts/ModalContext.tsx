@@ -8,6 +8,9 @@ type ModalType =
   | "createSkill"
   | "updateSkill"
   | "confirmDeleteSkill"
+  | "createWorkExperience"
+  | "updateWorkExperience"
+  | "confirmDeleteWorkExperience"
   | null;
 
 type ModalContextType = {

@@ -5,10 +5,10 @@ import {
   FormLabel,
   FormControl,
   FormMessage,
-} from "./ui/form";
-import { Input } from "./ui/input";
+} from "../ui/form";
+import { Input } from "../ui/input";
 import { useState } from "react";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import type { Path, UseFormReturn } from "react-hook-form";
 import type { UserFormFields } from "@/types/UserFormFields";
 
@@ -18,7 +18,7 @@ interface FormFieldPasswordProps<T extends UserFormFields> {
   inGrid?: boolean;
 }
 
-function FormFieldPassword<T extends UserFormFields>({
+export function FormFieldPassword<T extends UserFormFields>({
   isDisabled,
   form,
   inGrid = false,
@@ -44,7 +44,7 @@ function FormFieldPassword<T extends UserFormFields>({
             <div className="relative w-full">
               <Input
                 placeholder="Senha..."
-                type={(showPassword || !isDisabled) ? "text" : "password"}
+                type={showPassword || !isDisabled ? "text" : "password"}
                 disabled={isDisabled}
                 {...field}
               />
@@ -66,5 +66,3 @@ function FormFieldPassword<T extends UserFormFields>({
     />
   );
 }
-
-export default FormFieldPassword;

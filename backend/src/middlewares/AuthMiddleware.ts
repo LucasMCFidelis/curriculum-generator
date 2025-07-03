@@ -1,30 +1,25 @@
 import { FastifyRequest, FastifyReply } from "fastify";
 import { errorHandler } from "../utils/errorHandler";
+import { ErrorCustomer } from "../ErrorCustomer";
 
 export class AuthMiddleware {
   static async authenticate(request: FastifyRequest, reply: FastifyReply) {
     const authorizationHeader = request.headers.authorization;
     if (!authorizationHeader) {
-      throw {
-        status: 400,
-        error: "Erro de validação",
-        message: "Token não Fornecido",
-      };
+      throw new ErrorCustomer(400, "Erro de validação", "Token não Fornecido");
     }
 
     const userToken = authorizationHeader.replace(/^Bearer\s+/i, "");
 
     try {
-      const { valid, decoded } = await request.server.validateToken(
-        userToken
-      );
+      const { valid, decoded } = await request.server.validateToken(userToken);
 
       if (!valid || !decoded) {
-        throw {
-          status: 401,
-          error: "Erro de autenticação",
-          message: "Token inválido ou expirado",
-        };
+        throw new ErrorCustomer(
+          401,
+          "Erro de autenticação",
+          "Token inválido ou expirado"
+        );
       }
 
       request.user = decoded as TokenPayload;
@@ -48,9 +43,11 @@ export class AuthMiddleware {
     }
   }
 
-  static async authenticateAndVerifyOwnership(request: FastifyRequest<{ Querystring: { userId: string } }>,
-    reply: FastifyReply){
-      await AuthMiddleware.authenticate(request, reply)
-      await AuthMiddleware.verifyOwnership(request, reply)
+  static async authenticateAndVerifyOwnership(
+    request: FastifyRequest<{ Querystring: { userId: string } }>,
+    reply: FastifyReply
+  ) {
+    await AuthMiddleware.authenticate(request, reply);
+    await AuthMiddleware.verifyOwnership(request, reply);
   }
 }
