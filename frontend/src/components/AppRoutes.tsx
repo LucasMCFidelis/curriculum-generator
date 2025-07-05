@@ -16,7 +16,7 @@ export function AppRoutes() {
           element={
             element ?? (
               <Feedback.Root>
-                <Feedback.Loading />
+                <Feedback.Loading message="Página em construção" />
               </Feedback.Root>
             )
           }
