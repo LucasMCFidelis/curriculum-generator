@@ -19,6 +19,9 @@ import { useMemo, useState } from "react";
 import { normalizeString } from "@/utils/normalizeString";
 import { DateDisplay } from "../DateDisplay";
 import { Feedback } from "../feedback";
+import { ConfirmDeleteSkillModal } from "./ConfirmDeleteSkillModal";
+import { CreateSkillModal } from "./CreateSkillModal";
+import { UpdateSkillModal } from "./UpdateSkillModal";
 
 export function SkillsSection() {
   const {
@@ -70,7 +73,6 @@ export function SkillsSection() {
   return (
     <section id="skillSection" className="space-y-4">
       <h2>Habilidades</h2>
-
       {isErrorSkills && (
         <Feedback.Root>
           <Feedback.Error message={errorMessage} />
@@ -79,13 +81,11 @@ export function SkillsSection() {
           </Button>
         </Feedback.Root>
       )}
-
       {isLoadingSkills && (
         <Feedback.Root>
           <Feedback.Loading message="Carregando Habilidades" />
         </Feedback.Root>
       )}
-
       {!isLoadingSkills && !isErrorSkills && skillsUser && (
         <>
           <div className="grid gap-2 grid-cols-[1fr_35%] lg:grid-cols-4 md:gap-4">
@@ -119,7 +119,6 @@ export function SkillsSection() {
               </Button>
             </div>
           </div>
-
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
             {filteredSkills.map((skill) => (
               <Card key={skill.skillId}>
@@ -179,6 +178,9 @@ export function SkillsSection() {
           </div>
         </>
       )}
+      <CreateSkillModal />
+      <UpdateSkillModal />
+      <ConfirmDeleteSkillModal />
     </section>
   );
 }

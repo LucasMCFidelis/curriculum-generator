@@ -30,6 +30,9 @@ import { isDateInRange } from "@/utils/isDateInRange";
 import { handleNavigation } from "@/utils/handleNavigation";
 import { normalizeString } from "@/utils/normalizeString";
 import { Feedback } from "../feedback";
+import { ConfirmDeleteWorkExperienceModal } from "./ConfirmDeleteWorkExperienceModal";
+import { CreateWorkExperienceModal } from "./CreateWorkExperienceModal";
+import { UpdateWorkExperienceModal } from "./UpdateWorkExperienceModal";
 
 export function WorkExperienceSection() {
   const {
@@ -260,6 +263,9 @@ export function WorkExperienceSection() {
             </div>
           </>
         )}
+      <CreateWorkExperienceModal />
+      <UpdateWorkExperienceModal />
+      <ConfirmDeleteWorkExperienceModal />
     </section>
   );
 }
