@@ -21,7 +21,7 @@ import { useModal } from "@/contexts/ModalContext";
 import { useMemo, useState } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import { handleNavigation } from "@/utils/handleNavigation";
-import { sectionsList } from "@/utils/sectionsList";
+import { SectionsList } from "@/utils/SectionsList";
 import { useNavigate, useLocation } from "react-router";
 
 export function Header() {
@@ -32,7 +32,7 @@ export function Header() {
   const location = useLocation();
 
   const menuItems = useMemo(() => {
-    return Object.values(sectionsList).map(({ label, href, id }) => (
+    return Object.values(SectionsList).map(({ label, href, id }) => (
       <MenubarMenu key={label}>
         <MenubarTrigger
           onClick={() => {
@@ -46,7 +46,7 @@ export function Header() {
         </MenubarTrigger>
       </MenubarMenu>
     ));
-  }, [sectionsList]);
+  }, [SectionsList]);
 
   const menuProfileUser = useMemo(() => {
     return (

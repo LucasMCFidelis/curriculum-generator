@@ -1,35 +1,27 @@
 import { Navigate, Route, Routes } from "react-router";
-import { SkillsSection } from "./skills/SkillsSection";
-import { WorkExperienceSection } from "./workExperiences/WorkExperienceSection";
-import { LoadingSpin } from "./LoadingSpin";
-import { sectionsList } from "@/utils/sectionsList";
-import { SkillProvider } from "@/contexts/SkillContext";
-import { WorkExperienceProvider } from "@/contexts/WorkExperienceContext";
+import { SectionsList } from "@/utils/SectionsList";
+import { Feedback } from "./feedback";
 
 export function AppRoutes() {
   return (
     <Routes>
       <Route
         path={"/"}
-        element={<Navigate to={sectionsList.home.href ?? "/home"} replace />}
+        element={<Navigate to={SectionsList.home.href ?? "/home"} replace />}
       />
-      <Route path={sectionsList.home.href} element={<LoadingSpin />} />
-      <Route
-        path={sectionsList.skills.href}
-        element={
-          <SkillProvider>
-            <SkillsSection />
-          </SkillProvider>
-        }
-      />
-      <Route
-        path={sectionsList.experience.href}
-        element={
-          <WorkExperienceProvider>
-            <WorkExperienceSection />
-          </WorkExperienceProvider>
-        }
-      />
+      {Object.values(SectionsList).map(({ id, href, element }) => (
+        <Route
+          key={id}
+          path={href}
+          element={
+            element ?? (
+              <Feedback.Root>
+                <Feedback.Loading />
+              </Feedback.Root>
+            )
+          }
+        />
+      ))}
     </Routes>
   );
 }
