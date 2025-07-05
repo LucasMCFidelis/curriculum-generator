@@ -11,7 +11,9 @@ type Section = {
   element?: ReactNode;
 };
 
-export const SectionsList: Record<string, Section> = {
+type SectionKey = "home" | "skills" | "experience" | "projects" | "curriculums";
+
+export const SectionsList: Record<SectionKey, Section> = {
   home: {
     label: "Início",
     id: "homeSection",
