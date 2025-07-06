@@ -16,6 +16,7 @@ import { DateDisplay } from "../DateDisplay";
 import { getFormattedDuration } from "@/utils/getFormattedDuration";
 import { useModal } from "@/contexts/ModalContext";
 import { CreateProjectModal } from "./CreateProjectModal";
+import { ConfirmDeleteProjectModal } from "./ConfirmDeleteProjectModal";
 
 export function ProjectsSection() {
   const {
@@ -68,6 +69,7 @@ export function ProjectsSection() {
                     variant={"ghost"}
                     onClick={() => {
                       setCurrentProject(project);
+                      openModal("confirmDeleteProject")
                     }}
                   >
                     <Trash2 className="text-destructive" />
@@ -149,6 +151,7 @@ export function ProjectsSection() {
         </div>
       )}
       <CreateProjectModal/>
+      <ConfirmDeleteProjectModal/>
     </section>
   );
 }

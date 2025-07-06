@@ -26,6 +26,7 @@ type ProjectContextType = {
     Error,
     ProjectCreateSchemaDTO
   >;
+  deleteProjectMutation: UseMutationResult<void, Error, string>;
 };
 
 export const ProjectContext = createContext({} as ProjectContextType);
@@ -78,13 +79,37 @@ export function ProjectProvider({ children }: { children: ReactNode }) {
         ...(oldProjects || []),
         newProject,
       ]);
-      closeModal()
+      closeModal();
     },
     onError: (error) => {
       handleAxiosFormError({
         error,
         setError: setErrorMessage,
         genericMessage: "Erro ao cadastrar projeto, tente novamente!",
+      });
+    },
+  });
+
+  const deleteProjectMutation = useMutation({
+    mutationFn: async (projectId: string) => {
+      await api.delete(
+        `/projects?userId=${currentUser?.userId}&projectId=${projectId}`
+      );
+    },
+    onSuccess: (_, projectId) => {
+      queryClient.setQueryData<Project[]>(["projects"], (oldProjects) => {
+        return (
+          oldProjects?.filter((project) => project.projectId !== projectId) ||
+          []
+        );
+      });
+      closeModal();
+    },
+    onError: (error) => {
+      handleAxiosFormError({
+        error,
+        setError: setErrorMessage,
+        genericMessage: "Erro ao deletar projeto, tente novamente!",
       });
     },
   });
@@ -101,6 +126,7 @@ export function ProjectProvider({ children }: { children: ReactNode }) {
         isErrorProjects,
         refetchProjects,
         cadastreProjectMutation,
+        deleteProjectMutation,
       }}
     >
       {children}
