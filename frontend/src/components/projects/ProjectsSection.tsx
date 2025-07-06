@@ -2,7 +2,7 @@ import { useProjects } from "@/hooks/useProjects";
 import { SectionsList } from "@/utils/SectionsList";
 import { Feedback } from "../feedback";
 import { Button } from "../ui/button";
-import { PenBox, RefreshCcw, Trash2 } from "lucide-react";
+import { PenBox, Plus, RefreshCcw, Trash2 } from "lucide-react";
 import {
   Card,
   CardAction,
@@ -14,6 +14,8 @@ import {
 } from "../ui/card";
 import { DateDisplay } from "../DateDisplay";
 import { getFormattedDuration } from "@/utils/getFormattedDuration";
+import { useModal } from "@/contexts/ModalContext";
+import { CreateProjectModal } from "./CreateProjectModal";
 
 export function ProjectsSection() {
   const {
@@ -24,6 +26,7 @@ export function ProjectsSection() {
     isErrorProjects,
     refetchProjects,
   } = useProjects();
+  const { openModal} = useModal()
 
   return (
     <section id={SectionsList.projects.id} className="space-y-4">
@@ -127,8 +130,25 @@ export function ProjectsSection() {
               </CardFooter>
             </Card>
           ))}
+          <Card
+              className="cursor-pointer"
+              onClick={() => openModal("createProject")}
+            >
+              <CardHeader className="grid grid-cols-[1fr_50px] items-center">
+                <CardTitle>
+                  <h3>Cadastrar novo Projeto</h3>
+                </CardTitle>
+                <Plus className="justify-self-end" />
+              </CardHeader>
+              <CardContent className="flex-1">
+                <CardDescription>
+                  Criar um novo projeto
+                </CardDescription>
+              </CardContent>
+            </Card>
         </div>
       )}
+      <CreateProjectModal/>
     </section>
   );
 }
