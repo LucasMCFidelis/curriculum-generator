@@ -1,11 +1,12 @@
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 import { ModalAction } from "./ModalAction";
 import { X } from "lucide-react";
+import { useModal } from "@/contexts/ModalContext";
 
 interface ModalCloseProps
   extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "onClick"> {
   children?: ReactNode;
-  closeAction: () => void;
+  closeAction?: () => void;
 }
 
 export function ModalClose({
@@ -13,9 +14,10 @@ export function ModalClose({
   closeAction,
   ...rest
 }: ModalCloseProps) {
+  const { closeModal } = useModal();
   return (
     <ModalAction
-      actionOnClick={closeAction}
+      actionOnClick={closeAction ?? closeModal}
       variant={"destructive"}
       children={children ? children : <X />}
       {...rest}
