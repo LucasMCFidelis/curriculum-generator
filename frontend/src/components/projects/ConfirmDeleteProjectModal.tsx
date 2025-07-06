@@ -3,7 +3,7 @@ import { ConfirmDeleteItemModal } from "../ConfirmDeleteItem";
 import { useModal } from "@/contexts/ModalContext";
 
 export function ConfirmDeleteProjectModal() {
-  const { currentProject, deleteProjectMutation } = useProjects();
+  const { currentProject, deleteProjectMutation, errorMessage } = useProjects();
   const { currentModal } = useModal();
 
   return (
@@ -14,6 +14,7 @@ export function ConfirmDeleteProjectModal() {
           itemType="Projeto"
           itemTitle={currentProject.projectTitle}
           deleteMutation={deleteProjectMutation}
+          errorMessage={errorMessage}
         />
       )}
     </>
