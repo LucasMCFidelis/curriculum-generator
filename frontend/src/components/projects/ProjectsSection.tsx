@@ -93,7 +93,7 @@ export function ProjectsSection() {
                       <strong>Deploy: </strong>
                       <Button variant={"link"} className="p-0 h-fit" asChild>
                         <a
-                          href={project.projectRepository}
+                          href={project.projectDeploy}
                           target="_blank"
                           rel="noreferrer noopener"
                         >
