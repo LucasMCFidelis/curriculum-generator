@@ -17,6 +17,7 @@ import { getFormattedDuration } from "@/utils/getFormattedDuration";
 import { useModal } from "@/contexts/ModalContext";
 import { CreateProjectModal } from "./CreateProjectModal";
 import { ConfirmDeleteProjectModal } from "./ConfirmDeleteProjectModal";
+import { UpdateProjectModal } from "./UpdateProjectModal";
 
 export function ProjectsSection() {
   const {
@@ -27,7 +28,7 @@ export function ProjectsSection() {
     isErrorProjects,
     refetchProjects,
   } = useProjects();
-  const { openModal} = useModal()
+  const { openModal } = useModal();
 
   return (
     <section id={SectionsList.projects.id} className="space-y-4">
@@ -61,6 +62,7 @@ export function ProjectsSection() {
                     variant={"ghost"}
                     onClick={() => {
                       setCurrentProject(project);
+                      openModal("updateProject");
                     }}
                   >
                     <PenBox />
@@ -69,7 +71,7 @@ export function ProjectsSection() {
                     variant={"ghost"}
                     onClick={() => {
                       setCurrentProject(project);
-                      openModal("confirmDeleteProject")
+                      openModal("confirmDeleteProject");
                     }}
                   >
                     <Trash2 className="text-destructive" />
@@ -133,25 +135,24 @@ export function ProjectsSection() {
             </Card>
           ))}
           <Card
-              className="cursor-pointer"
-              onClick={() => openModal("createProject")}
-            >
-              <CardHeader className="grid grid-cols-[1fr_50px] items-center">
-                <CardTitle>
-                  <h3>Cadastrar novo Projeto</h3>
-                </CardTitle>
-                <Plus className="justify-self-end" />
-              </CardHeader>
-              <CardContent className="flex-1">
-                <CardDescription>
-                  Criar um novo projeto
-                </CardDescription>
-              </CardContent>
-            </Card>
+            className="cursor-pointer"
+            onClick={() => openModal("createProject")}
+          >
+            <CardHeader className="grid grid-cols-[1fr_50px] items-center">
+              <CardTitle>
+                <h3>Cadastrar novo Projeto</h3>
+              </CardTitle>
+              <Plus className="justify-self-end" />
+            </CardHeader>
+            <CardContent className="flex-1">
+              <CardDescription>Criar um novo projeto</CardDescription>
+            </CardContent>
+          </Card>
         </div>
       )}
-      <CreateProjectModal/>
-      <ConfirmDeleteProjectModal/>
+      <CreateProjectModal />
+      <ConfirmDeleteProjectModal />
+      <UpdateProjectModal/>
     </section>
   );
 }

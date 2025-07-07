@@ -11,6 +11,7 @@ import {
 } from "@tanstack/react-query";
 import { createContext, useState, type ReactNode } from "react";
 import { useModal } from "./ModalContext";
+import type { ProjectUpdateSchemaDTO } from "@/schemas/projectUpdateSchema";
 
 type ProjectContextType = {
   currentProject: Project | null;
@@ -27,6 +28,11 @@ type ProjectContextType = {
     ProjectCreateSchemaDTO
   >;
   deleteProjectMutation: UseMutationResult<void, Error, string>;
+  updateProjectMutation: UseMutationResult<
+    Project,
+    Error,
+    ProjectUpdateSchemaDTO
+  >;
 };
 
 export const ProjectContext = createContext({} as ProjectContextType);
@@ -114,6 +120,40 @@ export function ProjectProvider({ children }: { children: ReactNode }) {
     },
   });
 
+  const updateProjectMutation = useMutation<
+    Project,
+    Error,
+    ProjectUpdateSchemaDTO
+  >({
+    mutationFn: async (data: ProjectUpdateSchemaDTO) => {
+      const projectResponse = await api.put(
+        `/projects?userId=${currentUser?.userId}&projectId=${currentProject?.projectId}`,
+        data
+      );
+
+      return projectResponse.data.projectUpdated;
+    },
+    onSuccess: (projectUpdated) => {
+      queryClient.setQueryData<Project[]>(["projects"], (oldProjects) => {
+        return (
+          oldProjects?.map((project) =>
+            project.projectId === projectUpdated.projectId
+              ? projectUpdated
+              : project
+          ) || []
+        );
+      });
+      closeModal()
+    },
+    onError: (error) => {
+      handleAxiosFormError({
+        error,
+        setError: setErrorMessage,
+        genericMessage: "Erro ao atualizar projeto, tente novamente!",
+      });
+    },
+  });
+
   return (
     <ProjectContext.Provider
       value={{
@@ -127,6 +167,7 @@ export function ProjectProvider({ children }: { children: ReactNode }) {
         refetchProjects,
         cadastreProjectMutation,
         deleteProjectMutation,
+        updateProjectMutation,
       }}
     >
       {children}

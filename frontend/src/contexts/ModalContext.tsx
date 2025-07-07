@@ -12,6 +12,7 @@ type ModalType =
   | "updateWorkExperience"
   | "confirmDeleteWorkExperience"
   | "createProject"
+  | "updateProject"
   | "confirmDeleteProject"
   | null;
 

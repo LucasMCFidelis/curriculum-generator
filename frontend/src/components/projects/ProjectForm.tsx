@@ -17,9 +17,10 @@ import { CalendarDays } from "lucide-react";
 import { Button } from "../ui/button";
 import { DateDisplay } from "../DateDisplay";
 import { Calendar } from "../ui/calendar";
+import type { ProjectUpdateSchemaDTO } from "@/schemas/projectUpdateSchema";
 
 interface ProjectFormProps {
-  form: UseFormReturn<ProjectCreateSchemaDTO>;
+  form: UseFormReturn<ProjectCreateSchemaDTO | ProjectUpdateSchemaDTO>;
   isEditable?: boolean;
 }
 
