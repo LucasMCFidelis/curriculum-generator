@@ -108,7 +108,6 @@ export function ProjectsSection() {
             <SelectRangeDate
               dateRange={dateRange}
               setDateRange={setDateRange}
-              className="space-y-2"
             />
             <Button className="self-end" onClick={clearFilters}>
               Limpar Filtros <RefreshCcw />

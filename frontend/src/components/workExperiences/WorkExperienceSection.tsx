@@ -108,11 +108,9 @@ export function WorkExperienceSection() {
                 placeholder="Buscar Experiência Profissional"
                 className="md:col-span-2"
               />
-
               <SelectRangeDate
                 dateRange={dateRange}
                 setDateRange={setDateRange}
-                className="space-y-2"
               />
               <Button className="self-end" onClick={clearFilters}>
                 Limpar Filtros <RefreshCwIcon />

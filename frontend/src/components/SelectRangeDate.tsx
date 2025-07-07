@@ -11,16 +11,16 @@ import type { DateRange } from "react-day-picker";
 interface SelectRangeDateProps {
   dateRange: DateRange | undefined;
   setDateRange: (date: DateRange | undefined) => void;
-  className?: string
+  className?: string;
 }
 
 export function SelectRangeDate({
   dateRange,
   setDateRange,
-  className
+  className,
 }: SelectRangeDateProps) {
   return (
-    <div id="filterRangeDate" className={className}>
+    <div id="filterRangeDate" className={cn("space-y-2", className)}>
       <Label>Selecione um intervalo de datas</Label>
       <Popover>
         <PopoverTrigger asChild>
