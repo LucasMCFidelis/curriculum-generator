@@ -11,6 +11,9 @@ type ModalType =
   | "createWorkExperience"
   | "updateWorkExperience"
   | "confirmDeleteWorkExperience"
+  | "createProject"
+  | "updateProject"
+  | "confirmDeleteProject"
   | null;
 
 type ModalContextType = {

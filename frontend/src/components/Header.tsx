@@ -2,12 +2,9 @@ import {
   ArrowRightIcon,
   LogIn,
   LogOut,
-  Menu,
-  Plus,
-  Search,
-  Trash2,
+  Menu, Trash2,
   User,
-  UserCircle2,
+  UserCircle2
 } from "lucide-react";
 import { ToggleTheme } from "./ToggleTheme";
 import {
@@ -23,43 +20,33 @@ import { useAuth } from "@/hooks/useAuth";
 import { useModal } from "@/contexts/ModalContext";
 import { useMemo, useState } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
-import { SectionList } from "../utils/SectionList";
 import { handleNavigation } from "@/utils/handleNavigation";
+import { SectionsList } from "@/utils/SectionsList";
+import { useNavigate, useLocation } from "react-router";
 
 export function Header() {
   const [isSheetOpen, setIsSheetOpen] = useState<boolean>(false);
   const { currentUser, openLoginModal, logoutUser } = useAuth();
   const { openModal } = useModal();
-  const sections = SectionList();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const menuItems = useMemo(() => {
-    return sections.map((section) => (
-      <MenubarMenu key={section.label}>
-        <MenubarTrigger>{section.label}</MenubarTrigger>
-        <MenubarContent>
-          <MenubarItem onClick={section.onCreate}>
-            Cadastrar{" "}
-            <MenubarShortcut>
-              <Plus />
-            </MenubarShortcut>
-          </MenubarItem>
-          <MenubarItem
-            onClick={() => {
-              setIsSheetOpen(false);
-              setTimeout(() => {
-                handleNavigation(section.sectionId);
-              }, 300);
-            }}
-          >
-            Buscar{" "}
-            <MenubarShortcut>
-              <Search />
-            </MenubarShortcut>
-          </MenubarItem>
-        </MenubarContent>
+    return Object.values(SectionsList).map(({ label, href, id }) => (
+      <MenubarMenu key={label}>
+        <MenubarTrigger
+          onClick={() => {
+            const element = handleNavigation(id);
+            if (!element && href && location.pathname !== href) {
+              navigate(href, { state: { scrollTo: id } });
+            }
+          }}
+        >
+          {label}
+        </MenubarTrigger>
       </MenubarMenu>
     ));
-  }, [sections]);
+  }, [SectionsList]);
 
   const menuProfileUser = useMemo(() => {
     return (
@@ -99,7 +86,7 @@ export function Header() {
       <h2>CurriculumHub</h2>
 
       <Menubar className="border-none shadow-none">
-        <nav className="hidden sm:flex justify-center items-center gap-3">
+        <nav className="hidden lg:flex justify-center items-center gap-3">
           {currentUser ? (
             <>
               {menuItems}
@@ -113,7 +100,7 @@ export function Header() {
           <ToggleTheme />
         </nav>
 
-        <nav className="flex sm:hidden gap-3">
+        <nav className="flex lg:hidden gap-3">
           {currentUser ? (
             <>
               {menuProfileUser}

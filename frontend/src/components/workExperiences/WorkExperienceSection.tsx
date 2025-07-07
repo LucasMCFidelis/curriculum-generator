@@ -9,11 +9,10 @@ import {
   CardTitle,
 } from "../ui/card";
 import {
-  CalendarDays,
   PenBox,
   Plus,
   RefreshCwIcon,
-  Trash2,
+  Trash2
 } from "lucide-react";
 import { Button } from "../ui/button";
 import { DateDisplay } from "../DateDisplay";
@@ -22,14 +21,13 @@ import { useModal } from "@/contexts/ModalContext";
 import { SearchInput } from "../SearchInput";
 import { useMemo, useState } from "react";
 import type { DateRange } from "react-day-picker";
-import { Calendar } from "../ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { cn } from "@/lib/utils";
-import { Label } from "../ui/label";
 import { isDateInRange } from "@/utils/isDateInRange";
-import { handleNavigation } from "@/utils/handleNavigation";
 import { normalizeString } from "@/utils/normalizeString";
 import { Feedback } from "../feedback";
+import { ConfirmDeleteWorkExperienceModal } from "./ConfirmDeleteWorkExperienceModal";
+import { CreateWorkExperienceModal } from "./CreateWorkExperienceModal";
+import { UpdateWorkExperienceModal } from "./UpdateWorkExperienceModal";
+import { SelectRangeDate } from "../SelectRangeDate";
 
 export function WorkExperienceSection() {
   const {
@@ -116,55 +114,11 @@ export function WorkExperienceSection() {
                 className="col-span-2"
               />
 
-              <div
-                id="filterRangeDateWE"
+              <SelectRangeDate
+                dateRange={dateRange}
+                setDateRange={setDateRange}
                 className="space-y-2 col-span-2 sm:col-auto"
-              >
-                <Label>Selecione um intervalo de datas</Label>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant={"outline"}
-                      className={cn(
-                        "justify-between h-fit md:h-auto text-left font-normal w-full",
-                        !dateRange && "text-muted-foreground"
-                      )}
-                      onClick={() => handleNavigation("filterRangeDateWE")}
-                    >
-                      {dateRange ? (
-                        <div className="flex flex-wrap gap-x-2">
-                          {dateRange.from && (
-                            <DateDisplay date={dateRange.from.toISOString()} />
-                          )}
-                          {dateRange.to && (
-                            <>
-                              à{" "}
-                              <DateDisplay date={dateRange.to.toISOString()} />
-                            </>
-                          )}
-                        </div>
-                      ) : (
-                        <span>Selecione uma data</span>
-                      )}{" "}
-                      <CalendarDays />
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-full p-0" align="start">
-                    <Calendar
-                      mode="range"
-                      defaultMonth={dateRange?.from}
-                      numberOfMonths={2}
-                      selected={dateRange}
-                      onSelect={setDateRange}
-                      disabled={(date) =>
-                        date > new Date() || date < new Date("1900-01-01")
-                      }
-                      captionLayout="dropdown"
-                      className="rounded-md border w-full"
-                    />
-                  </PopoverContent>
-                </Popover>
-              </div>
+              />
               <Button className="w-full self-end" onClick={clearFilters}>
                 Limpar Filtros <RefreshCwIcon />
               </Button>
@@ -175,7 +129,7 @@ export function WorkExperienceSection() {
                 <Card key={workExperience.workExperienceId}>
                   <CardHeader className="grid grid-rows-1 items-center">
                     <CardTitle>
-                      {workExperience.workExperiencePosition}
+                      <h3>{workExperience.workExperiencePosition}</h3>
                     </CardTitle>
                     <CardAction>
                       <Button
@@ -260,6 +214,9 @@ export function WorkExperienceSection() {
             </div>
           </>
         )}
+      <CreateWorkExperienceModal />
+      <UpdateWorkExperienceModal />
+      <ConfirmDeleteWorkExperienceModal />
     </section>
   );
 }

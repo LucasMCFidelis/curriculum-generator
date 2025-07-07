@@ -7,4 +7,6 @@ export function handleNavigation(id: string) {
     top,
     behavior: "smooth",
   });
+
+  return element
 }

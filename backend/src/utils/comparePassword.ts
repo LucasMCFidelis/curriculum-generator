@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+import { ErrorCustomer } from "../ErrorCustomer";
 
 export async function comparePassword(
   passwordProvided: string,
@@ -7,10 +8,10 @@ export async function comparePassword(
   const isPasswordValid = await bcrypt.compare(passwordProvided, passwordHash);
 
   if (!isPasswordValid) {
-    throw {
-      status: 401,
-      error: "Erro de autenticação",
-      message: "Credenciais inválidas",
-    };
+    throw new ErrorCustomer(
+      401,
+      "Erro de autenticação",
+      "Credenciais inválidas"
+    );
   }
 }

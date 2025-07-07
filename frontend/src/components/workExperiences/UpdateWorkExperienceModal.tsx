@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
   workExperienceUpdateSchema,
   type WorkExperienceUpdateSchemaDTO,
-} from "@/schemas/formWorkExperienceUpdate";
+} from "@/schemas/workExperienceUpdateSchema";
 import { WorkExperienceForm } from "./WorkExperienceForm";
 import { useEffect } from "react";
 import { LoadingSpin } from "../LoadingSpin";
