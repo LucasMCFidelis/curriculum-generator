@@ -17,7 +17,7 @@ import { CalendarDays } from "lucide-react";
 import { Calendar } from "../ui/calendar";
 import { cn } from "@/lib/utils";
 import { DateDisplay } from "../DateDisplay";
-import type { WorkExperienceUpdateSchemaDTO } from "@/schemas/formWorkExperienceUpdate";
+import type { WorkExperienceUpdateSchemaDTO } from "@/schemas/workExperienceUpdateSchema";
 
 interface WorkExperienceFormProps {
   form: UseFormReturn<
