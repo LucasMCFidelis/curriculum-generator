@@ -8,12 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import {
-  PenBox,
-  Plus,
-  RefreshCwIcon,
-  Trash2
-} from "lucide-react";
+import { PenBox, Plus, RefreshCwIcon, Trash2 } from "lucide-react";
 import { Button } from "../ui/button";
 import { DateDisplay } from "../DateDisplay";
 import { getFormattedDuration } from "@/utils/getFormattedDuration";
@@ -111,15 +106,15 @@ export function WorkExperienceSection() {
                 value={searchWorkExperience}
                 setValue={setSearchWorkExperience}
                 placeholder="Buscar Experiência Profissional"
-                className="col-span-2"
+                className="md:col-span-2"
               />
 
               <SelectRangeDate
                 dateRange={dateRange}
                 setDateRange={setDateRange}
-                className="space-y-2 col-span-2 sm:col-auto"
+                className="space-y-2"
               />
-              <Button className="w-full self-end" onClick={clearFilters}>
+              <Button className="self-end" onClick={clearFilters}>
                 Limpar Filtros <RefreshCwIcon />
               </Button>
             </div>
