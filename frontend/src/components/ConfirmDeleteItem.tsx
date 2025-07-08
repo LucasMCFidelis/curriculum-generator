@@ -9,6 +9,7 @@ interface ConfirmDeleteItemModalProps {
   itemId: string;
   itemTitle: string;
   deleteMutation: UseMutationResult<void, Error, string>;
+  errorMessage?: string;
 }
 
 export function ConfirmDeleteItemModal({
@@ -16,6 +17,7 @@ export function ConfirmDeleteItemModal({
   itemId,
   itemTitle,
   deleteMutation,
+  errorMessage = "Erro ao realizar exclusão",
 }: ConfirmDeleteItemModalProps) {
   const { closeModal } = useModal();
 
@@ -49,6 +51,9 @@ export function ConfirmDeleteItemModal({
               </>
             )}
           </Modal.Confirm>
+          {deleteMutation.isError && (
+            <p className="text-destructive">{errorMessage}</p>
+          )}
         </div>
       </Modal.Body>
     </Modal.Root>

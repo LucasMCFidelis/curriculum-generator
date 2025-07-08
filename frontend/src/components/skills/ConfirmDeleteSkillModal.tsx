@@ -4,7 +4,7 @@ import { ConfirmDeleteItemModal } from "../ConfirmDeleteItem";
 
 export function ConfirmDeleteSkillModal() {
   const { currentModal } = useModal();
-  const { currentSkill, deleteSkillMutation } = useSkills();
+  const { currentSkill, deleteSkillMutation, errorMessage } = useSkills();
 
   return (
     <>
@@ -14,6 +14,7 @@ export function ConfirmDeleteSkillModal() {
           itemId={currentSkill.skillId}
           itemTitle={currentSkill.skillTitle}
           deleteMutation={deleteSkillMutation}
+          errorMessage={errorMessage}
         />
       )}
     </>

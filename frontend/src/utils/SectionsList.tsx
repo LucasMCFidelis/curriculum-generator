@@ -1,7 +1,8 @@
+import { ExperiencesSection } from "@/components/ExperiencesSection";
+import { ProjectsSection } from "@/components/projects/ProjectsSection";
 import { SkillsSection } from "@/components/skills/SkillsSection";
-import { WorkExperienceSection } from "@/components/workExperiences/WorkExperienceSection";
+import { ProjectProvider } from "@/contexts/ProjectContext";
 import { SkillProvider } from "@/contexts/SkillContext";
-import { WorkExperienceProvider } from "@/contexts/WorkExperienceContext";
 import type { ReactNode } from "react";
 
 type Section = {
@@ -35,16 +36,18 @@ export const SectionsList: Record<SectionKey, Section> = {
     id: "experienceSection",
     href: "experiences",
     element: (
-      <WorkExperienceProvider>
-        <WorkExperienceSection />
-      </WorkExperienceProvider>
+      <ExperiencesSection/>
     ),
   },
   projects: {
     label: "Projetos",
     id: "projectSection",
     href: "projects",
-    element: undefined,
+    element: (
+      <ProjectProvider>
+        <ProjectsSection />
+      </ProjectProvider>
+    ),
   },
   curriculums: {
     label: "Currículos",
