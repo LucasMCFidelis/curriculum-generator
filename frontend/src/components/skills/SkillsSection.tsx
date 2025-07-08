@@ -22,6 +22,7 @@ import { Feedback } from "../feedback";
 import { ConfirmDeleteSkillModal } from "./ConfirmDeleteSkillModal";
 import { CreateSkillModal } from "./CreateSkillModal";
 import { UpdateSkillModal } from "./UpdateSkillModal";
+import { SectionsList } from "@/utils/SectionsList";
 
 export function SkillsSection() {
   const {
@@ -71,8 +72,8 @@ export function SkillsSection() {
   }, [skillsUser, searchValue, skillTypeSelected]);
 
   return (
-    <section id="skillSection" className="space-y-4">
-      <h2>Habilidades</h2>
+    <section id={SectionsList.skills.id} className="space-y-4">
+      <h2>{SectionsList.skills.label}</h2>
       {isErrorSkills && (
         <Feedback.Root>
           <Feedback.Error message={errorMessage} />
