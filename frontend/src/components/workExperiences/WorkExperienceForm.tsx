@@ -1,4 +1,3 @@
-import type { WorkExperienceCreateSchemaDTO } from "@/schemas/workExperienceCreateSchema";
 import type { UseFormReturn } from "react-hook-form";
 import {
   Form,
@@ -17,12 +16,10 @@ import { CalendarDays } from "lucide-react";
 import { Calendar } from "../ui/calendar";
 import { cn } from "@/lib/utils";
 import { DateDisplay } from "../DateDisplay";
-import type { WorkExperienceUpdateSchemaDTO } from "@/schemas/workExperienceUpdateSchema";
+import type { WorkExperienceFormSchemaDTO } from "@/schemas/workExperienceSchemas";
 
 interface WorkExperienceFormProps {
-  form: UseFormReturn<
-    WorkExperienceCreateSchemaDTO | WorkExperienceUpdateSchemaDTO
-  >;
+  form: UseFormReturn<WorkExperienceFormSchemaDTO>;
   isEditable?: boolean;
 }
 
@@ -43,7 +40,7 @@ export function WorkExperienceForm({
                 <Input
                   {...field}
                   placeholder="Cargo..."
-                  disabled={!isEditable}
+                  disabled={isEditable}
                 />
               </FormControl>
               <FormMessage />
@@ -60,7 +57,7 @@ export function WorkExperienceForm({
                 <Input
                   {...field}
                   placeholder="Empresa..."
-                  disabled={!isEditable}
+                  disabled={isEditable}
                 />
               </FormControl>
               <FormMessage />
@@ -77,7 +74,7 @@ export function WorkExperienceForm({
                 <Textarea
                   {...field}
                   placeholder="Descrição..."
-                  disabled={!isEditable}
+                  disabled={isEditable}
                 />
               </FormControl>
               <FormMessage />

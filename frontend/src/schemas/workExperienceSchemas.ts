@@ -1,6 +1,6 @@
-import z from "zod";
+import { z } from "zod";
 
-export const workExperienceCreateSchema = z.object({
+export const workExperienceBaseSchema = z.object({
   workExperiencePosition: z
     .string()
     .min(1, "O cargo é obrigatório.")
@@ -23,6 +23,29 @@ export const workExperienceCreateSchema = z.object({
     .optional(),
 });
 
+export const createWorkExperienceSchema = workExperienceBaseSchema.extend({
+  type: z.literal("create"),
+  workExperienceFinished: z.boolean(),
+});
+
+export const updateWorkExperienceSchema = workExperienceBaseSchema
+  .partial()
+  .extend({
+    type: z.literal("update"),
+    workExperienceFinished: z.boolean(),
+  });
+
+export const workExperienceFormSchema = z.discriminatedUnion("type", [
+  createWorkExperienceSchema,
+  updateWorkExperienceSchema,
+]);
+
 export type WorkExperienceCreateSchemaDTO = z.infer<
-  typeof workExperienceCreateSchema
+  typeof createWorkExperienceSchema
+>;
+export type WorkExperienceUpdateSchemaDTO = z.infer<
+  typeof updateWorkExperienceSchema
+>;
+export type WorkExperienceFormSchemaDTO = z.infer<
+  typeof workExperienceFormSchema
 >;

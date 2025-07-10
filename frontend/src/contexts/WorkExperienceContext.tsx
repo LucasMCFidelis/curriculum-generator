@@ -1,6 +1,5 @@
 import { api } from "@/api";
 import { useAuth } from "@/hooks/useAuth";
-import type { WorkExperienceCreateSchemaDTO } from "@/schemas/workExperienceCreateSchema";
 import type { WorkExperience } from "@/types/WorkExperience";
 import {
   useMutation,
@@ -10,8 +9,12 @@ import {
 } from "@tanstack/react-query";
 import { createContext, useState, type ReactNode } from "react";
 import { useModal } from "./ModalContext";
-import type { WorkExperienceUpdateSchemaDTO } from "@/schemas/formWorkExperienceUpdate";
 import { handleAxiosFormError } from "@/utils/handleAxiosFormError";
+import type {
+  WorkExperienceCreateSchemaDTO,
+  WorkExperienceUpdateSchemaDTO,
+} from "@/schemas/workExperienceSchemas";
+import { stripDiscriminator } from "@/utils/stripDiscriminator";
 
 type WorkExperienceContextType = {
   currentWorkExperience: WorkExperience | null;
@@ -20,7 +23,7 @@ type WorkExperienceContextType = {
   isLoadingWorkExperiencesUser: boolean;
   isErrorWorkExperiencesUser: boolean;
   refetchWorkExperiencesUser: () => void;
-  cadastreWorkExperience: UseMutationResult<
+  cadastreWorkExperienceMutation: UseMutationResult<
     WorkExperience,
     Error,
     WorkExperienceCreateSchemaDTO
@@ -79,7 +82,7 @@ export function WorkExperienceProvider({ children }: { children: ReactNode }) {
     mutationFn: async (data: WorkExperienceCreateSchemaDTO) => {
       const workExperienceResponse = await api.post(
         `/work-experience?userId=${currentUser?.userId}`,
-        data
+        stripDiscriminator(data, "type")
       );
       return workExperienceResponse.data;
     },
@@ -141,7 +144,7 @@ export function WorkExperienceProvider({ children }: { children: ReactNode }) {
     mutationFn: async (data: WorkExperienceUpdateSchemaDTO) => {
       const updateResponse = await api.put(
         `/work-experience?userId=${currentUser?.userId}&workExperienceId=${currentWorkExperience?.workExperienceId}`,
-        data
+        stripDiscriminator(data, "type")
       );
       console.log(updateResponse.data);
 
@@ -184,7 +187,7 @@ export function WorkExperienceProvider({ children }: { children: ReactNode }) {
         refetchWorkExperiencesUser,
         errorMessage,
         setErrorMessage,
-        cadastreWorkExperience,
+        cadastreWorkExperienceMutation: cadastreWorkExperience,
         deleteWorkExperienceMutation,
         updateWorkExperienceMutation,
       }}
