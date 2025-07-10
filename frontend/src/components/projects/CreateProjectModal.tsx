@@ -13,7 +13,7 @@ import {
 import { Feedback } from "../feedback";
 
 export function CreateProjectModal() {
-  const { currentModal } = useModal();
+  const { currentModal, closeModal } = useModal();
   const { cadastreProjectMutation, errorMessage } = useProjects();
 
   const formCreateProject = useForm<ProjectFormSchemaDTO>({
@@ -27,7 +27,12 @@ export function CreateProjectModal() {
         <Modal.Root>
           <Modal.Header>
             <h2>Cadastrar Projeto</h2>
-            <Modal.Close />
+            <Modal.Close
+              closeAction={() => {
+                formCreateProject.reset();
+                closeModal();
+              }}
+            />
           </Modal.Header>
           <Modal.Body>
             <ProjectForm
