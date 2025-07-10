@@ -1,6 +1,5 @@
 import { api } from "@/api";
 import { useAuth } from "@/hooks/useAuth";
-import type { ProjectCreateSchemaDTO } from "@/schemas/projectCreateSchema";
 import type { Project } from "@/types/Project";
 import { handleAxiosFormError } from "@/utils/handleAxiosFormError";
 import {
@@ -11,7 +10,11 @@ import {
 } from "@tanstack/react-query";
 import { createContext, useState, type ReactNode } from "react";
 import { useModal } from "./ModalContext";
-import type { ProjectUpdateSchemaDTO } from "@/schemas/projectUpdateSchema";
+import type {
+  ProjectCreateSchemaDTO,
+  ProjectUpdateSchemaDTO,
+} from "@/schemas/projectSchemas";
+import { stripDiscriminator } from "@/utils/stripDiscriminator";
 
 type ProjectContextType = {
   currentProject: Project | null;
@@ -76,7 +79,7 @@ export function ProjectProvider({ children }: { children: ReactNode }) {
     mutationFn: async (data: ProjectCreateSchemaDTO) => {
       const projectResponse = await api.post(
         `/projects?userId=${currentUser?.userId}`,
-        data
+        stripDiscriminator(data, "type")
       );
       return projectResponse.data;
     },
@@ -128,7 +131,7 @@ export function ProjectProvider({ children }: { children: ReactNode }) {
     mutationFn: async (data: ProjectUpdateSchemaDTO) => {
       const projectResponse = await api.put(
         `/projects?userId=${currentUser?.userId}&projectId=${currentProject?.projectId}`,
-        data
+        stripDiscriminator(data, "type")
       );
 
       return projectResponse.data.projectUpdated;
@@ -143,7 +146,7 @@ export function ProjectProvider({ children }: { children: ReactNode }) {
           ) || []
         );
       });
-      closeModal()
+      closeModal();
     },
     onError: (error) => {
       handleAxiosFormError({

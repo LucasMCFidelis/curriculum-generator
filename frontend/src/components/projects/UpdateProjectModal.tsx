@@ -3,28 +3,30 @@ import { useProjects } from "@/hooks/useProjects";
 import { Modal } from "../modal";
 import { ProjectForm } from "./ProjectForm";
 import { useForm } from "react-hook-form";
-import {
-  projectUpdateSchema,
-  type ProjectUpdateSchemaDTO,
-} from "@/schemas/projectUpdateSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { Button } from "../ui/button";
 import { LoadingSpin } from "../LoadingSpin";
 import { Save } from "lucide-react";
+import {
+  projectFormSchema,
+  type ProjectFormSchemaDTO,
+} from "@/schemas/projectSchemas";
+import { Feedback } from "../feedback";
 
 export function UpdateProjectModal() {
   const { currentModal } = useModal();
   const { currentProject, updateProjectMutation, errorMessage } = useProjects();
 
-  const formUpdateProject = useForm<ProjectUpdateSchemaDTO>({
-    resolver: zodResolver(projectUpdateSchema),
+  const formUpdateProject = useForm<ProjectFormSchemaDTO>({
+    resolver: zodResolver(projectFormSchema),
   });
 
   useEffect(() => {
     if (!currentProject) return;
 
     formUpdateProject.reset({
+      type: "update",
       projectTitle: currentProject.projectTitle,
       projectDescription: currentProject.projectDescription || "",
       projectRepository: currentProject.projectRepository,
@@ -54,15 +56,19 @@ export function UpdateProjectModal() {
             />
 
             {updateProjectMutation.isError && (
-              <p className="text-destructive">{errorMessage}</p>
+              <Feedback.Root>
+                <Feedback.Error message={errorMessage} />
+              </Feedback.Root>
             )}
 
             <Button
               className="mt-4"
               disabled={updateProjectMutation.isPending}
-              onClick={formUpdateProject.handleSubmit((data) =>
-                updateProjectMutation.mutate(data)
-              )}
+              onClick={formUpdateProject.handleSubmit((data) => {
+                if (data.type === "update") {
+                  updateProjectMutation.mutate(data);
+                }
+              })}
             >
               {updateProjectMutation.isPending ? (
                 <>

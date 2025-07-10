@@ -2,22 +2,23 @@ import { useModal } from "@/contexts/ModalContext";
 import { Modal } from "../modal";
 import { Save } from "lucide-react";
 import { useForm } from "react-hook-form";
-import {
-  projectCreateSchema,
-  type ProjectCreateSchemaDTO,
-} from "@/schemas/projectCreateSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ProjectForm } from "./ProjectForm";
 import { useProjects } from "@/hooks/useProjects";
 import { LoadingSpin } from "../LoadingSpin";
+import {
+  projectFormSchema,
+  type ProjectFormSchemaDTO,
+} from "@/schemas/projectSchemas";
+import { Feedback } from "../feedback";
 
 export function CreateProjectModal() {
   const { currentModal } = useModal();
-  const { cadastreProjectMutation } = useProjects();
+  const { cadastreProjectMutation, errorMessage } = useProjects();
 
-  const formCreateProject = useForm<ProjectCreateSchemaDTO>({
-    resolver: zodResolver(projectCreateSchema),
-    defaultValues: { projectFinished: false },
+  const formCreateProject = useForm<ProjectFormSchemaDTO>({
+    resolver: zodResolver(projectFormSchema),
+    defaultValues: { type: "create", projectFinished: false },
   });
 
   return (
@@ -33,11 +34,18 @@ export function CreateProjectModal() {
               form={formCreateProject}
               isEditable={cadastreProjectMutation.isPending}
             />
+            {cadastreProjectMutation.isError && (
+              <Feedback.Root>
+                <Feedback.Error message={errorMessage} />
+              </Feedback.Root>
+            )}
             <Modal.Confirm
               className="mt-4"
               disabled={cadastreProjectMutation.isPending}
               confirmAction={formCreateProject.handleSubmit((data) => {
-                cadastreProjectMutation.mutate(data);
+                if (data.type === "create") {
+                  cadastreProjectMutation.mutate(data);
+                }
               })}
             >
               {cadastreProjectMutation.isPending ? (

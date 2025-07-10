@@ -1,4 +1,3 @@
-import type { ProjectCreateSchemaDTO } from "@/schemas/projectCreateSchema";
 import type { UseFormReturn } from "react-hook-form";
 import {
   Form,
@@ -17,10 +16,10 @@ import { CalendarDays } from "lucide-react";
 import { Button } from "../ui/button";
 import { DateDisplay } from "../DateDisplay";
 import { Calendar } from "../ui/calendar";
-import type { ProjectUpdateSchemaDTO } from "@/schemas/projectUpdateSchema";
+import type { ProjectFormSchemaDTO } from "@/schemas/projectSchemas";
 
 interface ProjectFormProps {
-  form: UseFormReturn<ProjectCreateSchemaDTO | ProjectUpdateSchemaDTO>;
+  form: UseFormReturn<ProjectFormSchemaDTO>;
   isEditable?: boolean;
 }
 
