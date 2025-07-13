@@ -5,7 +5,6 @@ import { ProjectForm } from "./ProjectForm";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
-import { Button } from "../ui/button";
 import { LoadingSpin } from "../LoadingSpin";
 import { Save } from "lucide-react";
 import {
@@ -61,10 +60,10 @@ export function UpdateProjectModal() {
               </Feedback.Root>
             )}
 
-            <Button
+            <Modal.Confirm
               className="mt-4"
               disabled={updateProjectMutation.isPending}
-              onClick={formUpdateProject.handleSubmit((data) => {
+              confirmAction={formUpdateProject.handleSubmit((data) => {
                 if (data.type === "update") {
                   updateProjectMutation.mutate(data);
                 }
@@ -80,7 +79,7 @@ export function UpdateProjectModal() {
                   <Save />
                 </>
               )}
-            </Button>
+            </Modal.Confirm>
           </Modal.Body>
         </Modal.Root>
       )}
