@@ -2,20 +2,23 @@ import { useForm } from "react-hook-form";
 import { Modal } from "../modal";
 import { SkillForm } from "./SkillForm";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { skillCreateSchema } from "@/schemas/skillCreateSchema";
-import type { SkillCreateSchemaDTO } from "@/schemas/skillCreateSchema";
 import { useModal } from "@/contexts/ModalContext";
 import { Save, X } from "lucide-react";
 import { useSkills } from "@/hooks/useSkills";
 import { LoadingSpin } from "../LoadingSpin";
 import { useEffect } from "react";
+import {
+  skillFormSchema,
+  type SkillFormSchemaDTO,
+} from "@/schemas/skillSchemas";
 
 export function CreateSkillModal() {
   const { currentModal, closeModal } = useModal();
   const { errorMessage, cadastreSkillMutation } = useSkills();
 
-  const formCreateSkill = useForm<SkillCreateSchemaDTO>({
-    resolver: zodResolver(skillCreateSchema),
+  const formCreateSkill = useForm<SkillFormSchemaDTO>({
+    resolver: zodResolver(skillFormSchema),
+    defaultValues: { type: "create" },
   });
 
   useEffect(() => {
@@ -56,7 +59,9 @@ export function CreateSkillModal() {
               className="mt-4"
               disabled={cadastreSkillMutation.isPending}
               confirmAction={formCreateSkill.handleSubmit((data) => {
-                cadastreSkillMutation.mutate(data);
+                if (data.type === "create") {
+                  cadastreSkillMutation.mutate(data);
+                }
               })}
             >
               {cadastreSkillMutation.isPending ? (

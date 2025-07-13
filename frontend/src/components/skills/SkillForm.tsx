@@ -1,4 +1,4 @@
-import { type Path, type UseFormReturn } from "react-hook-form";
+import { type UseFormReturn } from "react-hook-form";
 import {
   Form,
   FormControl,
@@ -9,30 +9,29 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger } from "../ui/select";
-import { SelectValue } from "@radix-ui/react-select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { useSkills } from "@/hooks/useSkills";
-import type { SkillCreateSchemaDTO } from "@/schemas/skillCreateSchema";
+import type { SkillFormSchemaDTO } from "@/schemas/skillSchemas";
 
-interface SkillFormProps<T extends Partial<SkillCreateSchemaDTO>> {
-  form: UseFormReturn<T>;
+interface SkillFormProps {
+  form: UseFormReturn<SkillFormSchemaDTO>;
   isEditable?: boolean;
   formKey?: React.Key;
 }
 
-export function SkillForm<T extends Partial<SkillCreateSchemaDTO>>({
+export function SkillForm({
   form,
   isEditable = true,
   formKey,
-}: SkillFormProps<T>) {
+}: SkillFormProps) {
   const { skillsTypes } = useSkills();
 
   return (
-    <Form key={formKey} {...form}>
-      <form className="space-y-4">
+    <Form {...form}>
+      <form key={formKey} className="space-y-4">
         <FormField
           control={form.control}
-          name={"skillTitle" as Path<T>}
+          name="skillTitle"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Título</FormLabel>
@@ -40,7 +39,7 @@ export function SkillForm<T extends Partial<SkillCreateSchemaDTO>>({
                 <Input
                   {...field}
                   placeholder="Título..."
-                  disabled={!isEditable}
+                  disabled={isEditable}
                 />
               </FormControl>
               <FormMessage />
@@ -49,7 +48,7 @@ export function SkillForm<T extends Partial<SkillCreateSchemaDTO>>({
         />
         <FormField
           control={form.control}
-          name={"skillDescription" as Path<T>}
+          name="skillDescription"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Descrição</FormLabel>
@@ -57,7 +56,7 @@ export function SkillForm<T extends Partial<SkillCreateSchemaDTO>>({
                 <Textarea
                   {...field}
                   placeholder="Descrição..."
-                  disabled={!isEditable}
+                  disabled={isEditable}
                 />
               </FormControl>
               <FormMessage />
@@ -66,7 +65,7 @@ export function SkillForm<T extends Partial<SkillCreateSchemaDTO>>({
         />
         <FormField
           control={form.control}
-          name={"skillType" as Path<T>}
+          name="skillType"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Tipo</FormLabel>
@@ -94,10 +93,10 @@ export function SkillForm<T extends Partial<SkillCreateSchemaDTO>>({
           )}
         />
 
-        {form.watch("skillType" as Path<T>) === "Outro" && (
+        {form.watch("skillType") === "Outro" && (
           <FormField
             control={form.control}
-            name={"skillTypeCustom" as Path<T>}
+            name="skillTypeCustom"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Outro tipo</FormLabel>
@@ -105,7 +104,7 @@ export function SkillForm<T extends Partial<SkillCreateSchemaDTO>>({
                   <Input
                     placeholder="Digite o novo tipo"
                     {...field}
-                    disabled={!isEditable}
+                    disabled={isEditable}
                   />
                 </FormControl>
                 <FormMessage />
