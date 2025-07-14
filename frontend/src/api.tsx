@@ -2,7 +2,7 @@ import axios from "axios";
 import { handleUnauthorized } from "./utils/authUtils";
 
 export const api = axios.create({
-  baseURL: "/api",
+  baseURL: import.meta.env.VITE_API_BACKEND,
   timeout: 5000,
   headers: {
     "Content-Type": "application/json",
