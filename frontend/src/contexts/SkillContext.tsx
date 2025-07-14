@@ -1,7 +1,6 @@
 import { api } from "@/api";
 import { useAuth } from "@/hooks/useAuth";
-import type { SkillCreateSchemaDTO } from "@/schemas/skillCreateSchema";
-import type { SkillUpdateSchemaDTO } from "@/schemas/skillUpdateSchema";
+
 import type { Skill } from "@/types/Skill";
 import {
   useMutation,
@@ -12,6 +11,8 @@ import {
 import { createContext, useMemo, useState, type ReactNode } from "react";
 import { useModal } from "./ModalContext";
 import { handleAxiosFormError } from "@/utils/handleAxiosFormError";
+import type { SkillCreateSchemaDTO, SkillUpdateSchemaDTO } from "@/schemas/skillSchemas";
+import { stripDiscriminator } from "@/utils/stripDiscriminator";
 
 type SkillContextType = {
   currentSkill: Skill | null;
@@ -73,7 +74,7 @@ export function SkillProvider({ children }: { children: ReactNode }) {
               skillDescription: data.skillDescription,
               skillType: data.skillTypeCustom,
             }
-          : data
+          : stripDiscriminator(data, "type")
       );
       return skillResponse.data;
     },
@@ -115,6 +116,8 @@ export function SkillProvider({ children }: { children: ReactNode }) {
 
   const updateSkillMutation = useMutation<Skill, Error, SkillUpdateSchemaDTO>({
     mutationFn: async (data: SkillUpdateSchemaDTO) => {
+      console.log(data);
+      
       const skillResponse = await api.put(
         `/skills?userId=${currentUser?.userId}&skillId=${currentSkill?.skillId}`,
         data.skillTypeCustom
@@ -123,7 +126,7 @@ export function SkillProvider({ children }: { children: ReactNode }) {
               skillDescription: data.skillDescription,
               skillType: data.skillTypeCustom,
             }
-          : data
+          : stripDiscriminator(data, "type")
       );
       return skillResponse.data.skillUpdated;
     },

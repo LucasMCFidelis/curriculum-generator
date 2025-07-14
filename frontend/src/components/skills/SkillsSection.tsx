@@ -19,6 +19,10 @@ import { useMemo, useState } from "react";
 import { normalizeString } from "@/utils/normalizeString";
 import { DateDisplay } from "../DateDisplay";
 import { Feedback } from "../feedback";
+import { ConfirmDeleteSkillModal } from "./ConfirmDeleteSkillModal";
+import { CreateSkillModal } from "./CreateSkillModal";
+import { UpdateSkillModal } from "./UpdateSkillModal";
+import { SectionsList } from "@/utils/SectionsList";
 
 export function SkillsSection() {
   const {
@@ -68,9 +72,8 @@ export function SkillsSection() {
   }, [skillsUser, searchValue, skillTypeSelected]);
 
   return (
-    <section id="skillSection" className="space-y-4">
-      <h2>Habilidades</h2>
-
+    <section id={SectionsList.skills.id} className="space-y-4">
+      <h2>{SectionsList.skills.label}</h2>
       {isErrorSkills && (
         <Feedback.Root>
           <Feedback.Error message={errorMessage} />
@@ -79,13 +82,11 @@ export function SkillsSection() {
           </Button>
         </Feedback.Root>
       )}
-
       {isLoadingSkills && (
         <Feedback.Root>
           <Feedback.Loading message="Carregando Habilidades" />
         </Feedback.Root>
       )}
-
       {!isLoadingSkills && !isErrorSkills && skillsUser && (
         <>
           <div className="grid gap-2 grid-cols-[1fr_35%] lg:grid-cols-4 md:gap-4">
@@ -119,15 +120,14 @@ export function SkillsSection() {
               </Button>
             </div>
           </div>
-
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
             {filteredSkills.map((skill) => (
               <Card key={skill.skillId}>
                 <CardHeader className="grid grid-rows-1 items-center">
-                  <CardTitle className="grid items-center justify-between w-3/4 grid-cols-[100px_10px_100px]">
-                    <h3>{skill.skillTitle}</h3>
-                    <h3>-</h3>
-                    <h3 className="justify-self-center">{skill.skillType}</h3>
+                  <CardTitle>
+                    <h3>
+                      {skill.skillTitle} - {skill.skillType}
+                    </h3>
                   </CardTitle>
                   <CardAction>
                     <Button
@@ -179,7 +179,9 @@ export function SkillsSection() {
           </div>
         </>
       )}
+      <CreateSkillModal />
+      <UpdateSkillModal />
+      <ConfirmDeleteSkillModal />
     </section>
   );
 }
-

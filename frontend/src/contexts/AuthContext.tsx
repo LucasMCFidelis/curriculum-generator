@@ -81,10 +81,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setIsLoginLoading(true);
     let loginResponse;
     try {
-      loginResponse = await axios.post(
-        "http://localhost:3333/users/login",
-        data
-      );
+      loginResponse = await axios.post("/api/users/login", data);
     } catch (error) {
       console.log("erro", error);
       let errorMessage;

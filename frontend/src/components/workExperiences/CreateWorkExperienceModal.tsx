@@ -5,19 +5,19 @@ import { useWorkExperiences } from "@/hooks/useWorkExperiences";
 import { LoadingSpin } from "../LoadingSpin";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  workExperienceCreateSchema,
-  type WorkExperienceCreateSchemaDTO,
-} from "@/schemas/workExperienceCreateSchema";
 import { WorkExperienceForm } from "./WorkExperienceForm";
+import {
+  workExperienceFormSchema,
+  type WorkExperienceFormSchemaDTO,
+} from "@/schemas/workExperienceSchemas";
 
 export function CreateWorkExperienceModal() {
   const { currentModal, closeModal } = useModal();
-  const { cadastreWorkExperience, errorMessage } = useWorkExperiences();
+  const { cadastreWorkExperienceMutation, errorMessage } = useWorkExperiences();
 
-  const formCreateWorkExperience = useForm<WorkExperienceCreateSchemaDTO>({
-    resolver: zodResolver(workExperienceCreateSchema),
-    defaultValues: { workExperienceFinished: false },
+  const formCreateWorkExperience = useForm<WorkExperienceFormSchemaDTO>({
+    resolver: zodResolver(workExperienceFormSchema),
+    defaultValues: { type: "create", workExperienceFinished: false },
   });
 
   return (
@@ -34,20 +34,22 @@ export function CreateWorkExperienceModal() {
             />
           </Modal.Header>
           <Modal.Body>
-            <WorkExperienceForm form={formCreateWorkExperience} isEditable />
+            <WorkExperienceForm form={formCreateWorkExperience} isEditable={cadastreWorkExperienceMutation.isPending} />
 
-            {cadastreWorkExperience.isError && (
+            {cadastreWorkExperienceMutation.isError && (
               <p className="text-destructive">{errorMessage}</p>
             )}
 
             <Modal.Confirm
               className="mt-4"
-              disabled={cadastreWorkExperience.isPending}
+              disabled={cadastreWorkExperienceMutation.isPending}
               confirmAction={formCreateWorkExperience.handleSubmit((data) => {
-                cadastreWorkExperience.mutate(data);
+                if (data.type === "create") {
+                  cadastreWorkExperienceMutation.mutate(data);
+                }
               })}
             >
-              {cadastreWorkExperience.isPending ? (
+              {cadastreWorkExperienceMutation.isPending ? (
                 <>
                   Cadastrando...
                   <LoadingSpin />

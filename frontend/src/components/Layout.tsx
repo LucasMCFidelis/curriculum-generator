@@ -5,12 +5,6 @@ import { LoginModal } from "./users/LoginModal";
 import { ProfileUserModal } from "./users/ProfileUserModal";
 import { ConfirmDeleteAccountModal } from "./users/ConfirmDeleteAccountModal";
 import { CadastreUserModal } from "./users/CadastreUserModal";
-import { CreateSkillModal } from "./skills/CreateSkillModal";
-import { ConfirmDeleteSkillModal } from "./skills/ConfirmDeleteSkillModal";
-import { UpdateSkillModal } from "./skills/UpdateSkillModal";
-import { CreateWorkExperienceModal } from "./workExperiences/CreateWorkExperienceModal";
-import { ConfirmDeleteWorkExperienceModal } from "./workExperiences/ConfirmDeleteWorkExperienceModal";
-import { UpdateWorkExperienceModal } from "./workExperiences/UpdateWorkExperienceModal";
 
 type LayoutProps = {
   children: ReactNode;
@@ -27,12 +21,6 @@ export function Layout({ children }: LayoutProps) {
         <CadastreUserModal />
         <ProfileUserModal />
         <ConfirmDeleteAccountModal />
-        <CreateSkillModal />
-        <UpdateSkillModal />
-        <ConfirmDeleteSkillModal />
-        <CreateWorkExperienceModal />
-        <UpdateWorkExperienceModal />
-        <ConfirmDeleteWorkExperienceModal />
       </div>
     </>
   );

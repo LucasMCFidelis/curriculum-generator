@@ -4,7 +4,7 @@ import { useWorkExperiences } from "@/hooks/useWorkExperiences";
 
 export function ConfirmDeleteWorkExperienceModal() {
   const { currentModal } = useModal();
-  const { currentWorkExperience, deleteWorkExperienceMutation } =
+  const { currentWorkExperience, deleteWorkExperienceMutation, errorMessage } =
     useWorkExperiences();
 
   return (
@@ -16,6 +16,7 @@ export function ConfirmDeleteWorkExperienceModal() {
             itemTitle={`${currentWorkExperience.workExperiencePosition} em ${currentWorkExperience.workExperienceCompany}`}
             itemId={currentWorkExperience.workExperienceId}
             deleteMutation={deleteWorkExperienceMutation}
+            errorMessage={errorMessage}
           />
         )}
     </>

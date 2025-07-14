@@ -9,37 +9,34 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
-import { Checkbox } from "../ui/checkbox";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { Button } from "../ui/button";
-import { CalendarDays } from "lucide-react";
-import { Calendar } from "../ui/calendar";
 import { cn } from "@/lib/utils";
+import { Checkbox } from "../ui/checkbox";
+import { Popover, PopoverTrigger, PopoverContent } from "../ui/popover";
+import { CalendarDays } from "lucide-react";
+import { Button } from "../ui/button";
 import { DateDisplay } from "../DateDisplay";
-import type { WorkExperienceFormSchemaDTO } from "@/schemas/workExperienceSchemas";
+import { Calendar } from "../ui/calendar";
+import type { ProjectFormSchemaDTO } from "@/schemas/projectSchemas";
 
-interface WorkExperienceFormProps {
-  form: UseFormReturn<WorkExperienceFormSchemaDTO>;
+interface ProjectFormProps {
+  form: UseFormReturn<ProjectFormSchemaDTO>;
   isEditable?: boolean;
 }
 
-export function WorkExperienceForm({
-  form,
-  isEditable = true,
-}: WorkExperienceFormProps) {
+export function ProjectForm({ form, isEditable }: ProjectFormProps) {
   return (
     <Form {...form}>
       <form className="space-y-4">
         <FormField
           control={form.control}
-          name="workExperiencePosition"
+          name="projectTitle"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Cargo</FormLabel>
+              <FormLabel>Título</FormLabel>
               <FormControl>
                 <Input
                   {...field}
-                  placeholder="Cargo..."
+                  placeholder="Título..."
                   disabled={isEditable}
                 />
               </FormControl>
@@ -49,24 +46,7 @@ export function WorkExperienceForm({
         />
         <FormField
           control={form.control}
-          name="workExperienceCompany"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Empresa</FormLabel>
-              <FormControl>
-                <Input
-                  {...field}
-                  placeholder="Empresa..."
-                  disabled={isEditable}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="workExperienceDescription"
+          name="projectDescription"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Descrição</FormLabel>
@@ -83,7 +63,41 @@ export function WorkExperienceForm({
         />
         <FormField
           control={form.control}
-          name="workExperienceFinished"
+          name="projectRepository"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Repositório</FormLabel>
+              <FormControl>
+                <Input
+                  {...field}
+                  placeholder="Repositório..."
+                  disabled={isEditable}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="projectDeploy"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Deploy</FormLabel>
+              <FormControl>
+                <Input
+                  {...field}
+                  placeholder="Deploy..."
+                  disabled={isEditable}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="projectFinished"
           render={({ field }) => (
             <FormItem className="grid-cols-[20px_1fr]">
               <FormControl>
@@ -91,18 +105,18 @@ export function WorkExperienceForm({
                   checked={field.value}
                   onCheckedChange={(value) => {
                     field.onChange(value);
-                    form.resetField("workExperienceEndDate");
+                    form.resetField("projectEndDate");
                   }}
                 />
               </FormControl>
               <FormMessage />
-              <FormLabel>Experiência Finalizada</FormLabel>
+              <FormLabel>Projeto Finalizado</FormLabel>
             </FormItem>
           )}
         />
         <FormField
           control={form.control}
-          name="workExperienceStartDate"
+          name="projectStartDate"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Data de inicio</FormLabel>
@@ -141,10 +155,11 @@ export function WorkExperienceForm({
             </FormItem>
           )}
         />
-        {form.watch("workExperienceFinished") && (
+
+        {form.watch("projectFinished") && (
           <FormField
             control={form.control}
-            name="workExperienceEndDate"
+            name="projectEndDate"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Data de termino</FormLabel>
@@ -173,7 +188,7 @@ export function WorkExperienceForm({
                       selected={field.value}
                       onSelect={field.onChange}
                       disabled={(date) => {
-                        const startDate = form.watch("workExperienceStartDate");
+                        const startDate = form.watch("projectStartDate");
                         return (
                           (startDate ? date < startDate : false) ||
                           date > new Date()

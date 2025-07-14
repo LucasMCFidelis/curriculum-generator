@@ -3,22 +3,22 @@ import { useWorkExperiences } from "@/hooks/useWorkExperiences";
 import { Modal } from "../modal";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  workExperienceUpdateSchema,
-  type WorkExperienceUpdateSchemaDTO,
-} from "@/schemas/workExperienceUpdateSchema";
 import { WorkExperienceForm } from "./WorkExperienceForm";
 import { useEffect } from "react";
 import { LoadingSpin } from "../LoadingSpin";
 import { Save } from "lucide-react";
+import {
+  workExperienceFormSchema,
+  type WorkExperienceFormSchemaDTO,
+} from "@/schemas/workExperienceSchemas";
 
 export function UpdateWorkExperienceModal() {
   const { currentModal, closeModal } = useModal();
   const { currentWorkExperience, updateWorkExperienceMutation, errorMessage } =
     useWorkExperiences();
 
-  const formUpdate = useForm<WorkExperienceUpdateSchemaDTO>({
-    resolver: zodResolver(workExperienceUpdateSchema),
+  const formUpdate = useForm<WorkExperienceFormSchemaDTO>({
+    resolver: zodResolver(workExperienceFormSchema),
   });
 
   useEffect(() => {
@@ -26,6 +26,7 @@ export function UpdateWorkExperienceModal() {
 
     if (currentWorkExperience) {
       formUpdate.reset({
+        type: "update",
         workExperiencePosition: currentWorkExperience?.workExperiencePosition,
         workExperienceDescription:
           currentWorkExperience?.workExperienceDescription || "",
@@ -56,7 +57,10 @@ export function UpdateWorkExperienceModal() {
             />
           </Modal.Header>
           <Modal.Body>
-            <WorkExperienceForm form={formUpdate} />
+            <WorkExperienceForm
+              form={formUpdate}
+              isEditable={updateWorkExperienceMutation.isPending}
+            />
 
             {updateWorkExperienceMutation.isError && (
               <p className="text-destructive">{errorMessage}</p>
@@ -65,7 +69,9 @@ export function UpdateWorkExperienceModal() {
             <Modal.Confirm
               disabled={updateWorkExperienceMutation.isPending}
               confirmAction={formUpdate.handleSubmit((data) => {
-                updateWorkExperienceMutation.mutate(data);
+                if (data.type === "update") {
+                  updateWorkExperienceMutation.mutate(data);
+                }
               })}
               className="mt-4"
             >

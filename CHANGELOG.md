@@ -2,6 +2,70 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.5.0](https://github.com/LucasMCFidelis/curriculum-generator/compare/v1.4.1...v1.5.0) (2025-07-14)
+
+
+### 🧹 Chores
+
+* **dev:** configura scripts de desenvolvimento com npm-run-all para rodar backend e frontend em paralelo ([cdb7a07](https://github.com/LucasMCFidelis/curriculum-generator/commit/cdb7a073f1fcf23af7859352f0e92bdcc7173702))
+
+
+### ✨ Features
+
+* adicionar propriedade element em SectionsList e renderização dos elementos em AppRoutes com fallback padrão ([934dca6](https://github.com/LucasMCFidelis/curriculum-generator/commit/934dca6279bf5ede74b17f471583e42589bc92cb))
+* **projects:** adiciona estrutura inicial de arquivos para desenvolvimento da funcionalidade ([4d07fec](https://github.com/LucasMCFidelis/curriculum-generator/commit/4d07fec1e644c2a08193d96a4dcfaf8b30542333))
+* **projects:** adiciona funcionalidade para atualização de projetos ([7df8742](https://github.com/LucasMCFidelis/curriculum-generator/commit/7df8742edc205a9b97e1c34bf9a9cecd1d1003b9))
+* **projects:** adiciona funcionalidade para busca de projetos por id ([72807ad](https://github.com/LucasMCFidelis/curriculum-generator/commit/72807adcb64697ae262c44fcf1934b32a303aaef))
+* **projects:** adiciona funcionalidade para criação de projetos ([baf281a](https://github.com/LucasMCFidelis/curriculum-generator/commit/baf281aeaa8c43b11703c181a3455dfb3fc84dfc))
+* **projects:** adiciona funcionalidade para exclusão de projetos ([b9f8de4](https://github.com/LucasMCFidelis/curriculum-generator/commit/b9f8de4c859efc7c7e1df13add6a2ef27419da9b))
+* **projects:** adiciona funcionalidade para listagem de projetos por id do usuário ([81b34cb](https://github.com/LucasMCFidelis/curriculum-generator/commit/81b34cbe288d4b3eb27dbc497be829af2928dae5))
+* **projects:** adiciona mutation de update e modal de edição reutilizando ProjectForm ([2ae02fc](https://github.com/LucasMCFidelis/curriculum-generator/commit/2ae02fcbaf451355b78f220c3d3a8ebe61fa2b42))
+* **projects:** adiciona mutation para cadastro de projetos ao contexto e cria componentes CreateProjectModal e ProjectForm ([b49df97](https://github.com/LucasMCFidelis/curriculum-generator/commit/b49df97942c6f62d474be705128c8686dffa2139))
+* **projects:** adiciona mutation para exclusão de projeto ao contexto e cria modal para confirmação da exclusão ([e9918da](https://github.com/LucasMCFidelis/curriculum-generator/commit/e9918da67c7d5e0319bfc259a5c481692aefb1d3))
+* **projects:** adiciona opção de listagem passando trechos de texto por queryStrings para filtragem dos projetos ([99941dd](https://github.com/LucasMCFidelis/curriculum-generator/commit/99941ddd5ea2aee6c2e45f3653fafcd42bfd4d0c))
+* **projects:** adicionar dados do usuário e controle de erro no contexto de projetos ([4148f86](https://github.com/LucasMCFidelis/curriculum-generator/commit/4148f8645dcd0ccb5b6427bb199527a1f88c290b))
+* **projects:** cria schemas com validações personalizadas de datas via superRefine ([5ba1ae2](https://github.com/LucasMCFidelis/curriculum-generator/commit/5ba1ae271e967fbbdce5c59119058d0bf9f9198d))
+* **projects:** implementa filtros de busca e intervalo de datas usando SelectRangeDate e SearchInput ([2271c69](https://github.com/LucasMCFidelis/curriculum-generator/commit/2271c69e1783e893b6bfb088d26d517402d2d5db))
+* **projects:** iniciar desenvolvimento da seção de projetos ([627f964](https://github.com/LucasMCFidelis/curriculum-generator/commit/627f964ee57196dd7c53c0384e85ac3c273db155))
+* **router:** configurar React Router e adaptar Header às novas seções ([4bbfe47](https://github.com/LucasMCFidelis/curriculum-generator/commit/4bbfe47b14023df5ab8ff19b05bd92f770b4409c))
+
+
+### 💅 Styles
+
+* alteração de font-sans padrão para Inter ([665f84e](https://github.com/LucasMCFidelis/curriculum-generator/commit/665f84e56dab519280c8b0190c4e012512c2d81b))
+* padroniza SelectRangeDate para possuir space-y-2 por padrão e ajusta para realizar mesclagem das classes passadas na utilização desse componente ([c3d397d](https://github.com/LucasMCFidelis/curriculum-generator/commit/c3d397db6b68cc80262966cdb42baa7f4d3425d1))
+* **skills:** remover grid e usar único h3 para título e tipo da Skill ([417a4a6](https://github.com/LucasMCFidelis/curriculum-generator/commit/417a4a602f0af85a9fd7bdd46ab031bb3f5fcaca))
+* **work-experience:** ajusta grid nos filtros, removendo comportamento de col-span de SelectRangeDate ([9f579d6](https://github.com/LucasMCFidelis/curriculum-generator/commit/9f579d6f12dfb20873585bdf2312ef149483bfb2))
+
+
+### 🐛 Bug Fixes
+
+* ajusta modais de confirmação de exclusão de skills e workExperiences passando a propriedade errorMessage dos seus respectivos contextos ([0cfa4c0](https://github.com/LucasMCFidelis/curriculum-generator/commit/0cfa4c0aadfef8599fab1d25da6fb6ac85c5ef58))
+* corrige imortação em componente sonner do shadcn, expecificando import da tipagem ToasterProps ([eab67a6](https://github.com/LucasMCFidelis/curriculum-generator/commit/eab67a6feca17e9674063aa71e7b34dbf23a218e))
+* **modal:** ajusta para ConfirmDeleteItemModal receber opcionalmente errorMessage e adiciona fallback para essa propriedade ([06dab85](https://github.com/LucasMCFidelis/curriculum-generator/commit/06dab8575906c6035d1ef2ce4e1d85881f32e380))
+* **projects:** ajusta para modal de atualização usar um Modal.Confirm ao invez de um componente Button Genérico ([c303c38](https://github.com/LucasMCFidelis/curriculum-generator/commit/c303c38599f8382670ed2fc10396fa36c883c32e))
+* **projects:** ajusta para que formulario de criação de projeto seja reiniciado ao fechar modal ([898c6bb](https://github.com/LucasMCFidelis/curriculum-generator/commit/898c6bb3046272c42b44a9915b90b1f9ef109b71))
+* **projects:** corrige erro de tipagem de form em ProjectForm identificado na build ([1470c28](https://github.com/LucasMCFidelis/curriculum-generator/commit/1470c28bce872587873ae28e8526c5e5db21cd10))
+* **projects:** corrigir href do link de deploy que apontava para o repositório ([34197ed](https://github.com/LucasMCFidelis/curriculum-generator/commit/34197edb40a451a35e2977177eb31e4f6873b248))
+* **skill:** ajusta para SkillsSection usar id e label padronizados em SectionsList ([ea3ea72](https://github.com/LucasMCFidelis/curriculum-generator/commit/ea3ea729b08dda1301954489e470465659d0256e))
+* **vite:** corrige uso do proxy de servidor utilizando variável de ambiente VITE_API_BACKEND e usa proxy em requisição do AuthContext ([d4f7506](https://github.com/LucasMCFidelis/curriculum-generator/commit/d4f75063e8ad67e309f7a9eead549010b7c38868))
+* **work-experience:** ajusta importação do schema de update em WorkExperienceForm ([7fce3e7](https://github.com/LucasMCFidelis/curriculum-generator/commit/7fce3e7756e67915ccc0be2d3324af29d833deca))
+* **work-experience:** corrige erro de tipagem de form identificado na build ([cca1446](https://github.com/LucasMCFidelis/curriculum-generator/commit/cca14469f954a9d55257e43d5178efc994ad06ba))
+
+
+### ♻️ Refactors
+
+* ajusta funcionalidade de validateWorkExperience e a torna uma utils para uso geral na validação de datas com zod ([5b63570](https://github.com/LucasMCFidelis/curriculum-generator/commit/5b6357079b5c2af40411cd8aed7a85f1926de7d2))
+* ajustar Feedback.Loading como fallback padrão com mensagem personalizada para páginas em construção ([848bf70](https://github.com/LucasMCFidelis/curriculum-generator/commit/848bf70b0d3f41dfbb16decb8c8ad0010acb45c3))
+* define tipagem com as seções disponiveis para garantir autocomplete ao usar 'SectionsLsit.' ([80363a2](https://github.com/LucasMCFidelis/curriculum-generator/commit/80363a2e16a125a513a3d4caa87b9888bf2db944))
+* **experiences:** inclui ExperiencesSection e ajusta para que esse componente inclua WorkExperience (já implementada) e base para AcademicExperience (futuramnete sera implementada) ([28ec45a](https://github.com/LucasMCFidelis/curriculum-generator/commit/28ec45a9c956b06b4958fb59fa4361fbf4c89ead))
+* **modal:** tornar closeAction opcional e usar closeModal como fallback ([c07a238](https://github.com/LucasMCFidelis/curriculum-generator/commit/c07a2389814ac5d9821b18c7a7d90c8abe789a3a))
+* mover SkillProvider e WorkExperienceProvider para envolverem apenas suas rotas específicas ([b4dda8b](https://github.com/LucasMCFidelis/curriculum-generator/commit/b4dda8b6154a00a5f6e419ec60a9c295e6110887))
+* **projects:** atualiza ProjectService para utilizar ErrorCustomer no tratamento de erros ([916aeef](https://github.com/LucasMCFidelis/curriculum-generator/commit/916aeef9ce26a653693dbb72dec33e0061d390b5))
+* separa optionalUrlField dos schemas de usuário e o disponibiliza para uso geral ([4c8db1b](https://github.com/LucasMCFidelis/curriculum-generator/commit/4c8db1b29491cb890b048283cec924d6eb6573ab))
+* **skills:** ajusta estrutura de schemas para seguir mesma lógica aplicando união discriminada com Zod assim como feito em projetos e experiências profissionais ([1e0869d](https://github.com/LucasMCFidelis/curriculum-generator/commit/1e0869d0203779d8327cbb55d8b449887e9b1c78))
+* **workExperience:** extrai SelectRangeDate para componente reutilizável ([40701f2](https://github.com/LucasMCFidelis/curriculum-generator/commit/40701f2fb70ccfb49ceac6067e37ee34db4e0a56))
+
 ### [1.4.1](https://github.com/LucasMCFidelis/curriculum-generator/compare/v1.4.0...v1.4.1) (2025-07-03)
 
 

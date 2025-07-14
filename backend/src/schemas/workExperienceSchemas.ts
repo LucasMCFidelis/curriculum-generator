@@ -1,29 +1,6 @@
-import { RefinementCtx, z } from "zod";
+import { z } from "zod";
 import { userIdSchema } from "./userSchemas";
-
-function validateWorkExperience(data: any, ctx: RefinementCtx) {
-  if (data.workExperienceFinished && !data.workExperienceEndDate) {
-    ctx.addIssue({
-      code: "custom",
-      path: ["workExperienceEndDate"],
-      message:
-        "Data de término é obrigatória quando a experiência já foi finalizada.",
-    });
-  }
-
-  if (data.workExperienceEndDate && data.workExperienceStartDate) {
-    const startDate = new Date(data.workExperienceStartDate);
-    const endDate = new Date(data.workExperienceEndDate);
-
-    if (startDate > endDate) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["workExperienceEndDate"],
-        message: "Data de término não pode ser anterior à de início.",
-      });
-    }
-  }
-}
+import { validateDatesZod } from "../utils/validateDatesZod";
 
 export const workExperienceIdSchema = z.object({
   workExperienceId: z
@@ -56,7 +33,15 @@ const baseWorkExperienceSchema = z.object({
 });
 
 export const createWorkExperienceSchema = baseWorkExperienceSchema.superRefine(
-  validateWorkExperience
+  (data, ctx) => {
+    validateDatesZod({
+      modelValidate: "workExperience",
+      ctx,
+      itemFinished: data.workExperienceFinished,
+      itemStartDate: data.workExperienceStartDate,
+      itemEndDate: data.workExperienceEndDate,
+    });
+  }
 );
 
 export const findWorkExperienceSchema = z.object({
@@ -80,7 +65,15 @@ export const updateWorkExperienceSchema = z
       baseWorkExperienceSchema.shape.workExperienceStartDate.optional(),
     workExperienceEndDate: baseWorkExperienceSchema.shape.workExperienceEndDate,
   })
-  .superRefine(validateWorkExperience);
+  .superRefine((data, ctx) => {
+    validateDatesZod({
+      modelValidate: "workExperience",
+      ctx,
+      itemFinished: data.workExperienceFinished,
+      itemStartDate: data.workExperienceStartDate,
+      itemEndDate: data.workExperienceEndDate,
+    });
+  });
 
 export type CreateWorkExperienceDTO = z.infer<
   typeof createWorkExperienceSchema
